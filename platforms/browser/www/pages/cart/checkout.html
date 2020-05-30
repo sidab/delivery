@@ -1,0 +1,706 @@
+<template>
+
+    <div class="page bg-color-white" data-name="checkout">
+
+        <div class="navbar navbar-large">
+
+            <div class="navbar-bg"></div>
+
+            <div class="navbar-inner sliding">
+
+                <div class="left">
+
+                    <a href="#" class="link back">
+
+                        <i class="icon icon-back"></i>
+                        <span class="ios-only">Назад</span>
+
+                    </a>
+
+                </div>
+
+                <div class="title">Оформление заказа</div>
+
+                <div class="title-large">
+
+                    <div class="title-large-text">Оформление заказа</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="page-content">
+
+            <div class="list">
+
+                <ul>
+
+                    {{#js_if "app.params.user"}}
+
+                        {{#if user}}
+
+                            <li class="item-content item-input item-input-outline">
+
+                                <div class="item-inner">
+
+                                    <div class="item-title item-label">Имя</div>
+
+                                    <div class="item-input-wrap">
+
+                                        <input type="text" class="firstname" value="{{user.firstname}}">
+                                        <span class="input-clear-button"></span>
+
+                                    </div>
+
+                                </div>
+
+                            </li>
+
+                            <li class="item-content item-input item-input-outline">
+
+                                <div class="item-inner">
+
+                                    <div class="item-title item-label">Номер телефона</div>
+
+                                    <div class="item-input-wrap">
+
+                                        <input type="tel" class="phone disabled" value="{{user.phone}}" readonly>
+                                        <span class="input-clear-button"></span>
+
+                                    </div>
+
+                                </div>
+
+                            </li>
+
+                        {{else}}
+
+                            <div class="padding text-align-center">
+
+                                <div class="preloader"></div>
+
+                            </div>
+
+                        {{/if}}
+
+                    {{else}}
+
+                        <li class="item-content item-input item-input-outline">
+
+                            <div class="item-inner">
+
+                                <div class="item-title item-label">Имя</div>
+
+                                <div class="item-input-wrap">
+
+                                    <input type="text" class="firstname input-focused" placeholder="Ваше имя">
+                                    <span class="input-clear-button"></span>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                        <li class="item-content item-input item-input-outline">
+
+                            <div class="item-inner">
+
+                                <div class="item-title item-label">Номер телефона</div>
+
+                                <div class="item-input-wrap">
+
+                                    <input type="tel" class="phone input-focused" placeholder="+7(999)999-99-99">
+                                    <span class="input-clear-button"></span>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                    {{/js_if}}
+
+                </ul>
+
+            </div>
+
+            {{#js_if "this.adres && this.adres.length > 0"}}
+
+                <div class="block-title">Мои адреса:</div>
+
+                <div class="adres margin">
+
+                    {{#each adres}}
+
+                        <div @click="chooseAdres('{{id}}')" data-id="{{id}}" class="item padding margin-bottom {{#js_if "this.@index === 0"}}active{{/js_if}}">
+
+                            г. {{city}}
+
+                            {{#js_if "this.street && this.street.length > 0"}}
+
+                                Улица: {{street}}
+
+                            {{/js_if}}
+
+                            {{#js_if "this.house && this.house.length > 0"}}
+
+                                Дом: {{house}}
+
+                            {{/js_if}}
+
+                            {{#js_if "this.podezd && this.podezd.length > 0"}}
+
+                                Подъезд: {{podezd}}
+
+                            {{/js_if}}
+
+                            {{#js_if "this.floor && this.floor.length > 0"}}
+
+                                Этаж: {{floor}}
+
+                            {{/js_if}}
+
+                            {{#js_if "this.apartament_number && this.apartament_number.length > 0"}}
+
+                                Квартира: {{apartament_number}}
+
+                            {{/js_if}}
+
+                        </div>
+
+                    {{/each}}
+
+                </div>
+
+                <div class="margin">
+
+                    <button @click="addAdres" class="button button-large bg-color-light-gray color-black button-ok">
+
+                        <i class="icon f7-icons">plus</i>
+
+                        <span>Добавить новый адрес</span>
+
+                    </button>
+
+                </div>
+
+            {{else}}
+
+                <div class="block-title">Адрес</div>
+
+                <div class="list">
+
+                    <ul>
+
+                        <li class="item-content item-input item-input-outline">
+
+                            <div class="item-inner">
+
+                                <div class="item-title item-label">Город</div>
+
+                                <div class="item-input-wrap">
+
+                                    <input type="text" class="city disabled" value="{{restoraunt.city}}" disabled readonly>
+
+                                    <span class="input-clear-button"></span>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                        <li class="item-content item-input item-input-outline">
+
+                            <div class="item-inner">
+
+                                <div class="item-title item-label">Улица</div>
+
+                                <div class="item-input-wrap">
+
+                                    <input type="text" class="street" placeholder="">
+
+                                    <span class="input-clear-button"></span>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                        <div class="row">
+
+                            <li class="item-content item-input item-input-outline col-50">
+
+                                <div class="item-inner">
+
+                                    <div class="item-title item-label">Дом</div>
+
+                                    <div class="item-input-wrap">
+
+                                        <input type="text" class="house" placeholder="">
+
+                                        <span class="input-clear-button"></span>
+
+                                    </div>
+
+                                </div>
+
+                            </li>
+
+                            <li class="item-content item-input item-input-outline col-50">
+
+                                <div class="item-inner">
+
+                                    <div class="item-title item-label">Подъезд</div>
+
+                                    <div class="item-input-wrap">
+
+                                        <input type="text" class="podezd" placeholder="">
+
+                                        <span class="input-clear-button"></span>
+
+                                    </div>
+
+                                </div>
+
+                            </li>
+
+                        </div>
+
+                        <div class="row">
+
+                            <li class="item-content item-input item-input-outline col-50">
+
+                                <div class="item-inner">
+
+                                    <div class="item-title item-label">Этаж</div>
+
+                                    <div class="item-input-wrap">
+
+                                        <input type="text" class="floor" placeholder="">
+
+                                        <span class="input-clear-button"></span>
+
+                                    </div>
+
+                                </div>
+
+                            </li>
+
+                            <li class="item-content item-input item-input-outline col-50">
+
+                                <div class="item-inner">
+
+                                    <div class="item-title item-label">Квартира</div>
+
+                                    <div class="item-input-wrap">
+
+                                        <input type="text" class="apartament" placeholder="">
+
+                                        <span class="input-clear-button"></span>
+
+                                    </div>
+
+                                </div>
+
+                            </li>
+
+                        </div>
+
+                    </ul>
+
+                </div>
+
+            {{/js_if}}
+
+            <div class="list">
+
+                <ul>
+
+                    <li class="item-content item-input item-input-outline">
+
+                        <div class="item-inner">
+
+                            <div class="item-title item-label">Комментарий к заказу</div>
+
+                            <div class="item-input-wrap">
+
+                                <textarea class="comment"></textarea>
+
+                                <span class="input-clear-button"></span>
+
+                            </div>
+
+                        </div>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <div class="margin">
+
+                <button @click="next" class="button button-fill button-checkout button-large underline">
+
+                    <div class="preloader color-white display-none"></div>
+
+                    <div class="button-text">Продолжить</div>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</template>
+
+<style scoped>
+
+    {{this}} .item-input-outline .item-label {
+        margin-bottom: 5px;
+    }
+
+    {{this}} .adres .item {
+                 border: 2px dashed var(--f7-color-gray);
+        border-radius: 5px;
+                 font-size: 16px;
+
+             }
+
+    {{this}} .adres .item.active {
+                 border-color: var(--f7-theme-color);
+             }
+
+</style>
+
+<script>
+
+    return {
+
+        data: function () {
+
+            return {
+
+            }
+
+        },
+        methods: {
+            chooseAdres: function (id) {
+
+                let component = this;
+                let page = component.$el;
+
+                page.find('.adres').find('.item').removeClass('active');
+
+                page.find('.adres').find('.item[data-id="' + id + '"]').addClass('active');
+
+            },
+            addAdres: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                let popup = app.popup.create({
+                    content: '<div class="popup popup-add-adres"><div class="view view-popup-add-adres"></div></div>',
+                    on: {
+                        open: function () {
+
+                            let view = app.views.create('.view-popup-add-adres');
+
+                            view.router.navigate('/profile/add-adres', {
+                                context: {
+                                    city: component.restoraunt.city,
+                                    fromCheckout: true
+                                }
+                            });
+
+                        },
+                        close: function () {
+
+                            component.loadUserAdres();
+
+                        }
+                    }
+                });
+
+                popup.open();
+
+            },
+            next: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                let phone = page.find('.phone').val().replace(/\D+/g,"");
+                let name = page.find('.firstname').val();
+                let street = page.find('.street').val();
+
+                if (phone.length === 0) {
+
+                    app.dialog.alert('', 'Введите номер телефона');
+
+                    return false;
+
+                }
+
+                if (name.length === 0) {
+
+                    app.dialog.alert('', 'Введите ваше имя');
+
+                    return false;
+
+                }
+
+                if (page.find('.adres').find('.active').length === 0 && street.length === 0) {
+
+                    app.dialog.alert('', 'Введите название улицы');
+
+                    return false;
+
+                }
+
+                component.phone = phone;
+
+                if (app.params.user) {
+
+                    component.createOrder();
+
+                } else {
+
+                    component.sendCode(phone, function () {
+
+                        let popup = app.popup.create({
+                            content: '<div class="popup popup-phone-confirm"><div class="view view-popup-phone-confirm"></div></div>',
+                            on: {
+                                open: function () {
+
+                                    let view = app.views.create('.view-popup-phone-confirm');
+
+                                    view.router.navigate('/profile/auth/confirm', {
+                                        context: {
+                                            fromCheckout: true,
+                                            code: component.code,
+                                            phone: phone
+                                        }
+                                    });
+
+                                },
+                                close: function () {
+
+                                    if (app.params.user) {
+
+                                        app.views.get('#view-profile').router.navigate('/profile', {
+                                            clearPreviousHistory: true
+                                        });
+
+                                        component.createOrder();
+
+                                    }
+
+                                }
+                            }
+                        });
+
+                        popup.open();
+
+                    });
+
+                }
+
+            },
+            sendCode: function (phone, callback) {
+
+                let component = this;
+                let page = component.$el;
+
+                let code = Math.floor(1000 + Math.random() * 9000);
+
+                console.log(code);
+
+                page.find('.button').find('.preloader').removeClass('display-none');
+
+                page.find('.button').find('.button-text').addClass('display-none');
+
+                app.request({
+                    url: 'https://smsc.ru/sys/send.php',
+                    data: {
+                        login: 'umakhan',
+                        psw: 'Um1((..))',
+                        phones: phone,
+                        mes: 'Проверочный код: ' + code
+                    },
+                    complete: function (response) {
+
+                        setTimeout(function () {
+
+                            page.find('.button').find('.preloader').addClass('display-none');
+
+                            page.find('.button').find('.button-text').removeClass('display-none');
+
+                            component.code = code;
+
+                            if (callback) {
+
+                                callback();
+
+                            }
+
+                        }, 2000);
+
+                    }
+                });
+
+            },
+            createOrder: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                let items = JSON.parse(localStorage.cart);
+
+                let restoraunt = items[0].restoraunt_id;
+
+                let comment = page.find('.comment').val();
+
+                let phone = component.phone;
+
+                let data;
+
+                if (page.find('.adres').find('.active').length > 0) {
+
+                    let adres = page.find('.adres').find('.active').data('id');
+
+                    data = {
+                        user: phone,
+                        adres: adres,
+                        restoraunt: restoraunt,
+                        comment: comment,
+                        items: items
+                    };
+
+                } else {
+
+                    let name = page.find('.firstname').val();
+                    let city = page.find('.city').val();
+                    let street = page.find('.street').val();
+                    let house = page.find('.house').val();
+                    let podezd = page.find('.podezd').val();
+                    let floor = page.find('.floor').val();
+                    let apartament = page.find('.apartament').val();
+
+                    data = {
+                        user: phone,
+                        name: name,
+                        city: city,
+                        street: street,
+                        house: house,
+                        podezd: podezd,
+                        floor: floor,
+                        apartament: apartament,
+                        restoraunt: restoraunt,
+                        comment: comment,
+                        items: items
+                    };
+
+                }
+
+                page.find('.button').find('.preloader').removeClass('display-none');
+
+                page.find('.button').find('.button-text').addClass('display-none');
+
+                app.methods.onesignal();
+
+                app.request({
+                    url: app.params.backend + '/api/create-order',
+                    method: 'POST',
+                    data: data,
+                    success: function (response) {
+
+                        localStorage.cart = '[]';
+
+                        app.views.current.router.navigate('/cart/success-checkout', {
+                            clearPreviousHistory: true
+                        });
+
+                    }
+                });
+
+            },
+            loadUserInfo: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                app.request({
+                    url: app.params.backend + '/api/user-info',
+                    data: {
+                        phone: localStorage.user
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+
+                        component.user = response;
+
+                        component.$update();
+
+                    }
+                });
+
+            },
+            loadUserAdres: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                app.request({
+                    url: app.params.backend + '/api/user-adres',
+                    data: {
+                        phone: localStorage.user
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+
+                        component.adres = response;
+
+                        component.$update();
+
+                    }
+                });
+
+            }
+        },
+        on: {
+
+            pageInit: function() {
+
+                let component = this;
+                let page = component.$el;
+
+                if (app.params.user) {
+
+                    component.loadUserInfo();
+
+                    component.loadUserAdres();
+
+                } else {
+
+                    let phoneMask = new IMask(page.find('.phone')[0], {
+                        mask: '+{7}(000)000-00-00'
+                    });
+
+                }
+
+            }
+
+        }
+
+    }
+
+</script>

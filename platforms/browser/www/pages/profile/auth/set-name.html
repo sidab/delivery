@@ -1,0 +1,143 @@
+<template>
+
+    <div class="page bg-color-white">
+
+        <div class="page-content">
+
+            <div class="block-title block-title-medium text-align-center page-title">Как к вам обращаться?</div>
+
+            <div class="list no-hairlines">
+
+                <ul>
+
+                    <li>
+
+                        <div class="item-content item-input item-input-outline item-input-focused">
+
+                            <div class="item-inner">
+
+                                <div class="item-title item-floating-label">Имя:</div>
+
+                                <div class="item-input-wrap">
+
+                                    <input type="text" class="input-focused" name="{{random}}" placeholder="Иван"/>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <div class="margin">
+
+                <button @click="save" class="button button-fill button-round button-large">
+
+                    <div class="preloader color-white display-none"></div>
+
+                    <div class="button-text">Продолжить</div>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</template>
+
+<style scoped>
+
+    {{this}} .page-title {
+        margin-top: 100px;
+    }
+
+    {{this}} input {
+                 font-weight: 500;
+             }
+
+</style>
+
+<script>
+
+    return {
+
+        data: function () {
+
+            return {
+
+                random: Math.random()
+
+            }
+
+        },
+        methods: {
+            save: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                let name = page.find('input').val();
+
+                if (name.length > 0) {
+
+                    page.find('.button').find('.preloader').removeClass('display-none');
+
+                    page.find('.button').find('.button-text').addClass('display-none');
+
+                    app.request({
+                     url: app.params.backend + '/api/edit-user-info',
+                     data: {
+                         phone: localStorage.user,
+                         firstname: name
+                     },
+                     success: function (response) {
+
+                         app.views.current.router.navigate('/profile', {
+                             clearPreviousHistory: true
+                         });
+
+                     }
+                    });
+
+                } else {
+
+                    app.dialog.alert('', 'Введите хотябы что-нибудь');
+
+                }
+
+            }
+        },
+        on: {
+
+            pageInit: function() {
+
+                let component = this;
+                let page = component.$el;
+
+                page.find('input').focus();
+
+                page.find('input').on('keypress', function(event) {
+
+                    if(event.which == 13) {
+
+                        component.save();
+
+                    }
+
+                });
+
+
+            }
+
+        }
+
+    }
+
+</script>

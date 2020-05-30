@@ -1,0 +1,179 @@
+<template>
+
+    <div class="page bg-color-white">
+
+        <div class="navbar navbar-large">
+
+            <div class="navbar-bg"></div>
+
+            <div class="navbar-inner sliding">
+
+                <div class="left">
+
+                    <a href="#" class="link back popup-close">
+
+                        <i class="icon icon-back"></i>
+                        <span class="ios-only">Назад</span>
+
+                    </a>
+
+                </div>
+
+                <div class="title">Мои заказы</div>
+
+                <div class="title-large">
+
+                    <div class="title-large-text">Мои заказы</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="page-content">
+
+            {{#if orders}}
+
+                {{#js_if "this.orders.length > 0"}}
+
+                    <div class="list media-list">
+
+                        <ul>
+
+                            {{#each orders}}
+
+                                <li>
+
+                                    <a @click="openOrder('{{id}}')" href="#" class="item-link item-content">
+
+                                        <div class="item-media">
+
+                                            <img src="{{restoraunt.logo_image.path}}" width="80"/>
+
+                                        </div>
+
+                                        <div class="item-inner">
+
+                                            <div class="item-title-row">
+
+                                                <div class="item-title">{{restoraunt.name}}</div>
+
+                                                <div class="item-after">{{sum}} ₽</div>
+
+                                            </div>
+
+                                            <div class="item-subtitle">
+
+                                                <span class="chip {{#js_if "this.status === 'Ожидание отзыва'"}}color-deeporange{{/js_if}}">{{status}}</span>
+
+                                            </div>
+
+                                            <div class="item-text">{{created_at}}</div>
+
+                                        </div>
+
+                                    </a>
+
+                                </li>
+
+                            {{/each}}
+
+                        </ul>
+
+                    </div>
+
+                {{else}}
+
+                    <div class="block">У вас нет заказов.</div>
+
+                {{/js_if}}
+
+            {{else}}
+
+                <div class="margin text-align-center">
+
+                    <div class="preloader"></div>
+
+                </div>
+
+            {{/if}}
+
+        </div>
+
+    </div>
+
+</template>
+
+<style scoped>
+
+</style>
+
+<script>
+
+    return {
+
+        data: function () {
+
+            return {
+
+            }
+
+        },
+        methods: {
+            loadOrders: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                app.request({
+                    url: app.params.backend + '/api/user-orders',
+                    data: {
+                        user: localStorage.user
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+
+                        component.orders = response;
+
+                        component.$update();
+
+                    }
+                });
+
+            },
+            openOrder: function (id) {
+
+                let component = this;
+                let page = component.$el;
+
+                let order = component.orders.find(function (order) {
+
+                    return order.id == id;
+
+                });
+
+                app.views.current.router.navigate('/profile/orders/order', {
+                    context: {
+                        order: order
+                    }
+                });
+
+            }
+        },
+        on: {
+
+            pageInit: function() {
+
+                let component = this;
+                let page = component.$el;
+
+                component.loadOrders();
+
+            }
+
+        }
+
+    }
+
+</script>

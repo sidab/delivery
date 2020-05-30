@@ -1,0 +1,181 @@
+<template>
+
+    <div class="page bg-color-white">
+
+        <div class="navbar">
+
+            <div class="navbar-bg"></div>
+
+            <div class="navbar-inner">
+
+                <div class="left">
+
+                    <a class="link back">
+
+                        <i class="icon icon-back"></i>
+
+                        <span>Назад</span>
+
+                    </a>
+
+                </div>
+
+                <div class="title">Добавление отзыва</div>
+
+            </div>
+
+        </div>
+
+        <div class="page-content padding-bottom">
+
+            <div class="block-title block-title-medium">Ваша оценка</div>
+
+            <div class="margin no-margin-bottom rating-block">
+
+                <i data-rating="1" class="icon material-icons text-color-orange">star_border</i>
+                <i data-rating="2" class="icon material-icons text-color-orange">star_border</i>
+                <i data-rating="3" class="icon material-icons text-color-orange">star_border</i>
+                <i data-rating="4" class="icon material-icons text-color-orange">star_border</i>
+                <i data-rating="5" class="icon material-icons text-color-orange">star_border</i>
+
+            </div>
+
+            <div class="list no-hairlines no-margin-top">
+
+                <ul>
+
+                    <li class="item-content item-input item-input-outline">
+
+                        <div class="item-inner">
+
+                            <div class="item-title item-label">Текст отзыва</div>
+
+                            <div class="item-input-wrap">
+
+                                <textarea class="text" placeholder=""></textarea>
+
+                                <span class="input-clear-button"></span>
+
+                            </div>
+
+                        </div>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <div class="margin">
+
+                <button @click="addReview" class="button button-fill add-button button-large underline">
+
+                    <div class="preloader color-white display-none"></div>
+
+                    <div class="button-title">Добавить</div>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</template>
+
+<style scoped>
+
+    {{this}} .item-input-outline .item-label {
+        left: 0px;
+        margin-bottom: 5px;
+        font-size: 16px;
+    }
+
+    {{this}} input, {{this}} textarea {
+                                 font-size: 14px;
+                             }
+
+    .rating-block i {
+        font-size: 40px;
+    }
+
+</style>
+
+<script>
+
+    return {
+
+        data: function () {
+
+        },
+        methods: {
+            addReview: function () {
+
+                let component = this;
+                let app = component.$app;
+                let page = component.$el;
+
+                let rating = page.find('.rating-block').find('i[data-active="true"]').data('rating');
+
+                if (rating == undefined) {
+
+                    app.dialog.alert('', 'Оцените товар!');
+
+                    return false;
+
+                }
+
+                let text = page.find('.text').val();
+
+                page.find('.add-button').find('.preloader').removeClass('display-none');
+                page.find('.add-button').find('.button-title').addClass('display-none');
+
+                app.request({
+                    url: app.params.backend + '/api/add-review',
+                    method: 'POST',
+                    data: {
+                        order: component.order.id,
+                        rating: rating,
+                        text: text
+                    },
+                    success: function (response) {
+
+                        app.dialog.alert('', 'Спасибо за ваш отзыв!', function () {
+
+                            app.views.current.router.back('/profile', {
+                                force: true
+                            });
+
+                        });
+
+                    }
+                });
+
+            }
+        },
+        on: {
+
+            pageInit: function() {
+
+                let component = this;
+                let app = component.$app;
+                let page = component.$el;
+
+                page.find('.rating-block').find('i').on('click', function() {
+
+                    let rating = $$(this).data('rating');
+
+                    $$(this).parent().find('i').html('star_border').attr('data-active', 'false')
+                    $$(this).parent().find('i:nth-child(-n+' + rating + ')').html('star');
+                    $$(this).parent().find('i:nth-child(' + rating + ')').attr('data-active', 'true')
+
+                });
+
+            }
+
+        }
+
+    }
+
+</script>

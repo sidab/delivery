@@ -1,0 +1,48 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.delivery05.ru"
+    },
+    "cordova-plugin-crosswalk-webview-arm": {
+      "XWALK_VERSION": "23+",
+      "XWALK_LITEVERSION": "xwalk_core_library_canary:17+",
+      "XWALK_COMMANDLINE": "--disable-pull-to-refresh-effect",
+      "XWALK_MODE": "embedded",
+      "XWALK_MULTIPLEAPK": "true",
+      "PACKAGE_NAME": "com.delivery05.ru"
+    },
+    "cordova-plugin-camera": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+      "PACKAGE_NAME": "com.delivery05.ru"
+    },
+    "cordova-plugin-ios-camera-permissions": {
+      "PACKAGE_NAME": "com.delivery05.ru"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.delivery05.ru"
+    },
+    "onesignal-cordova-plugin": {
+      "PACKAGE_NAME": "com.delivery05.ru"
+    },
+    "cordova-plugin-wkwebview-engine": {
+      "PACKAGE_NAME": "com.delivery05.ru"
+    },
+    "cordova-plugin-wkwebview-file-xhr": {
+      "PACKAGE_NAME": "com.delivery05.ru"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "ru.zaytoon"
+    },
+    "cordova-plugin-ionic-keyboard": {
+      "PACKAGE_NAME": "ru.zaytoon"
+    }
+  },
+  "dependent_plugins": {}
+}

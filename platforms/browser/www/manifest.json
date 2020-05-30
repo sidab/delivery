@@ -1,0 +1,19 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "Delivery",
+  "short_name": "Delivery",
+  "version": "ru.zaytoon",
+  "description": "Delivery",
+  "author": "Umakhan Magomedov",
+  "icons": [
+    {
+      "src": "www/icon.png",
+      "type": "image/png",
+      "sizes": "undefinedxundefined"
+    }
+  ],
+  "orientation": "portrait",
+  "start_url": "index.html",
+  "theme_color": "#FF8C00"
+}
