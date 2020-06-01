@@ -206,15 +206,11 @@
 
                     </div>
 
-                    {{#js_if "Number(this.sum) >= Number(this.restoraunt.min_order_sum)"}}
+                    <div class="margin">
 
-                        <div class="margin">
+                        <button @click="checkout" class="button button-fill button-checkout button-large underline {{#js_if "Number(this.sum) < Number(this.restoraunt.min_order_sum)"}}disabled{{/js_if}}">Оформить заказ</button>
 
-                            <button @click="checkout" class="button button-fill button-checkout button-large underline">Оформить заказ</button>
-
-                        </div>
-
-                    {{/js_if}}
+                    </div>
 
                 {{/if}}
 

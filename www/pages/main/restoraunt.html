@@ -42,7 +42,7 @@
 
                     <div class="subnavbar">
 
-                        <div class="subnavbar-inner categories">
+                        <div class="subnavbar-inner categories padding-horizontal">
 
                             {{#each restoraunt.categories}}
 
@@ -760,9 +760,25 @@
 
                         let scrollTop = page.find('.page-content').scrollTop();
 
-                        let offset = page.find('.category-title[data-id="' + id + '"]').offset().top  + scrollTop - 200;
+                        let offsetTop = page.find('.category-title[data-id="' + id + '"]').offset().top  + scrollTop - 200;
 
-                        page.find('.page-content').scrollTop(offset, 500);
+                        page.find('.page-content').scrollTop(offsetTop, 500, function () {
+
+                            let scrollLeft = page.find('.navbar').find('.categories').scrollLeft();
+
+                            let offsetLeft = page.find('.navbar').find('.button[data-id="' + id + '"]').offset().left + scrollLeft;
+
+                            page.find('.navbar').find('.categories').scrollLeft(offsetLeft, 500);
+
+                        });
+
+                    });
+
+                    page.find('.navbar').find('.categories').on('scroll', function () {
+
+                        let scrollLeft = $$(this).scrollLeft();
+
+                        page.find('.page-content').find('.categories').scrollLeft(scrollLeft);
 
                     });
 
@@ -770,7 +786,7 @@
 
                         let scrollTop = $$(this).scrollTop();
 
-                        let categoriesOffset = page.find('.page-content').find('.categories').offset().top + page.find('.page-content').find('.categories').height();
+                        let categoriesOffset = page.find('.page-content').find('.categories').offset().top + page.find('.page-content').find('.categories').height() + 30;
 
                         if (scrollTop >= categoriesOffset) {
 

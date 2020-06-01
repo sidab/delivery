@@ -20,9 +20,9 @@
     <feature name="CDVIonicKeyboard">
         <param name="android-package" onload="true" value="io.ionic.keyboard.CDVIonicKeyboard" />
     </feature>
-    <name>Delivery</name>
+    <name>Zaytoon</name>
     <description>
-        Delivery
+        Zaytoon
     </description>
     <author email="umakhanr7@yandex.ru" href="mailto:umakhanr7@yandex.ru">Umakhan Magomedov</author>
     <icon src="www/icon.png" />

@@ -389,6 +389,91 @@ var app = new Framework7({
                 app.emit('cart:change');
 
             }
+        },
+        keyboard: function () {
+
+            /** This is my container (Vuejs instance) **/
+            const inst = document.querySelector('#app');
+
+            /** Get the height of the document **/
+            const height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+            /** Where we will store the active input **/
+            let input;
+
+            /** The keyboard displaying is around 200 milliseconds **/
+            inst.style.transition = 'transform 0.2s';
+
+            /** Makes me feel better having this on to increase performance **/
+            inst.style.transform = 'translateZ(0)';
+
+            /**
+             * Set Input
+             * @param e
+             */
+            let setInput = function(e) {
+                input = e.target;
+            };
+
+            /**
+             * On Keyboard Show
+             * @param event
+             */
+            let onKeyboardShow = function(event) {
+                let offset = input.getBoundingClientRect();
+                if(offset.top + input.clientHeight > height - event.keyboardHeight) {
+                    inst.style.transform = `translateZ(0) translateY(-${event.keyboardHeight}px)`;
+                }
+            };
+
+            /**
+             * OnKeyboard Hide
+             */
+            let onKeyboardHide = function() {
+                inst.style.transform = `translateZ(0) translateY(0px)`;
+            };
+
+            /**
+             * Hide Keyboard
+             * @param e
+             */
+            let hideKeyboard = function(e) {
+                if(e.target.tagName.toLowerCase() !== 'input' && e.target.tagName.toLowerCase() !== 'textarea') {
+                    if(typeof input !== 'undefined') input.blur();
+                    if(Keyboard.isVisible) Keyboard.hide();
+                }
+            };
+
+            /**
+             * Go through all inputs and textarea's on document and attach touchstart
+             * event. Using touchstart to define the input before focus which is what will trigger
+             * the keyboard.
+             */
+            inst.querySelectorAll('input, textarea').forEach(function(elm) {
+                elm.removeEventListener('touchstart', setInput, false);
+                elm.addEventListener('touchstart', setInput, false);
+            });
+
+            /**
+             * Need to get the height to shift the document up by x amount
+             */
+            window.removeEventListener('keyboardWillShow', onKeyboardShow, false);
+            window.addEventListener('keyboardWillShow', onKeyboardShow, false);
+
+            /**
+             * Shift it back down on keyboard hiding
+             */
+            window.removeEventListener('keyboardWillHide', onKeyboardHide, false);
+            window.addEventListener('keyboardWillHide', onKeyboardHide, false);
+
+            /**
+             * Some browsers/phone models act odd when touching off the input
+             * so this is in to cover all bases
+             */
+            document.removeEventListener('touchstart', hideKeyboard, false);
+            document.addEventListener('touchstart', hideKeyboard, false);
+
+
         }
     },
     on: {
@@ -405,7 +490,11 @@ $$(document).on('deviceready', function () {
         Keyboard.shrinkView(true);
         Keyboard.disableScrollingInShrinkView(true);
 
-    } catch (error) {}
+    } catch (error) {
+
+        console.log(error);
+
+    }
 
     setTimeout(function () {
 
@@ -495,6 +584,8 @@ $$(document).on('deviceready', function () {
         $$('.toolbar-menu').css('visibility', 'visible');
 
     });
+
+    app.methods.keyboard();
 
     $$(document).on('backbutton', function (event) {
 

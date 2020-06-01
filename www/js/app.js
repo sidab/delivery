@@ -405,7 +405,11 @@ $$(document).on('deviceready', function () {
         Keyboard.shrinkView(true);
         Keyboard.disableScrollingInShrinkView(true);
 
-    } catch (error) {}
+    } catch (error) {
+
+        console.log(error);
+
+    }
 
     setTimeout(function () {
 

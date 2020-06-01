@@ -179,10 +179,6 @@
 
     }
 
-    .sheet-item .add-to-cart .button {
-        font-size: 14px;
-    }
-
     .sheet-item .add-to-cart .stepper-button {
         width: 50px;
     }
@@ -199,16 +195,17 @@
 
     }
 
+
+    .sheet-item .add-to-cart .button {
+        font-size: 12px;
+    }
+
 }
 
 @media only screen and (max-device-width: 320px) {
 
     :root {
         --f7-tabbar-label-font-size: 11px;
-    }
-
-    .sheet-item .add-to-cart .button {
-        font-size: 12px;
     }
 
     .toolbar .tab-link {

@@ -1,10 +1,10 @@
 {
   "background_color": "#FFF",
   "display": "standalone",
-  "name": "Delivery",
-  "short_name": "Delivery",
+  "name": "Zaytoon",
+  "short_name": "Zaytoon",
   "version": "ru.zaytoon",
-  "description": "Delivery",
+  "description": "Zaytoon",
   "author": "Umakhan Magomedov",
   "icons": [
     {

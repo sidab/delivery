@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="ru.zaytoon" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Delivery</name>
+    <name>Zaytoon</name>
     <description>
-        Delivery
+        Zaytoon
     </description>
     <author email="umakhanr7@yandex.ru" href="mailto:umakhanr7@yandex.ru">Umakhan Magomedov</author>
     <preference name="DisallowOverscroll" value="true" />
