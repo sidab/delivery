@@ -11,11 +11,11 @@
         <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="OneSignalPush">
-        <param name="android-package" value="com.plugin.gcm.OneSignalPush" />
-    </feature>
     <feature name="Device">
         <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="OneSignalPush">
+        <param name="android-package" value="com.plugin.gcm.OneSignalPush" />
     </feature>
     <feature name="CDVIonicKeyboard">
         <param name="android-package" onload="true" value="io.ionic.keyboard.CDVIonicKeyboard" />

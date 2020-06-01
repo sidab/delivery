@@ -16,8 +16,8 @@
     "fetchSpec": "2.8.2"
   },
   "_requiredBy": [
-    "#DEV:/",
-    "#USER"
+    "#USER",
+    "/"
   ],
   "_resolved": "https://registry.npmjs.org/onesignal-cordova-plugin/-/onesignal-cordova-plugin-2.8.2.tgz",
   "_shasum": "11e394fb55dd23afcc6d48977e0a7830c4113fde",

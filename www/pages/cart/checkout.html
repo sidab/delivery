@@ -616,8 +616,6 @@
 
                 page.find('.button').find('.button-text').addClass('display-none');
 
-                app.methods.onesignal();
-
                 app.request({
                     url: app.params.backend + '/api/create-order',
                     method: 'POST',

@@ -49,11 +49,11 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"OneSignalPush\"><param name=\"android-package\" value=\"com.plugin.gcm.OneSignalPush\" /></feature>",
+              "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
               "count": 1
             },
             {
-              "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+              "xml": "<feature name=\"OneSignalPush\"><param name=\"android-package\" value=\"com.plugin.gcm.OneSignalPush\" /></feature>",
               "count": 1
             }
           ]
@@ -87,11 +87,11 @@
               "count": 1
             },
             {
-              "xml": "<permission android:name=\"com.delivery05.ru.permission.RECEIVE_ADM_MESSAGE\" android:protectionLevel=\"signature\" />",
+              "xml": "<permission android:name=\"ru.zaytoon.permission.RECEIVE_ADM_MESSAGE\" android:protectionLevel=\"signature\" />",
               "count": 1
             },
             {
-              "xml": "<uses-permission android:name=\"com.delivery05.ru.permission.RECEIVE_ADM_MESSAGE\" />",
+              "xml": "<uses-permission android:name=\"ru.zaytoon.permission.RECEIVE_ADM_MESSAGE\" />",
               "count": 1
             }
           ],
@@ -105,7 +105,7 @@
               "count": 1
             },
             {
-              "xml": "<receiver android:name=\"com.onesignal.ADMMessageHandler$Receiver\" android:permission=\"com.amazon.device.messaging.permission.SEND\"><intent-filter><action android:name=\"com.amazon.device.messaging.intent.REGISTRATION\" /><action android:name=\"com.amazon.device.messaging.intent.RECEIVE\" /><category android:name=\"com.delivery05.ru\" /></intent-filter></receiver>",
+              "xml": "<receiver android:name=\"com.onesignal.ADMMessageHandler$Receiver\" android:permission=\"com.amazon.device.messaging.permission.SEND\"><intent-filter><action android:name=\"com.amazon.device.messaging.intent.REGISTRATION\" /><action android:name=\"com.amazon.device.messaging.intent.RECEIVE\" /><category android:name=\"ru.zaytoon\" /></intent-filter></receiver>",
               "count": 1
             }
           ]
@@ -145,9 +145,6 @@
     "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "com.delivery05.ru"
     },
-    "onesignal-cordova-plugin": {
-      "PACKAGE_NAME": "com.delivery05.ru"
-    },
     "cordova-plugin-wkwebview-engine": {
       "PACKAGE_NAME": "com.delivery05.ru"
     },
@@ -158,6 +155,9 @@
       "PACKAGE_NAME": "ru.zaytoon"
     },
     "cordova-plugin-ionic-keyboard": {
+      "PACKAGE_NAME": "ru.zaytoon"
+    },
+    "onesignal-cordova-plugin": {
       "PACKAGE_NAME": "ru.zaytoon"
     }
   },
@@ -204,14 +204,6 @@
       ]
     },
     {
-      "id": "onesignal-cordova-plugin.OneSignal",
-      "file": "plugins/onesignal-cordova-plugin/www/OneSignal.js",
-      "pluginId": "onesignal-cordova-plugin",
-      "clobbers": [
-        "OneSignal"
-      ]
-    },
-    {
       "id": "cordova-plugin-device.device",
       "file": "plugins/cordova-plugin-device/www/device.js",
       "pluginId": "cordova-plugin-device",
@@ -226,6 +218,14 @@
       "clobbers": [
         "window.Keyboard"
       ]
+    },
+    {
+      "id": "onesignal-cordova-plugin.OneSignal",
+      "file": "plugins/onesignal-cordova-plugin/www/OneSignal.js",
+      "pluginId": "onesignal-cordova-plugin",
+      "clobbers": [
+        "OneSignal"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -234,10 +234,10 @@
     "cordova-plugin-camera": "4.1.0",
     "cordova-plugin-ios-camera-permissions": "1.2.0",
     "cordova-plugin-statusbar": "2.4.3",
-    "onesignal-cordova-plugin": "2.8.2",
     "cordova-plugin-wkwebview-engine": "1.2.1",
     "cordova-plugin-wkwebview-file-xhr": "2.1.4",
     "cordova-plugin-device": "2.0.3",
-    "cordova-plugin-ionic-keyboard": "2.2.0"
+    "cordova-plugin-ionic-keyboard": "2.2.0",
+    "onesignal-cordova-plugin": "2.8.2"
   }
 }

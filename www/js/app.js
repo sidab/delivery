@@ -195,7 +195,7 @@ var app = new Framework7({
 
                 window.plugins.OneSignal.getIds(function(ids) {
 
-                    let deviceId = JSON.stringify(ids.userId);
+                    let deviceId = ids.userId;
 
                     console.log(deviceId);
 

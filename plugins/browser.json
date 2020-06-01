@@ -22,9 +22,6 @@
     "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "com.delivery05.ru"
     },
-    "onesignal-cordova-plugin": {
-      "PACKAGE_NAME": "com.delivery05.ru"
-    },
     "cordova-plugin-wkwebview-engine": {
       "PACKAGE_NAME": "com.delivery05.ru"
     },
@@ -35,6 +32,9 @@
       "PACKAGE_NAME": "ru.zaytoon"
     },
     "cordova-plugin-ionic-keyboard": {
+      "PACKAGE_NAME": "ru.zaytoon"
+    },
+    "onesignal-cordova-plugin": {
       "PACKAGE_NAME": "ru.zaytoon"
     }
   },

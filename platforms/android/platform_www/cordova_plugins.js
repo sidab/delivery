@@ -41,14 +41,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "onesignal-cordova-plugin.OneSignal",
-      "file": "plugins/onesignal-cordova-plugin/www/OneSignal.js",
-      "pluginId": "onesignal-cordova-plugin",
-      "clobbers": [
-        "OneSignal"
-      ]
-    },
-    {
       "id": "cordova-plugin-device.device",
       "file": "plugins/cordova-plugin-device/www/device.js",
       "pluginId": "cordova-plugin-device",
@@ -63,6 +55,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "window.Keyboard"
       ]
+    },
+    {
+      "id": "onesignal-cordova-plugin.OneSignal",
+      "file": "plugins/onesignal-cordova-plugin/www/OneSignal.js",
+      "pluginId": "onesignal-cordova-plugin",
+      "clobbers": [
+        "OneSignal"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -71,10 +71,10 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-camera": "4.1.0",
     "cordova-plugin-ios-camera-permissions": "1.2.0",
     "cordova-plugin-statusbar": "2.4.3",
-    "onesignal-cordova-plugin": "2.8.2",
     "cordova-plugin-wkwebview-engine": "1.2.1",
     "cordova-plugin-wkwebview-file-xhr": "2.1.4",
     "cordova-plugin-device": "2.0.3",
-    "cordova-plugin-ionic-keyboard": "2.2.0"
+    "cordova-plugin-ionic-keyboard": "2.2.0",
+    "onesignal-cordova-plugin": "2.8.2"
   };
 });

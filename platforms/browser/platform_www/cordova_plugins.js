@@ -45,14 +45,6 @@ module.exports = [
         "runs": true
     },
     {
-        "file": "plugins/onesignal-cordova-plugin/www/OneSignal.js",
-        "id": "onesignal-cordova-plugin.OneSignal",
-        "pluginId": "onesignal-cordova-plugin",
-        "clobbers": [
-            "OneSignal"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-device/www/device.js",
         "id": "cordova-plugin-device.device",
         "pluginId": "cordova-plugin-device",
@@ -65,6 +57,14 @@ module.exports = [
         "id": "cordova-plugin-device.DeviceProxy",
         "pluginId": "cordova-plugin-device",
         "runs": true
+    },
+    {
+        "file": "plugins/onesignal-cordova-plugin/www/OneSignal.js",
+        "id": "onesignal-cordova-plugin.OneSignal",
+        "pluginId": "onesignal-cordova-plugin",
+        "clobbers": [
+            "OneSignal"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -75,11 +75,11 @@ module.exports.metadata =
     "cordova-plugin-camera": "4.1.0",
     "cordova-plugin-ios-camera-permissions": "1.2.0",
     "cordova-plugin-statusbar": "2.4.3",
-    "onesignal-cordova-plugin": "2.8.2",
     "cordova-plugin-wkwebview-engine": "1.2.1",
     "cordova-plugin-wkwebview-file-xhr": "2.1.4",
     "cordova-plugin-device": "2.0.3",
-    "cordova-plugin-ionic-keyboard": "2.2.0"
+    "cordova-plugin-ionic-keyboard": "2.2.0",
+    "onesignal-cordova-plugin": "2.8.2"
 }
 // BOTTOM OF METADATA
 });
