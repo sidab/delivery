@@ -75,6 +75,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-wkwebview-file-xhr": "2.1.4",
     "cordova-plugin-device": "2.0.3",
     "cordova-plugin-ionic-keyboard": "2.2.0",
-    "onesignal-cordova-plugin": "2.8.2"
+    "onesignal-cordova-plugin": "2.8.2",
+    "cordova-plugin-vibration": "3.1.1"
   };
 });

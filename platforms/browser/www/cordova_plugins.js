@@ -108,6 +108,22 @@ module.exports = [
         "clobbers": [
             "OneSignal"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-vibration/src/browser/Vibration.js",
+        "id": "cordova-plugin-vibration.Vibration",
+        "pluginId": "cordova-plugin-vibration",
+        "merges": [
+            "navigator"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-vibration/www/vibration.js",
+        "id": "cordova-plugin-vibration.notification",
+        "pluginId": "cordova-plugin-vibration",
+        "merges": [
+            "navigator"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -127,7 +143,8 @@ module.exports.metadata =
     "cordova-plugin-wkwebview-file-xhr": "2.1.4",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "5.4.0",
-    "onesignal-cordova-plugin": "2.8.2"
+    "onesignal-cordova-plugin": "2.8.2",
+    "cordova-plugin-vibration": "3.1.1"
 }
 // BOTTOM OF METADATA
 });

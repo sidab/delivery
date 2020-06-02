@@ -93,6 +93,10 @@
             {
               "xml": "<uses-permission android:name=\"ru.zaytoon.permission.RECEIVE_ADM_MESSAGE\" />",
               "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
+              "count": 1
             }
           ],
           "/manifest/application": [
@@ -158,6 +162,9 @@
       "PACKAGE_NAME": "ru.zaytoon"
     },
     "onesignal-cordova-plugin": {
+      "PACKAGE_NAME": "ru.zaytoon"
+    },
+    "cordova-plugin-vibration": {
       "PACKAGE_NAME": "ru.zaytoon"
     }
   },
@@ -238,6 +245,7 @@
     "cordova-plugin-wkwebview-file-xhr": "2.1.4",
     "cordova-plugin-device": "2.0.3",
     "cordova-plugin-ionic-keyboard": "2.2.0",
-    "onesignal-cordova-plugin": "2.8.2"
+    "onesignal-cordova-plugin": "2.8.2",
+    "cordova-plugin-vibration": "3.1.1"
   }
 }

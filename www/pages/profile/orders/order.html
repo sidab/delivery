@@ -39,7 +39,21 @@
 
         <div class="page-content">
 
-            <div class="list">
+            {{#js_if "this.order.status === 'Ожидание отзыва'"}}
+
+            <div class="margin">
+
+                <button @click="addReview" class="button button-fill button-large underline">
+
+                    <div class="button-text">Оставить отзыв</div>
+
+                </button>
+
+            </div>
+
+            {{/js_if}}
+
+            <div class="list margin-top">
 
                 <ul>
 
@@ -186,20 +200,6 @@
                 <div class="col text-align-right">{{order.sum}} ₽</div>
 
             </div>
-
-            {{#js_if "this.order.status === 'Ожидание отзыва'"}}
-
-                <div class="margin">
-
-                    <button @click="addReview" class="button button-fill button-large underline margin-bottom">
-
-                        <div class="button-text">Оставить отзыв</div>
-
-                    </button>
-
-                </div>
-
-            {{/js_if}}
 
         </div>
 

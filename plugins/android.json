@@ -42,6 +42,9 @@
     },
     "onesignal-cordova-plugin": {
       "PACKAGE_NAME": "ru.zaytoon"
+    },
+    "cordova-plugin-vibration": {
+      "PACKAGE_NAME": "ru.zaytoon"
     }
   },
   "dependent_plugins": {}

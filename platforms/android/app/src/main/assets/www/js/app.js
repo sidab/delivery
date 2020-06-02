@@ -488,6 +488,42 @@ $$(document).on('deviceready', function () {
 
     });
 
+    let sound_1 = new Audio('audio/sound-1.mp3');
+    let sound_2 = new Audio('audio/sound-2.mp3');
+    let sound_3 = new Audio('audio/sound-3.mp3');
+
+    $$(window).on('click', '.sound-1', function () {
+
+        sound_1.src = sound_1.src;
+
+        sound_1.play();
+
+    });
+
+    $$(window).on('click', '.sound-2', function () {
+
+        sound_2.src = sound_2.src;
+
+        sound_2.play();
+
+    });
+
+    $$(window).on('click', '.sound-3', function () {
+
+        sound_3.src = sound_3.src;
+
+        sound_3.play();
+
+    });
+
+    $$(window).on('click', '.vibrate', function () {
+
+        let time = $$(this).data('vibrateTime');
+
+        navigator.vibrate(time);
+
+    });
+
     $$(window).on('keyboardWillShow', function (e) {
 
         $$('.toolbar-menu').css('visibility', 'hidden');
