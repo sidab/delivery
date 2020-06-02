@@ -55,6 +55,8 @@
                 let component = this;
                 let page = component.$el;
 
+                app.emit('cart:change');
+
                 $$('#view-cart').once('tab:hide', function () {
 
                     component.openCart();

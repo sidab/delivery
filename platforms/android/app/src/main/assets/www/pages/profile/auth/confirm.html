@@ -169,6 +169,8 @@
                 let component = this;
                 let page = component.$el;
 
+                app.methods.onesignal();
+
                 page.find('.input').focus();
 
                 page.find('.input').on('keypress', function(event) {

@@ -828,6 +828,12 @@
 
                             page.find('.categories').find('.button[data-id="' + activeCategory.id + '"]').addClass('active');
 
+                            let scrollLeft = page.find('.navbar').find('.categories').scrollLeft();
+
+                            let offsetLeft = page.find('.navbar').find('.button[data-id="' + activeCategory.id + '"]').offset().left + scrollLeft;
+
+                            page.find('.navbar').find('.categories').scrollLeft(offsetLeft);
+
                         } else {
 
                             page.find('.categories').find('.button').removeClass('active');
