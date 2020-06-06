@@ -115,7 +115,7 @@
                 if (component.code == code) {
 
                     app.request({
-                        url: app.params.backend + '/api/check-user-in-db',
+                        url: app.params.config.backend + '/api/check-user-in-db',
                         data: {
                             phone: component.phone,
                             device_id: localStorage.deviceId

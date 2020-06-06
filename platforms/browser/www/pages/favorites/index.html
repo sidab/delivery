@@ -156,7 +156,7 @@
                 let page = component.$el;
 
                 app.request({
-                    url: app.params.backend + '/api/favorite-restoraunts',
+                    url: app.params.config.backend + '/api/favorite-restoraunts',
                     dataType: 'json',
                     data: {
                         user: localStorage.user

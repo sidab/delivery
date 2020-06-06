@@ -132,7 +132,7 @@
                 page.find('.add-button').find('.button-title').addClass('display-none');
 
                 app.request({
-                    url: app.params.backend + '/api/add-review',
+                    url: app.params.config.backend + '/api/add-review',
                     method: 'POST',
                     data: {
                         order: component.order.id,

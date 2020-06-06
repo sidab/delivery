@@ -336,7 +336,7 @@
                 page.find('.button').find('.button-text').addClass('display-none');
 
                 app.request({
-                    url: app.params.backend + '/api/edit-user-info',
+                    url: app.params.config.backend + '/api/edit-user-info',
                     data: {
                         phone: localStorage.user,
                         firstname: firstname,
@@ -363,7 +363,7 @@
                 let page = component.$el;
 
                 app.request({
-                    url: app.params.backend + '/api/user-info',
+                    url: app.params.config.backend + '/api/user-info',
                     data: {
                         phone: localStorage.user
                     },
@@ -384,7 +384,7 @@
                 let page = component.$el;
 
                 app.request({
-                    url: app.params.backend + '/api/user-adres',
+                    url: app.params.config.backend + '/api/user-adres',
                     data: {
                         phone: localStorage.user
                     },

@@ -303,7 +303,11 @@
 
                 app.views.current.router.navigate('/cart/checkout', {
                     context: {
-                        restoraunt: component.restoraunt
+                        restoraunt: component.restoraunt,
+                        stocks: component.stocks,
+                        sum: component.sum,
+                        skidka: component.skidkaSum,
+                        totalSum: component.totalSum ? component.totalSum : component.sum
                     }
                 });
 
@@ -357,7 +361,7 @@
                 let id = component.items[0].restoraunt_id;
 
                 app.request({
-                    url: app.params.backend + '/api/restoraunt-info',
+                    url: app.params.config.backend + '/api/restoraunt-info',
                     dataType: 'json',
                     data: {
                         id: id

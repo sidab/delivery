@@ -59,7 +59,7 @@
 
                                                 <div class="item-title">{{restoraunt.name}}</div>
 
-                                                <div class="item-after">{{sum}} ₽</div>
+                                                <div class="item-after">{{total_sum}} ₽</div>
 
                                             </div>
 
@@ -127,7 +127,7 @@
                 let page = component.$el;
 
                 app.request({
-                    url: app.params.backend + '/api/user-orders',
+                    url: app.params.config.backend + '/api/user-orders',
                     data: {
                         user: localStorage.user
                     },

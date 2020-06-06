@@ -141,7 +141,7 @@
                 let page = component.$el;
 
                 app.request({
-                    url: app.params.backend + '/api/stocks',
+                    url: app.params.config.backend + '/api/stocks',
                     dataType: 'json',
                     data: {
                       city: localStorage.city

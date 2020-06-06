@@ -205,7 +205,7 @@
     }
 
     {{this}} .page-content {
-        padding-bottom: 600px;
+        padding-bottom: 100px;
     }
 
     {{this}} .searchbar:after {
@@ -287,7 +287,7 @@
                 let page = component.$el;
 
                 app.request({
-                    url: app.params.backend + '/api/categories',
+                    url: app.params.config.backend + '/api/categories',
                     dataType: 'json',
                     data: {
                         only_main: 'true',
@@ -340,7 +340,7 @@
                 });
 
                 app.request({
-                    url: app.params.backend + '/api/restoraunts',
+                    url: app.params.config.backend + '/api/restoraunts',
                     dataType: 'json',
                     data: {
                         category: id ? id : null,
@@ -426,7 +426,7 @@
                 let page = component.$el;
 
                 app.request({
-                    url: app.params.backend + '/api/cities',
+                    url: app.params.config.backend + '/api/cities',
                     dataType: 'json',
                     success: function (response) {
 

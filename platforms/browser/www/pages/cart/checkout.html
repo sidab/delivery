@@ -572,6 +572,14 @@
 
                 let phone = component.phone;
 
+                let stocks = [];
+
+                for (let i = 0; i < component.stocks.length; i++) {
+
+                    stocks.push(component.stocks[i].id);
+
+                }
+
                 let data;
 
                 if (page.find('.adres').find('.active').length > 0) {
@@ -583,7 +591,11 @@
                         adres: adres,
                         restoraunt: restoraunt,
                         comment: comment,
-                        items: items
+                        items: items,
+                        stocks: stocks.join(),
+                        sum: component.sum,
+                        skidka: component.skidka,
+                        totalSum: component.totalSum
                     };
 
                 } else {
@@ -607,8 +619,14 @@
                         apartament: apartament,
                         restoraunt: restoraunt,
                         comment: comment,
-                        items: items
+                        items: items,
+                        stocks: stocks.join(),
+                        sum: component.sum,
+                        skidka: component.skidka,
+                        totalSum: component.totalSum
                     };
+
+                    console.log(data);
 
                 }
 
@@ -617,8 +635,8 @@
                 page.find('.button').find('.button-text').addClass('display-none');
 
                 app.request({
-                    url: app.params.backend + '/api/create-order',
-                    method: 'POST',
+                    url: app.params.config.backend + '/api/create-order',
+                    method: 'GET',
                     data: data,
                     success: function (response) {
 
@@ -638,7 +656,7 @@
                 let page = component.$el;
 
                 app.request({
-                    url: app.params.backend + '/api/user-info',
+                    url: app.params.config.backend + '/api/user-info',
                     data: {
                         phone: localStorage.user
                     },
@@ -659,7 +677,7 @@
                 let page = component.$el;
 
                 app.request({
-                    url: app.params.backend + '/api/user-adres',
+                    url: app.params.config.backend + '/api/user-adres',
                     data: {
                         phone: localStorage.user
                     },

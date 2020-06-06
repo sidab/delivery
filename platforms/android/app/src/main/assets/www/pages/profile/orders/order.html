@@ -193,11 +193,51 @@
 
             </div>
 
+            {{#if order.stocks}}
+
+                {{#js_if "this.order.stocks.length > 0"}}
+
+                    <div class="block-title block-title-medium">Акции</div>
+
+                    {{#each order.stocks}}
+
+                        <div class="margin padding block-info bg-color-blue text-color-white">
+
+                            Заказ участвовал в акции "{{name}}"
+
+                        </div>
+
+                    {{/each}}
+
+                {{/js_if}}
+
+            {{/if}}
+
+            {{#js_if "this.order.sum !== this.order.total_sum"}}
+
+                <div class="padding row bg-color-white">
+
+                    <div class="col">Сумма:</div>
+
+                    <div class="col text-align-right">{{order.sum}} ₽</div>
+
+                </div>
+
+                <div class="padding row bg-color-white">
+
+                    <div class="col">Скидка:</div>
+
+                    <div class="col text-align-right">{{order.skidka}} ₽</div>
+
+                </div>
+
+            {{/js_if}}
+
             <div class="block block-strong row total">
 
                 <div class="col">Итого:</div>
 
-                <div class="col text-align-right">{{order.sum}} ₽</div>
+                <div class="col text-align-right">{{order.total_sum}} ₽</div>
 
             </div>
 

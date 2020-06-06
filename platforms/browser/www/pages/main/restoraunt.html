@@ -631,7 +631,7 @@
                 let id = component.$router.currentRoute.params.id;
 
                 app.request({
-                   url: app.params.backend + '/api/restoraunt',
+                   url: app.params.config.backend + '/api/restoraunt',
                    dataType: 'json',
                    data: {
                        id: id
@@ -660,7 +660,7 @@
                 let page = component.$el;
 
                 app.request({
-                    url: app.params.backend + '/api/check-restoraunt-in-favorites',
+                    url: app.params.config.backend + '/api/check-restoraunt-in-favorites',
                     data: {
                         user: localStorage.user,
                         restoraunt: component.restoraunt.id

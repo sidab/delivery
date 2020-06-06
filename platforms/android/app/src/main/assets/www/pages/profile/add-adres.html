@@ -224,7 +224,7 @@
                 page.find('.button').find('.button-text').addClass('display-none');
 
                 app.request({
-                    url: app.params.backend + '/api/add-adres',
+                    url: app.params.config.backend + '/api/add-adres',
                     method: 'POST',
                     data: {
                         user: localStorage.user,

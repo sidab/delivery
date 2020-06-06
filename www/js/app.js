@@ -8,7 +8,6 @@ var app = new Framework7({
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
-    backend: 'http://zaytoon.ru',
     dialog: {
         buttonOk: 'Ок',
         buttonCancel: 'Отмена'
@@ -74,6 +73,65 @@ var app = new Framework7({
         collapseLargeTitleOnScroll: false
     },
     methods: {
+        checkVersion: function (callback) {
+
+            var app = this;
+
+            app.request({
+                url: 'http://zaytoon.ru/api/config',
+                dataType: 'json',
+                async: false,
+                success: function (response) {
+
+                    var config = response;
+
+                    app.params.config = config;
+
+                    localStorage.config = JSON.stringify(config);
+
+                    var version;
+
+                    if (app.device.android) {
+
+                        version = config.vers.android;
+
+                    } else if (app.device.ios) {
+
+                        version = config.vers.ios;
+
+                    } else {
+
+                        version = config.version;
+
+                    }
+
+                    if (version > app.version) {
+
+                        app.dialog.alert('Вышла новая версия приложения, пожалуйста обновите.', function () {
+
+                            if (app.device.ios) {
+
+                                window.open(config.updateLink.ios, '_system');
+
+                            } else {
+
+                                window.open(config.updateLink.android, '_system');
+
+                            }
+
+                        });
+
+                    }
+
+                },
+                complete: function () {
+
+                    callback();
+
+                }
+            });
+
+        },
         backButton: function (closeApp = true) {
 
             if (closeApp) {
@@ -251,7 +309,7 @@ var app = new Framework7({
             addRestoraunt: function (id, callback) {
 
                 app.request({
-                    url: app.params.backend + '/api/add-restoraunt-to-favorites',
+                    url: app.params.config.backend + '/api/add-restoraunt-to-favorites',
                     data: {
                         user: localStorage.user,
                         restoraunt: id
@@ -271,7 +329,7 @@ var app = new Framework7({
             removeRestoraunt: function (id, callback) {
 
                 app.request({
-                    url: app.params.backend + '/api/remove-restoraunt-from-favorites',
+                    url: app.params.config.backend + '/api/remove-restoraunt-from-favorites',
                     data: {
                         user: localStorage.user,
                         restoraunt: id
@@ -448,30 +506,34 @@ $$(document).on('deviceready', function () {
         }
     });
 
-    app.views.create('#view-main', {
-        url: '/main',
-        //animate: app.device.ios ? true : false,
-        main: true
-    });
+    app.methods.checkVersion(function () {
 
-    app.views.create('#view-stocks', {
-        url: '/stocks',
-        //animate: app.device.ios ? true : false
-    });
+        app.views.create('#view-main', {
+            url: '/main',
+            //animate: app.device.ios ? true : false,
+            main: true
+        });
 
-    app.views.create('#view-cart', {
-        url: '/cart',
-        //animate: app.device.ios ? true : false
-    });
+        app.views.create('#view-stocks', {
+            url: '/stocks',
+            //animate: app.device.ios ? true : false
+        });
 
-    app.views.create('#view-favorites', {
-        url: '/favorites',
-        //animate: app.device.ios ? true : false
-    });
+        app.views.create('#view-cart', {
+            url: '/cart',
+            //animate: app.device.ios ? true : false
+        });
 
-    app.views.create('#view-profile', {
-        url: app.params.user ? '/profile' : '/profile/auth',
-        //animate: app.device.ios ? true : false
+        app.views.create('#view-favorites', {
+            url: '/favorites',
+            //animate: app.device.ios ? true : false
+        });
+
+        app.views.create('#view-profile', {
+            url: app.params.user ? '/profile' : '/profile/auth',
+            //animate: app.device.ios ? true : false
+        });
+
     });
 
     if (app.device.android) {
@@ -496,7 +558,7 @@ $$(document).on('deviceready', function () {
 
         sound_1.src = sound_1.src;
 
-        sound_1.play();
+        //sound_1.play();
 
     });
 
@@ -504,7 +566,7 @@ $$(document).on('deviceready', function () {
 
         sound_2.src = sound_2.src;
 
-        sound_2.play();
+        //sound_2.play();
 
     });
 
@@ -512,7 +574,7 @@ $$(document).on('deviceready', function () {
 
         sound_3.src = sound_3.src;
 
-        sound_3.play();
+        //sound_3.play();
 
     });
 

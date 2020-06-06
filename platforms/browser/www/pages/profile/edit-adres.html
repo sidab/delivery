@@ -211,7 +211,7 @@
                     page.find('.button-save').find('.button-text').addClass('display-none');
 
                     app.request({
-                        url: app.params.backend + '/api/delete-adres',
+                        url: app.params.config.backend + '/api/delete-adres',
                         method: 'POST',
                         data: {
                             id: component.adres.id
@@ -259,7 +259,7 @@
                 page.find('.button-save').find('.button-text').addClass('display-none');
 
                 app.request({
-                    url: app.params.backend + '/api/edit-adres',
+                    url: app.params.config.backend + '/api/edit-adres',
                     method: 'POST',
                     data: {
                         adres: component.adres.id,

@@ -168,7 +168,7 @@
                 let page = component.$el;
 
                 app.request({
-                    url: app.params.backend + '/api/user-info',
+                    url: app.params.config.backend + '/api/user-info',
                     data: {
                         phone: localStorage.user
                     },
