@@ -383,6 +383,7 @@
                 let dialog = app.dialog.create({
                     title: 'Выберите ваш город',
                     text: '',
+                    closeByBackdropClick: true,
                     content: page.find('.cities').html(),
                     buttons: [
                         {
