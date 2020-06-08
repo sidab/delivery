@@ -166,6 +166,12 @@
 
                 component.loadStocks();
 
+                $$('#view-stocks').on('tab:show', function () {
+
+                    component.loadStocks();
+
+                });
+
             }
 
         }
