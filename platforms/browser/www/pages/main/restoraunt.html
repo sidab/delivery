@@ -70,7 +70,7 @@
 
                         <i class="icon f7-icons text-color-orange">star_fill</i>
 
-                        <span>{{restoraunt.rating}} ({{restoraunt.reviews_count}})</span>
+                        <span>{{js "this.restoraunt.rating.toFixed(1)"}} ({{restoraunt.reviews_count}})</span>
 
                     </button>
 
@@ -82,7 +82,7 @@
 
                             <div class="block">
 
-                                <div class="block-title block-title-large">Рейтинг {{restoraunt.rating}} <i class="icon f7-icons text-color-orange">star_fill</i></div>
+                                <div class="block-title block-title-large">Рейтинг {{js "this.restoraunt.rating.toFixed(1)"}} <i class="icon f7-icons text-color-orange">star_fill</i></div>
 
                             </div>
 
@@ -482,6 +482,12 @@
 
                 let image = item.image ? '<div class="item-image" style="background-image: url(' + item.image.path + ')"></div>' : '';
 
+                if (item.sostav.length > 0) {
+
+                    item.sostav = ' • ' + item.sostav;
+
+                }
+
                 let sheet = app.sheet.create({
                     content: `
 
@@ -495,7 +501,7 @@
 
                                     <div class="item-title">` + item.name + `</div>
 
-                                    <div class="item-desc margin-top text-color-gray">` + item.weight + ` • ` + item.sostav + `</div>
+                                    <div class="item-desc margin-top text-color-gray">` + item.weight + item.sostav + `</div>
 
                                     <div class="row add-to-cart">
 
@@ -782,65 +788,73 @@
 
                     });
 
+                    let isScrolling;
+
                     page.find('.page-content').on('scroll', function () {
 
-                        let scrollTop = $$(this).scrollTop();
+                        window.clearTimeout( isScrolling );
 
-                        let categoriesOffset = page.find('.page-content').find('.categories').offset().top + page.find('.page-content').find('.categories').height() + 30;
+                        isScrolling = setTimeout(function() {
 
-                        if (scrollTop >= categoriesOffset) {
+                            let scrollTop = page.find('.page-content').scrollTop();
 
-                            page.find('.navbar').addClass('subnavbar-show');
+                            let categoriesOffset = page.find('.page-content').find('.categories').offset().top + page.find('.page-content').find('.categories').height() + 30;
 
-                        } else {
+                            if (scrollTop >= categoriesOffset) {
 
-                            page.find('.navbar').removeClass('subnavbar-show');
+                                page.find('.navbar').addClass('subnavbar-show');
 
-                        }
+                            } else {
 
-                        let categories = [];
-
-                        page.find('.category-title').each(function (i) {
-
-                            let id = $$(this).data('id');
-                            let offset = $$(this).offset().top + scrollTop - 200;
-
-                            if (scrollTop >= offset) {
-
-                                categories.push({
-                                    id: id,
-                                    offset: offset
-                                });
+                                page.find('.navbar').removeClass('subnavbar-show');
 
                             }
 
-                        });
+                            let categories = [];
 
-                        if (categories.length > 0) {
+                            page.find('.category-title').each(function (i) {
 
-                            let activeCategory = categories[categories.length - 1];
+                                let id = $$(this).data('id');
+                                let offset = $$(this).offset().top + scrollTop - 200;
 
-                            page.find('.categories').find('.button').removeClass('active');
+                                if (scrollTop >= offset) {
 
-                            page.find('.categories').find('.button').addClass('bg-color-light-gray text-color-black color-black');
+                                    categories.push({
+                                        id: id,
+                                        offset: offset
+                                    });
 
-                            page.find('.categories').find('.button[data-id="' + activeCategory.id + '"]').removeClass('bg-color-light-gray text-color-black color-black');
+                                }
 
-                            page.find('.categories').find('.button[data-id="' + activeCategory.id + '"]').addClass('active');
+                            });
 
-                            let scrollLeft = page.find('.navbar').find('.categories').scrollLeft();
+                            if (categories.length > 0) {
 
-                            let offsetLeft = page.find('.navbar').find('.button[data-id="' + activeCategory.id + '"]').offset().left + scrollLeft;
+                                let activeCategory = categories[categories.length - 1];
 
-                            page.find('.navbar').find('.categories').scrollLeft(offsetLeft);
+                                page.find('.categories').find('.button').removeClass('active');
 
-                        } else {
+                                page.find('.categories').find('.button').addClass('bg-color-light-gray text-color-black color-black');
 
-                            page.find('.categories').find('.button').removeClass('active');
+                                page.find('.categories').find('.button[data-id="' + activeCategory.id + '"]').removeClass('bg-color-light-gray text-color-black color-black');
 
-                            page.find('.categories').find('.button').addClass('bg-color-light-gray text-color-black color-black');
+                                page.find('.categories').find('.button[data-id="' + activeCategory.id + '"]').addClass('active');
 
-                        }
+                                let scrollLeft = page.find('.navbar').find('.categories').scrollLeft();
+
+                                let offsetLeft = page.find('.navbar').find('.button[data-id="' + activeCategory.id + '"]').offset().left + scrollLeft;
+
+                                page.find('.navbar').find('.categories').scrollLeft(offsetLeft, 500);
+
+                            } else {
+
+                                page.find('.categories').find('.button').removeClass('active');
+
+                                page.find('.categories').find('.button').addClass('bg-color-light-gray text-color-black color-black');
+
+                            }
+
+                        }, 66);
 
                     });
 

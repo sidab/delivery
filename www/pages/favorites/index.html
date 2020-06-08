@@ -51,7 +51,7 @@
 
                                 {{#each restoraunts}}
 
-                                    <list-item-1 id="{{id}}" rating="{{rating}}" reviews-count="{{reviews_count}}" name="{{name}}" adres="{{adres}}" delivery-time="{{delivery_time}}" min-order-sum="{{min_order_sum}}" logo="{{#if logo_image}}{{logo_image.path}}{{else}}http://delivery05.ru/storage/app/media/no_image.png{{/if}}"></list-item-1>
+                                    <list-item-1 id="{{id}}" rating="{{js "this.rating.toFixed(1)"}}" reviews-count="{{reviews_count}}" name="{{name}}" adres="{{adres}}" delivery-time="{{delivery_time}}" min-order-sum="{{min_order_sum}}" logo="{{#if logo_image}}{{logo_image.path}}{{else}}http://delivery05.ru/storage/app/media/no_image.png{{/if}}"></list-item-1>
 
                                 {{/each}}
 

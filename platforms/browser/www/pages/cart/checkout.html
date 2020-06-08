@@ -574,9 +574,13 @@
 
                 let stocks = [];
 
-                for (let i = 0; i < component.stocks.length; i++) {
+                if (component.stocks) {
 
-                    stocks.push(component.stocks[i].id);
+                    for (let i = 0; i < component.stocks.length; i++) {
+
+                        stocks.push(component.stocks[i].id);
+
+                    }
 
                 }
 
