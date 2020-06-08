@@ -1,0 +1,420 @@
+<template>
+
+    <div class="page bg-color-white">
+
+        <div class="navbar">
+
+            <div class="navbar-bg"></div>
+
+            <div class="navbar-inner sliding">
+
+                <div class="left">
+
+                    <a href="#" class="link back">
+
+                        <i class="icon icon-back"></i>
+                        <span class="ios-only">Назад</span>
+
+                    </a>
+
+                </div>
+
+                <div class="title">Мои данные</div>
+
+            </div>
+
+        </div>
+
+        <div class="toolbar tabbar toolbar-top">
+
+            <div class="toolbar-inner">
+
+                <a href="#personal-info" class="tab-link tab-link-active">Личная информация</a>
+                <a href="#adres" class="tab-link">Мои адреса</a>
+
+            </div>
+
+        </div>
+
+        <div class="tabs">
+
+            <div id="personal-info" class="page-content tab tab-active">
+
+                {{#if user}}
+
+                <div class="list">
+
+                    <ul>
+
+                        <li class="item-content item-input item-input-outline">
+
+                            <div class="item-inner">
+
+                                <div class="item-title item-label">Имя</div>
+
+                                <div class="item-input-wrap">
+
+                                    <input type="text" class="firstname" value="{{user.firstname}}">
+                                    <span class="input-clear-button"></span>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                        <li class="item-content item-input item-input-outline">
+
+                            <div class="item-inner">
+
+                                <div class="item-title item-label">Фамилия</div>
+
+                                <div class="item-input-wrap">
+
+                                    <input type="text" class="lastname" value="{{user.lastname}}">
+                                    <span class="input-clear-button"></span>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                        <li class="item-content item-input item-input-outline">
+
+                            <div class="item-inner">
+
+                                <div class="item-title item-label">Номер телефона</div>
+
+                                <div class="item-input-wrap">
+
+                                    <input type="tel" class="phone disabled" value="{{user.phone}}" readonly>
+                                    <span class="input-clear-button"></span>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                        <li class="item-content item-input item-input-outline">
+
+                            <div class="item-inner">
+
+                                <div class="item-title item-label">Email</div>
+
+                                <div class="item-input-wrap">
+
+                                    <input type="email" class="email" value="{{user.email}}">
+                                    <span class="input-clear-button"></span>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="margin">
+
+                    <button @click="save" class="button button-fill button-checkout button-large underline">
+
+                        <div class="preloader color-white display-none"></div>
+
+                        <div class="button-text">Сохранить</div>
+
+                    </button>
+
+                </div>
+
+                {{else}}
+
+                    <div class="margin text-align-center">
+
+                        <div class="preloader"></div>
+
+                    </div>
+
+                {{/if}}
+
+            </div>
+
+            <div id="adres" class="page-content tab adres">
+
+                {{#if adres}}
+
+                    {{#js_if "this.adres.length > 0"}}
+
+                        {{#each adres}}
+
+                            <div @click="openAdres('{{id}}')" data-id="{{id}}" class="item margin padding margin-bottom">
+
+                            г. {{city}}
+
+                            {{#js_if "this.street && this.street.length > 0"}}
+
+                            Улица: {{street}}
+
+                            {{/js_if}}
+
+                            {{#js_if "this.house && this.house.length > 0"}}
+
+                            Дом: {{house}}
+
+                            {{/js_if}}
+
+                            {{#js_if "this.podezd && this.podezd.length > 0"}}
+
+                            Подъезд: {{podezd}}
+
+                            {{/js_if}}
+
+                            {{#js_if "this.floor && this.floor.length > 0"}}
+
+                            Этаж: {{floor}}
+
+                            {{/js_if}}
+
+                            {{#js_if "this.apartament_number && this.apartament_number.length > 0"}}
+
+                            Квартира: {{apartament_number}}
+
+                            {{/js_if}}
+
+                        </div>
+
+                        {{/each}}
+
+                    {{else}}
+
+                        <div class="block">У вас нет сохраненных адресов.</div>
+
+                    {{/js_if}}
+
+                    <div class="margin">
+
+                        <button @click="addAdres" class="button button-large bg-color-light-gray color-black button-ok">
+
+                            <i class="icon f7-icons">plus</i>
+
+                            <span>Добавить новый адрес</span>
+
+                        </button>
+
+                    </div>
+
+                {{else}}
+
+                    <div class="margin text-align-center">
+
+                        <div class="preloader"></div>
+
+                    </div>
+
+                {{/if}}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</template>
+
+<style scoped>
+
+
+    {{this}} .adres .item {
+        border: 2px dashed var(--f7-color-gray);
+        border-radius: 5px;
+        font-size: 16px;
+
+    }
+
+</style>
+
+<script>
+
+    return {
+
+        data: function () {
+
+            return {
+
+            }
+
+        },
+        methods: {
+            openAdres: function (id) {
+
+                let component = this;
+                let page = component.$el;
+
+                let adres = component.adres.find(function (adres) {
+
+                    return adres.id == id;
+
+                });
+
+                let popup = app.popup.create({
+                    content: '<div class="popup popup-edit-adres"><div class="view view-popup-edit-adres"></div></div>',
+                    on: {
+                        open: function () {
+
+                            let view = app.views.create('.view-popup-edit-adres');
+
+                            view.router.navigate('/profile/edit-adres', {
+                                context: {
+                                    adres: adres
+                                }
+                            });
+
+                        },
+                        close: function () {
+
+                            component.loadUserAdres();
+
+                        }
+                    }
+                });
+
+                popup.open();
+
+            },
+            addAdres: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                let popup = app.popup.create({
+                    content: '<div class="popup popup-add-adres"><div class="view view-popup-add-adres"></div></div>',
+                    on: {
+                        open: function () {
+
+                            let view = app.views.create('.view-popup-add-adres');
+
+                            view.router.navigate('/profile/add-adres', {
+                                context: {
+
+                                }
+                            });
+
+                        },
+                        close: function () {
+
+                            component.loadUserAdres();
+
+                        }
+                    }
+                });
+
+                popup.open();
+
+            },
+            save: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                let firstname = page.find('.firstname').val();
+                let lastname = page.find('.lastname').val();
+                let email = page.find('.email').val();
+
+                if (firstname.length === 0) {
+
+                    app.dialog.alert('', 'Введите имя');
+
+                    return false;
+
+                }
+
+                page.find('.button').find('.preloader').removeClass('display-none');
+
+                page.find('.button').find('.button-text').addClass('display-none');
+
+                app.request({
+                    url: app.params.config.backend + '/api/edit-user-info',
+                    data: {
+                        phone: localStorage.user,
+                        firstname: firstname,
+                        lastname: lastname,
+                        email: email
+                    },
+                    success: function (response) {
+
+                        page.find('.button').find('.preloader').addClass('display-none');
+
+                        page.find('.button').find('.button-text').removeClass('display-none');
+
+                        app.toast.create({
+                            text: 'Изменения сохранены'
+                        }).open();
+
+                    }
+                });
+
+            },
+            loadUserInfo: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                app.request({
+                    url: app.params.config.backend + '/api/user-info',
+                    data: {
+                        phone: localStorage.user
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+
+                        component.user = response;
+
+                        component.$update();
+
+                    }
+                });
+
+            },
+            loadUserAdres: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                app.request({
+                    url: app.params.config.backend + '/api/user-adres',
+                    data: {
+                        phone: localStorage.user
+                    },
+                    dataType: 'json',
+                    success: function (response) {
+
+                        component.adres = response;
+
+                        component.$update();
+
+                    }
+                });
+
+            }
+        },
+        on: {
+
+            pageInit: function() {
+
+                let component = this;
+                let page = component.$el;
+
+                component.loadUserInfo();
+
+                component.loadUserAdres();
+
+            }
+
+        }
+
+    }
+
+</script>

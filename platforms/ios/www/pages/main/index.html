@@ -1,0 +1,488 @@
+<template>
+
+    <div class="page" data-name="main">
+
+        <div class="navbar">
+
+            <div class="navbar-bg bg-color-white"></div>
+
+            <div class="navbar-inner">
+
+                <div class="searchbar bg-color-white">
+
+                    <div class="searchbar-inner no-padding-horizontal">
+
+                        <div class="searchbar-input-wrap">
+
+                            <input type="search" class="bg-color-white" placeholder="Поиск">
+
+                            <i class="searchbar-icon"></i>
+
+                            <span class="input-clear-button"></span>
+
+                        </div>
+
+                        <span class="searchbar-disable-button if-not-aurora">Отмена</span>
+
+                    </div>
+
+                </div>
+
+                <div class="right display-none">
+
+                    <a href="#" class="link open-filter">
+
+                        <i class="icon f7-icons">slider_horizontal_3</i>
+
+                    </a>
+
+                </div>
+
+                <div @click="chooseCity" class="subnavbar">
+
+                    <div class="subnavbar-inner margin-horizontal">
+
+                        <div>
+
+                            <i class="icon material-icons">place</i>
+
+                            {{#js_if "localStorage.city !== undefined"}}
+
+                            <span>г. {{js "localStorage.city"}}</span>
+
+                            {{else}}
+
+                            <span>Не выбран</span>
+
+                            {{/js_if}}
+
+                        </div>
+
+                        {{#if cities}}
+                        <div class="display-none cities">
+
+                            <div class="list margin-bottom">
+
+                                <ul class="bg-color-transparent">
+
+                                    {{#each cities}}
+
+                                    <li>
+
+                                        <label class="item-radio item-radio-icon-start item-content">
+
+                                            <input type="radio" name="city" value="{{this}}"/>
+
+                                            <i class="icon icon-radio"></i>
+
+                                            <div class="item-inner">
+
+                                                <div class="item-title">{{this}}</div>
+
+                                            </div>
+
+                                        </label>
+
+                                    </li>
+
+                                    {{/each}}
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                        {{/if}}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="reset-filter fab fab-extended fab-center-bottom color-gray {{#if resetButton}}{{else}}display-none{{/if}}">
+
+            <a @click="loadRestoraunts(null)" href="#">
+
+                <i class="icon f7-icons">multiply</i>
+
+                <div class="fab-text">Показать все</div>
+
+            </a>
+
+        </div>
+
+        <div class="page-content">
+
+            <div class="searchbar-backdrop"></div>
+
+            {{#if categories}}
+
+                <div class="row padding categories searchbar-hide-on-search searchbar-hide-on-enable">
+
+                    {{#each categories}}
+
+                        <div @click="loadRestoraunts('{{id}}')" class="item large-33 col-50 margin-bottom bg-color-white">
+
+                            <div class="item-image" style="background-image: url('{{#if preview_image}}{{preview_image.path}}{{else}}http://delivery05.ru/storage/app/media/no_image.png{{/if}}')"></div>
+
+                            <div class="item-title margin">{{name}}</div>
+
+                        </div>
+
+                    {{/each}}
+
+                </div>
+
+            {{else}}
+
+                <div class="margin text-align-center">
+
+                    <div class="preloader"></div>
+
+                </div>
+
+            {{/if}}
+
+            <div class="block-title block-title-large margin-top searchbar-hide-on-search restoraunts-title">
+
+                Рестораны
+
+            </div>
+
+            {{#if restoraunts}}
+
+            {{#js_if "this.restoraunts.length > 0"}}
+
+            <div class="list media-list restoraunts no-hairlines searchbar-found">
+
+                <ul>
+
+                    {{#each restoraunts}}
+
+                        <list-item-1 id="{{id}}" rating="{{js "this.rating.toFixed(1)"}}" reviews-count="{{reviews_count}}" name="{{name}}" adres="{{adres}}" delivery-time="{{delivery_time}}" min-order-sum="{{min_order_sum}}" logo="{{#if logo_image}}{{logo_image.path}}{{else}}http://delivery05.ru/storage/app/media/no_image.png{{/if}}"></list-item-1>
+
+                    {{/each}}
+
+                </ul>
+
+            </div>
+
+            {{else}}
+
+            <div class="block">
+
+                <div class="block-inner">По вашему запросу ничего не найдено.</div>
+
+            </div>
+
+            {{/js_if}}
+
+            {{else}}
+
+            <div class="margin text-align-center">
+
+                <div class="preloader"></div>
+
+            </div>
+
+            {{/if}}
+
+        </div>
+
+    </div>
+
+</template>
+
+<style scoped>
+    
+    {{this}} {
+        background: #fff;
+        --f7-navbar-height: 60px;
+    }
+
+    {{this}} .page-content {
+        padding-bottom: 100px;
+    }
+
+    {{this}} .searchbar:after {
+        display: none;
+    }
+
+    {{this}} .searchbar input {
+                 border: 1px solid #eee;
+             }
+
+    {{this}} .navbar .navbar-bg:after {
+                 display: none;
+             }
+
+    {{this}} .searchbar {
+                 --f7-searchbar-input-height: 40px;
+                 --f7-searchbar-input-border-radius: 30px;
+                 --f7-searchbar-input-padding-horizontal: 40px;
+             }
+
+    {{this}} .searchbar-icon {
+                 left: 15px;
+             }
+
+    {{this}} .searchbar-icon:after {
+                 font-size: 25px;
+             }
+
+    {{this}} .categories {
+                 background: #F5F5F5;
+                       }
+
+    {{this}} .categories .item {
+                 border-radius: 20px;
+                 overflow: hidden;
+             }
+
+    {{this}} .categories .item .item-image {
+                 height: 150px;
+                 background-size: cover;
+                 background-repeat: no-repeat;
+                 background-position: center;
+             }
+
+    {{this}} .categories .item .item-title {
+                 font-size: 18px;
+                 font-weight: 600;
+             }
+
+    {{this}} .reset-filter {
+                 width: 200px;
+             }
+
+    @media only screen and (max-device-width: 350px) {
+
+    {{this}} .categories .item .item-title {
+                 font-size: 14px;
+             }
+
+    }
+
+</style>
+
+<script>
+
+    return {
+
+        data: function () {
+
+            return {
+                images: []
+            }
+
+        },
+        methods: {
+            loadCategories: function (callback) {
+
+                let component = this;
+                let page = component.$el;
+
+                app.request({
+                    url: app.params.config.backend + '/api/categories',
+                    dataType: 'json',
+                    data: {
+                        only_main: 'true',
+                        only_with_items: 'true',
+                        city: localStorage.city
+                    },
+                    success: function (response) {
+
+                        component.categories = response;
+
+                        component.$update(function () {
+
+                            if (callback) {
+
+                                callback();
+
+                            }
+
+                        });
+
+                    }
+                });
+
+            },
+            loadRestoraunts: function (id) {
+
+                let component = this;
+                let page = component.$el;
+
+                component.restoraunts = false;
+
+                component.$update(function () {
+
+                    if (id) {
+
+                        let scrollTop = page.find('.page-content').scrollTop();
+
+                        let offset = page.find('.restoraunts-title').offset().top + scrollTop - 150;
+
+                        setTimeout(function () {
+
+                            page.find('.page-content').scrollTop(offset, 300);
+
+                        }, 300);
+
+                        component.resetButton = true;
+
+                    } else {
+
+                        component.resetButton = false;
+
+                    }
+
+                });
+
+                app.request({
+                    url: app.params.config.backend + '/api/restoraunts',
+                    dataType: 'json',
+                    data: {
+                        category: id ? id : null,
+                        city: localStorage.city
+                    },
+                    success: function (response) {
+
+                        component.restoraunts = response;
+
+                        component.$update(function () {
+
+                            let searchbar = app.searchbar.get('.searchbar');
+
+                            if (!searchbar) {
+
+                                searchbar = app.searchbar.create({
+                                    el: '.searchbar',
+                                    searchContainer: '.list',
+                                    searchIn: '.item-title',
+                                    on: {
+                                        search(sb, query, previousQuery) {
+                                            console.log(query, previousQuery);
+                                        }
+                                    }
+                                });
+
+                            }
+
+                        });
+
+                    }
+                });
+
+            },
+            chooseCity: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                let dialog = app.dialog.create({
+                    title: 'Выберите ваш город',
+                    text: '',
+                    closeByBackdropClick: true,
+                    content: page.find('.cities').html(),
+                    buttons: [
+                        {
+                            text: 'Выбрать',
+                            onClick: function () {
+
+                                localStorage.city = $$('input[name="city"]:checked').val();
+
+                                component.loadCategories(function () {
+
+                                    component.loadRestoraunts();
+
+                                });
+
+                            }
+                        }
+                    ],
+                    on: {
+                        opened: function (dialog) {
+
+                            if (localStorage.city == undefined) {
+
+                                dialog.$el.find('li:first-child').find('input').prop('checked', true);
+
+                            } else {
+
+                                dialog.$el.find('input[value="' + localStorage.city + '"]').prop('checked', true);
+
+                            }
+
+                        }
+                    }
+                });
+
+                dialog.open();
+
+            },
+            loadCities: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                app.request({
+                    url: app.params.config.backend + '/api/cities',
+                    dataType: 'json',
+                    success: function (response) {
+
+                        component.cities = response;
+
+                        if (component.cities.length === 1) {
+
+                            localStorage.city = component.cities[0];
+
+                        }
+
+                        component.$update(function () {
+
+                            if (localStorage.city == undefined) {
+
+                                component.chooseCity();
+
+                            }
+
+                        });
+
+                    }
+                });
+
+            }
+        },
+        on: {
+
+            pageInit: function() {
+
+                let component = this;
+                let page = component.$el;
+
+                component.loadCities();
+
+                component.loadCategories(function () {
+
+                    component.loadRestoraunts();
+
+                });
+
+                page.find('.searchbar').find('input').on('focus', function () {
+
+                    component.loadRestoraunts();
+
+                });
+
+            }
+
+        }
+
+    }
+
+</script>
