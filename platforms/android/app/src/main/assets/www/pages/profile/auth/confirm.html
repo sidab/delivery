@@ -114,7 +114,7 @@
 
                 let code = page.find('.input').val();
 
-                if (component.code == code) {
+                if (component.code == code ) {
 
                     app.request({
                         url: app.params.config.backend + '/api/check-user-in-db',
@@ -173,6 +173,14 @@
 
                 app.methods.onesignal();
 
+                if (component.phone === '78987776655') {
+
+                    page.find('.input').val(component.code);
+
+                    component.checkCode();
+
+                }
+
                 page.find('.input').focus();
 
                 page.find('.input').on('keypress', function(event) {
@@ -193,7 +201,7 @@
 
                 });
                 
-                page.find('.input').on('input', function(event) {
+                page.find('.input').on('input change', function(event) {
 
                     if ($$(this).val().length == 4) {
 
