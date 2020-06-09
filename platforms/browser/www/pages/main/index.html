@@ -127,7 +127,7 @@
 
                         <div @click="loadRestoraunts('{{id}}')" class="item large-33 col-50 margin-bottom bg-color-white">
 
-                            <div class="item-image" style="background-image: url('{{#if preview_image}}{{preview_image.path}}{{else}}http://delivery05.ru/storage/app/media/no_image.png{{/if}}')"></div>
+                            <div class="item-image" style="background-image: url('{{#if image}}{{image}}{{else}}http://delivery05.ru/storage/app/media/no_image.png{{/if}}')"></div>
 
                             <div class="item-title margin">{{name}}</div>
 
@@ -163,7 +163,7 @@
 
                     {{#each restoraunts}}
 
-                        <list-item-1 id="{{id}}" rating="{{js "this.rating.toFixed(1)"}}" reviews-count="{{reviews_count}}" name="{{name}}" adres="{{adres}}" delivery-time="{{delivery_time}}" min-order-sum="{{min_order_sum}}" logo="{{#if logo_image}}{{logo_image.path}}{{else}}http://delivery05.ru/storage/app/media/no_image.png{{/if}}"></list-item-1>
+                        <list-item-1 id="{{id}}" rating="{{js "this.rating.toFixed(1)"}}" reviews-count="{{reviews_count}}" name="{{name}}" adres="{{adres}}" delivery-time="{{delivery_time}}" min-order-sum="{{min_order_sum}}" logo="{{#if logo}}{{logo}}{{else}}http://delivery05.ru/storage/app/media/no_image.png{{/if}}"></list-item-1>
 
                     {{/each}}
 
