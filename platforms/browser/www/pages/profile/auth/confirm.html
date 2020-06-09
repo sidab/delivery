@@ -116,19 +116,21 @@
 
                 if (component.code == code ) {
 
+                    let phone = component.phone;
+
                     app.request({
                         url: app.params.config.backend + '/api/check-user-in-db',
                         data: {
-                            phone: component.phone,
+                            phone: phone,
                             device_id: localStorage.deviceId
                         },
                         dataType: 'json',
                         success: function (response) {
 
-                            localStorage.user = component.phone;
+                            localStorage.user = phone;
 
-                            app.params.user = component.phone;
-
+                            app.params.user = phone;
+                            
                             if (component.fromCheckout) {
 
                                 app.popup.close();
