@@ -323,6 +323,8 @@
 
                     if (id) {
 
+                        component.category = id;
+
                         let scrollTop = page.find('.page-content').scrollTop();
 
                         let offset = page.find('.restoraunts-title').offset().top + scrollTop - 150;
@@ -332,6 +334,8 @@
                         component.resetButton = true;
 
                     } else {
+
+                        component.category = false;
 
                         component.resetButton = false;
 
@@ -474,7 +478,7 @@
 
                 let component = this;
                 let page = component.$el;
-console.log(123)
+
                 component.loadCities();
 
                 component.loadCategories(function () {

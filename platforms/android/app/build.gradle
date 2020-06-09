@@ -98,8 +98,7 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
-apply from: "../cordova-plugin-crosswalk-webview-arm/ru-xwalk.gradle"
-apply from: "../onesignal-cordova-plugin/ru-build-extras-onesignal.gradle"
+apply from: "../cordova-plugin-crosswalk-webview-arm/zaytoon-xwalk.gradle"
 apply from: "../onesignal-cordova-plugin/zaytoon-build-extras-onesignal.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 

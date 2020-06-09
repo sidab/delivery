@@ -52,6 +52,10 @@ routes = [
         componentUrl: 'pages/main/restoraunt.html'
     },
     {
+        path: '/main/restoraunt/:id/:category_id',
+        componentUrl: 'pages/main/restoraunt.html'
+    },
+    {
         path: '/favorites',
         componentUrl: 'pages/favorites/index.html'
     },

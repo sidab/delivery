@@ -760,6 +760,18 @@
 
                     });
 
+                    let category_id = component.$router.currentRoute.params.category_id;
+
+                    if (category_id) {
+
+                        setTimeout(function () {
+
+                            page.find('.navbar').find('.button[data-id="' + category_id + '"]').click();
+
+                        }, 100);
+
+                    }
+
                     page.find('.categories').find('.button').on('click', function () {
 
                         let id = $$(this).data('id');
