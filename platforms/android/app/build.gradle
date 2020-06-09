@@ -296,7 +296,6 @@ dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
-    implementation "com.android.support:support-v4:27.+"
     implementation "com.onesignal:OneSignal:3.12.5"
     // SUB-PROJECT DEPENDENCIES END
 }

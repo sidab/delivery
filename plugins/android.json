@@ -18,24 +18,8 @@
       "XWALK_MULTIPLEAPK": "true",
       "PACKAGE_NAME": "com.delivery05.ru"
     },
-    "cordova-plugin-camera": {
-      "ANDROID_SUPPORT_V4_VERSION": "27.+",
-      "PACKAGE_NAME": "com.delivery05.ru"
-    },
-    "cordova-plugin-ios-camera-permissions": {
-      "PACKAGE_NAME": "com.delivery05.ru"
-    },
     "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "com.delivery05.ru"
-    },
-    "cordova-plugin-wkwebview-engine": {
-      "PACKAGE_NAME": "com.delivery05.ru"
-    },
-    "cordova-plugin-wkwebview-file-xhr": {
-      "PACKAGE_NAME": "com.delivery05.ru"
-    },
-    "cordova-plugin-device": {
-      "PACKAGE_NAME": "ru.zaytoon"
     },
     "cordova-plugin-ionic-keyboard": {
       "PACKAGE_NAME": "ru.zaytoon"
@@ -43,7 +27,10 @@
     "onesignal-cordova-plugin": {
       "PACKAGE_NAME": "ru.zaytoon"
     },
-    "cordova-plugin-vibration": {
+    "cordova-plugin-wkwebview-engine": {
+      "PACKAGE_NAME": "ru.zaytoon"
+    },
+    "cordova-plugin-wkwebview-file-xhr": {
       "PACKAGE_NAME": "ru.zaytoon"
     }
   },
