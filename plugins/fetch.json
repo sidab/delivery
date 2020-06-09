@@ -23,6 +23,14 @@
     "is_top_level": true,
     "variables": {}
   },
+  "cordova-plugin-inappbrowser": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-inappbrowser@3.1.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
   "cordova-plugin-statusbar": {
     "source": {
       "type": "registry",
@@ -66,7 +74,7 @@
   "cordova-plugin-wkwebview-engine": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-wkwebview-engine@^1.2.1"
+      "id": "cordova-plugin-wkwebview-engine"
     },
     "is_top_level": true,
     "variables": {}
@@ -74,7 +82,27 @@
   "cordova-plugin-wkwebview-file-xhr": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-wkwebview-file-xhr@^2.1.4"
+      "id": "cordova-plugin-wkwebview-file-xhr"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-x-socialsharing": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-x-socialsharing@^5.4.0"
+    },
+    "is_top_level": true,
+    "variables": {
+      "ANDROID_SUPPORT_V4_VERSION": "24.1.1+",
+      "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
+      "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly."
+    }
+  },
+  "cordova-plugin-vibration": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-vibration@3.1.1"
     },
     "is_top_level": true,
     "variables": {}
