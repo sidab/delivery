@@ -3,7 +3,7 @@ Framework7.registerComponent('list-item-1', {
 
          <li>
     
-            <a href="/main/restoraunt/{{$props.id}}" class="item-content item-link">
+            <a href="/main/restoraunt/{{$props.id}}{{#if $props.category}}/{{$props.category}}{{/if}}" class="item-content item-link">
     
                 <div class="item-media" style="background-image: url('{{$props.logo}}')"></div>
     

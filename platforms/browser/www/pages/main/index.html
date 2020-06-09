@@ -163,7 +163,7 @@
 
                     {{#each restoraunts}}
 
-                        <list-item-1 id="{{id}}" rating="{{js "this.rating.toFixed(1)"}}" reviews-count="{{reviews_count}}" name="{{name}}" adres="{{adres}}" delivery-time="{{delivery_time}}" min-order-sum="{{min_order_sum}}" logo="{{#if logo}}{{logo}}{{else}}http://delivery05.ru/storage/app/media/no_image.png{{/if}}"></list-item-1>
+                        <list-item-1 id="{{id}}" category="{{../category}}" rating="{{js "this.rating.toFixed(1)"}}" reviews-count="{{reviews_count}}" name="{{name}}" adres="{{adres}}" delivery-time="{{delivery_time}}" min-order-sum="{{min_order_sum}}" logo="{{#if logo}}{{logo}}{{else}}http://delivery05.ru/storage/app/media/no_image.png{{/if}}"></list-item-1>
 
                     {{/each}}
 
@@ -327,11 +327,7 @@
 
                         let offset = page.find('.restoraunts-title').offset().top + scrollTop - 150;
 
-                        setTimeout(function () {
-
-                            page.find('.page-content').scrollTop(offset, 300);
-
-                        }, 300);
+                        page.find('.page-content').scrollTop(offset, 0);
 
                         component.resetButton = true;
 
@@ -355,6 +351,20 @@
                         component.restoraunts = response;
 
                         component.$update(function () {
+
+                            setTimeout(function () {
+
+                                if (id) {
+
+                                    let scrollTop = page.find('.page-content').scrollTop();
+
+                                    let offset = page.find('.restoraunts-title').offset().top + scrollTop - 150;
+
+                                    page.find('.page-content').scrollTop(offset, app.device.ios ? 300 : 0);
+
+                                }
+
+                            }, 100);
 
                             let searchbar = app.searchbar.get('.searchbar');
 
@@ -464,7 +474,7 @@
 
                 let component = this;
                 let page = component.$el;
-
+console.log(123)
                 component.loadCities();
 
                 component.loadCategories(function () {
