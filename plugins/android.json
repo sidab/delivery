@@ -32,6 +32,9 @@
     },
     "cordova-plugin-wkwebview-file-xhr": {
       "PACKAGE_NAME": "ru.zaytoon"
+    },
+    "cordova-plugin-open-blank": {
+      "PACKAGE_NAME": "ru.zaytoon"
     }
   },
   "dependent_plugins": {}

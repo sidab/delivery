@@ -23,14 +23,6 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-inappbrowser": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-inappbrowser@3.1.0"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-plugin-statusbar": {
     "source": {
       "type": "registry",
@@ -50,7 +42,7 @@
   "cordova-plugin-open-blank": {
     "source": {
       "type": "registry",
-      "id": "https://github.com/slaptoast/cordova-plugin-openblank.git"
+      "id": "git+https://github.com/slaptoast/cordova-plugin-openblank.git"
     },
     "is_top_level": true,
     "variables": {}
