@@ -268,9 +268,9 @@
 
                             <div @click="openItem('{{../id}}', '{{id}}')" class="item large-25 col-50 margin-bottom bg-color-white">
 
-                                {{#if image_thumb}}
+                                {{#if image_thumb_512}}
 
-                                    <div class="item-image" style="background-image: url('{{image_thumb}}')"></div>
+                                    <div class="item-image" style="background-image: url('{{image_thumb_512}}')"></div>
 
                                 {{/if}}
 
@@ -480,8 +480,8 @@
 
                 });
 
-                let image = item.image ? '<div class="item-image" style="background-image: url(' + item.image.path + ')"></div>' : '';
-
+                let image = item.image ? '<div class="item-image" style="background-image: url(' + item.image_thumb + ')"><div class="overlay"></div></div>' : '';
+console.log(77)
                 if (item.sostav.length > 0) {
 
                     item.sostav = ' • ' + item.sostav;
@@ -575,6 +575,12 @@
 
                         },
                         opened: function (sheet) {
+
+                            setTimeout(function () {
+
+                                sheet.$el.find('.item-image').find('.overlay').addClass('show');
+
+                            }, 100);
 
                             let stepper = app.stepper.create({
                                 el: sheet.$el.find('.stepper'),

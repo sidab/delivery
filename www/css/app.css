@@ -116,11 +116,28 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    position: relative;
+    background-color: #eee;
+}
+
+.sheet-item .item-image .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #eee;
+    transition: .3s;
+    opacity: 1;
+}
+
+.sheet-item .item-image .overlay.show {
+    opacity:0;
 }
 
 .sheet-item .item-title {
     font-size: 23px;
-    font-weight: 200 !important;
+    font-weight: 600 !important;
 }
 
 .sheet-item .item-desc {}

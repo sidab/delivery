@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Delivery',
     theme: 'ios',
-    version: 2.0,
+    version: 2.1,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -524,10 +524,10 @@ $$(document).on('deviceready', function () {
             //animate: app.device.ios ? true : false
         });
 
-        app.views.create('#view-favorites', {
+        /*app.views.create('#view-favorites', {
             url: '/favorites',
             //animate: app.device.ios ? true : false
-        });
+        });*/
 
         app.views.create('#view-profile', {
             url: app.params.user ? '/profile' : '/profile/auth',
