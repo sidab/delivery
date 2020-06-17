@@ -119,6 +119,8 @@
 
             <div class="searchbar-backdrop"></div>
 
+            {{#js_if "app.params.config.showCategories"}}
+
             {{#if categories}}
 
                 <div class="row padding categories searchbar-hide-on-search searchbar-hide-on-enable">
@@ -147,6 +149,8 @@
 
             {{/if}}
 
+            {{/js_if}}
+
             <div class="block-title block-title-large margin-top searchbar-hide-on-search restoraunts-title">
 
                 Рестораны
@@ -163,7 +167,7 @@
 
                     {{#each restoraunts}}
 
-                        <list-item-1 id="{{id}}" category="{{../category}}" rating="{{js "this.rating.toFixed(1)"}}" reviews-count="{{reviews_count}}" name="{{name}}" adres="{{adres}}" delivery-time="{{delivery_time}}" min-order-sum="{{min_order_sum}}" logo="{{#if logo}}{{logo}}{{else}}http://delivery05.ru/storage/app/media/no_image.png{{/if}}"></list-item-1>
+                        <list-item-1 id="{{id}}" soon="{{soon}}" category="{{../category}}" rating="{{js "this.rating.toFixed(1)"}}" reviews-count="{{reviews_count}}" name="{{name}}" adres="{{adres}}" delivery-time="{{delivery_time}}" min-order-sum="{{min_order_sum}}" logo="{{#if logo}}{{logo}}{{else}}http://delivery05.ru/storage/app/media/no_image.png{{/if}}"></list-item-1>
 
                     {{/each}}
 
@@ -478,7 +482,7 @@
 
                 let component = this;
                 let page = component.$el;
-
+console.log(41)
                 component.loadCities();
 
                 component.loadCategories(function () {

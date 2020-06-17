@@ -13,7 +13,13 @@
       "id": "cordova-plugin-crosswalk-webview-arm@^3.1.0"
     },
     "is_top_level": true,
-    "variables": {}
+    "variables": {
+      "XWALK_VERSION": "23+",
+      "XWALK_LITEVERSION": "xwalk_core_library_canary:17+",
+      "XWALK_COMMANDLINE": "--disable-pull-to-refresh-effect",
+      "XWALK_MODE": "embedded",
+      "XWALK_MULTIPLEAPK": "true"
+    }
   },
   "cordova-plugin-splashscreen": {
     "source": {
@@ -45,14 +51,6 @@
       "id": "es6-promise-plugin@^4.1.0"
     },
     "is_top_level": false,
-    "variables": {}
-  },
-  "cordova-plugin-open-blank": {
-    "source": {
-      "type": "registry",
-      "id": "git+https://github.com/slaptoast/cordova-plugin-openblank.git"
-    },
-    "is_top_level": true,
     "variables": {}
   },
   "cordova-plugin-ionic-keyboard": {
@@ -103,6 +101,14 @@
     "source": {
       "type": "registry",
       "id": "cordova-plugin-vibration@3.1.1"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-open-blank": {
+    "source": {
+      "type": "registry",
+      "id": "git+https://github.com/slaptoast/cordova-plugin-openblank.git"
     },
     "is_top_level": true,
     "variables": {}

@@ -70,5 +70,9 @@ routes = [
     {
         path: '/cart/success-checkout',
         componentUrl: 'pages/cart/success-checkout.html'
+    },
+    {
+        path: '/cart/payment',
+        componentUrl: 'pages/cart/payment.html'
     }
 ]

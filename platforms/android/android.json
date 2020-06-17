@@ -37,10 +37,6 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"OpenBlank\"><param name=\"android-package\" value=\"org.apache.cordova.openblank.OpenBlank\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
@@ -125,9 +121,6 @@
     "cordova-plugin-ionic-keyboard": {
       "PACKAGE_NAME": "ru.zaytoon"
     },
-    "cordova-plugin-open-blank": {
-      "PACKAGE_NAME": "ru.zaytoon"
-    },
     "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "ru.zaytoon"
     },
@@ -141,9 +134,6 @@
       "PACKAGE_NAME": "ru.zaytoon"
     },
     "cordova-plugin-wkwebview-file-xhr": {
-      "PACKAGE_NAME": "ru.zaytoon"
-    },
-    "es6-promise-plugin": {
       "PACKAGE_NAME": "ru.zaytoon"
     },
     "onesignal-cordova-plugin": {
@@ -177,12 +167,6 @@
       ]
     },
     {
-      "id": "es6-promise-plugin.Promise",
-      "file": "plugins/es6-promise-plugin/www/promise.js",
-      "pluginId": "es6-promise-plugin",
-      "runs": true
-    },
-    {
       "id": "onesignal-cordova-plugin.OneSignal",
       "file": "plugins/onesignal-cordova-plugin/www/OneSignal.js",
       "pluginId": "onesignal-cordova-plugin",
@@ -194,13 +178,11 @@
   "plugin_metadata": {
     "cordova-plugin-crosswalk-webview-arm": "3.1.0",
     "cordova-plugin-ionic-keyboard": "2.2.0",
-    "cordova-plugin-open-blank": "0.0.2",
     "cordova-plugin-splashscreen": "5.0.3",
     "cordova-plugin-statusbar": "2.4.3",
     "cordova-plugin-whitelist": "1.3.4",
     "cordova-plugin-wkwebview-engine": "1.2.1",
     "cordova-plugin-wkwebview-file-xhr": "2.1.4",
-    "es6-promise-plugin": "4.2.2",
     "onesignal-cordova-plugin": "2.8.2"
   }
 }

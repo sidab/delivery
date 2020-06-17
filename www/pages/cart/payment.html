@@ -1,0 +1,120 @@
+<template>
+
+    <div class="page bg-color-white">
+
+        <div class="navbar navbar-large">
+
+            <div class="navbar-bg"></div>
+
+            <div class="navbar-inner sliding">
+
+                <div class="left">
+
+                    <a href="#" class="link back">
+
+                        <i class="icon icon-back"></i>
+                        <span class="ios-only">Назад</span>
+
+                    </a>
+
+                </div>
+
+                <div class="title">Оплата</div>
+
+                <div class="title-large">
+
+                    <div class="title-large-text">Оплата</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="page-content">
+
+            {{#js_if "!this.hidePreloader"}}
+
+            <div class="margin text-align-center">
+
+                <div class="preloader"></div>
+
+            </div>
+
+            {{/js_if}}
+
+            <div id="payment-form" class="margin {{#js_if "!this.hidePreloader"}}hide{{/js_if}}"></div>
+
+        </div>
+
+    </div>
+
+</template>
+
+<style scoped>
+
+    {{this}} #payment-form {
+
+
+    }
+
+    {{this}} .hide {
+                 opacity: 0;
+             }
+
+</style>
+
+<script>
+
+    return {
+
+        data: function () {
+
+            return {
+
+
+            }
+
+        },
+        methods: {
+
+        },
+        on: {
+
+            pageInit: function() {
+
+                let component = this;
+                let page = component.$el;
+
+                const checkout = new window.YandexCheckout({
+                    confirmation_token: 'ct-26760c24-000f-5000-8000-1252f6823ed7',
+                    return_url: '#',
+                    embedded_3ds: true,
+                    customization: {
+                        colors: {
+                            controlPrimary: '#ff8c00',
+                            controlPrimaryContent: '#ffffff'
+                        }
+                    },
+                    error_callback(error) {
+
+                    }
+                });
+
+                checkout.render('payment-form');
+
+                setTimeout(function () {
+
+                    component.hidePreloader = true;
+
+                    component.$update();
+
+                }, 5000);
+
+            }
+
+        }
+
+    }
+
+</script>

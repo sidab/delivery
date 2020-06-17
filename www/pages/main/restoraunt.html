@@ -32,6 +32,12 @@
 
                     <div class="right">
 
+                        <a class="link icon-only searchbar-enable" data-searchbar=".searchbar-items">
+
+                            <i class="icon f7-icons">search</i>
+
+                        </a>
+
                         <a href="#" class="link favorite-button">
 
                             <i class="icon f7-icons">bookmark</i>
@@ -40,7 +46,29 @@
 
                     </div>
 
-                    <div class="subnavbar">
+                    <form class="searchbar searchbar-items searchbar-expandable">
+
+                        <div class="searchbar-inner">
+
+                            <div class="searchbar-input-wrap">
+
+                                <input type="search" placeholder="Введите название блюда..."/>
+
+                                <i class="searchbar-icon"></i>
+
+                                <span class="input-clear-button"></span>
+
+                            </div>
+
+                            <span class="searchbar-disable-button">Отмена</span>
+
+                        </div>
+
+                    </form>
+
+                    {{#js_if "this.restoraunt.categories.length > 1"}}
+
+                    <div class="subnavbar searchbar-hide-on-enable">
 
                         <div class="subnavbar-inner categories padding-horizontal">
 
@@ -54,6 +82,8 @@
 
                     </div>
 
+                    {{/js_if}}
+
                 </div>
 
             </div>
@@ -64,7 +94,9 @@
 
             {{#if restoraunt}}
 
-                <div class="padding block-info">
+                <div class="padding block-info searchbar-hide-on-enable">
+
+                    {{#js_if "this.restoraunt.reviewsCount > 4"}}
 
                     <button class="button button-round button-outline width-auto margin-bottom color-black display-inline-block button-small sheet-open" data-sheet=".sheet-rating">
 
@@ -73,6 +105,8 @@
                         <span>{{js "this.restoraunt.rating.toFixed(1)"}} ({{restoraunt.reviews_count}})</span>
 
                     </button>
+
+                    {{/js_if}}
 
                     <div class="sheet-modal sheet-rating sheet-template-1" data-swipe-to-close="true" data-backdrop="true">
 
@@ -210,37 +244,41 @@
 
                     {{#js_if "this.restoraunt.stocks.length > 0"}}
 
-                    <div class="display-flex stocks">
+                    <div class="">
 
-                        {{#each restoraunt.stocks}}
+                        <div class="display-flex stocks">
 
-                            <div class="margin-right stock button button-round button-outline width-auto color-primary button-large sheet-open" data-sheet=".sheet-stock-{{id}}">
+                            {{#each restoraunt.stocks}}
 
-                                {{name}}
+                                <div class="margin-right stock button button-round button-outline width-auto color-primary button-large sheet-open" data-sheet=".sheet-stock-{{id}}">
 
-                            </div>
-
-                            <div class="sheet-modal sheet-stock-{{id}} sheet-template-1" data-swipe-to-close="true" data-backdrop="true">
-
-                                <div class="sheet-modal-inner">
-
-                                    <div class="swipe-handler"></div>
-
-                                    <div class="block">
-
-                                        <div class="block-title block-title-medium text-align-center">Акция</div>
-
-                                        <div class="margin text-color-gray text-align-center">{{name}}</div>
-
-                                    </div>
-
-                                    <button class="button button-large bg-color-light-gray color-black button-ok sheet-close">Хорошо</button>
+                                    {{name}}
 
                                 </div>
 
-                            </div>
+                                <div class="sheet-modal sheet-stock-{{id}} sheet-template-1" data-swipe-to-close="true" data-backdrop="true">
 
-                        {{/each}}
+                                    <div class="sheet-modal-inner">
+
+                                        <div class="swipe-handler"></div>
+
+                                        <div class="block">
+
+                                            <div class="block-title block-title-medium text-align-center">Акция</div>
+
+                                            <div class="margin text-color-gray text-align-center">{{name}}</div>
+
+                                        </div>
+
+                                        <button class="button button-large bg-color-light-gray color-black button-ok sheet-close">Хорошо</button>
+
+                                    </div>
+
+                                </div>
+
+                            {{/each}}
+
+                        </div>
 
                     </div>
 
@@ -248,53 +286,71 @@
 
                 </div>
 
-                <div class="margin display-flex categories">
+                {{#js_if "this.restoraunt.categories.length > 1"}}
 
-                    {{#each restoraunt.categories}}
+                <div class="searchbar-hide-on-enable">
 
-                        <button class="button button-round bg-color-light-gray color-black button-large button-outline" data-id="{{id}}">{{name}}</button>
+                    <div class="margin display-flex categories">
 
-                    {{/each}}
+                        {{#each restoraunt.categories}}
 
-                </div>
-
-                {{#each restoraunt.categories}}
-
-                    <div class="block-title block-title-medium category-title" data-id="{{id}}">{{name}}</div>
-
-                    <div class="row items margin" data-id="{{id}}">
-
-                        {{#each items}}
-
-                            <div @click="openItem('{{../id}}', '{{id}}')" class="item large-25 col-50 margin-bottom bg-color-white">
-
-                                {{#if image_thumb_512}}
-
-                                    <div class="item-image" style="background-image: url('{{image_thumb_512}}')"></div>
-
-                                {{/if}}
-
-                                <div class="item-info margin">
-
-                                    <div class="item-title margin-bottom">{{name}}</div>
-
-                                    <div class="row">
-
-                                        <div class="col-50 item-price">{{price}} ₽</div>
-
-                                        <div class="col-50 text-align-right item-weight text-color-gray">{{weight}}</div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
+                            <button class="button button-round bg-color-light-gray color-black button-large button-outline" data-id="{{id}}">{{name}}</button>
 
                         {{/each}}
 
                     </div>
 
-                {{/each}}
+                </div>
+
+                {{/js_if}}
+
+                <div class="searchbar-not-found margin">По вашему запросу ничего не найдено.</div>
+
+                <div class="block-items-1">
+
+                    {{#each restoraunt.categories}}
+
+                        <div class="block-items">
+
+                            <div class="block-title block-title-medium category-title" data-id="{{id}}">{{name}}</div>
+
+                            <div class="row items margin" data-id="{{id}}">
+
+                                {{#each items}}
+
+                                    <div @click="openItem('{{../id}}', '{{id}}')" class="item large-25 col-50 margin-bottom bg-color-white">
+
+                                        {{#if image_thumb_512}}
+
+                                            <div class="item-image" style="background-image: url('{{image_thumb_512}}')"></div>
+
+                                        {{/if}}
+
+                                        <div class="item-info margin">
+
+                                            <div class="item-title margin-bottom">{{name}}</div>
+
+                                            <div class="row">
+
+                                                <div class="col-50 item-price">{{price}} ₽</div>
+
+                                                <div class="col-50 text-align-right item-weight text-color-gray">{{weight}}</div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                {{/each}}
+
+                            </div>
+
+                        </div>
+
+                    {{/each}}
+
+                </div>
 
             {{else}}
 
@@ -700,6 +756,33 @@ console.log(77)
                 let page = component.$el;
 
                 component.loadRestoraunt(function () {
+
+                    let searchbar = app.searchbar.create({
+                        el: '.searchbar-items',
+                        searchContainer: '.block-items-1',
+                        searchGroup: '.block-items',
+                        searchGroupTitle: '.category-title',
+                        searchIn: '.item-title',
+                        searchItem: '.item',
+                        on: {
+                            search(sb, query, previousQuery) {
+                                console.log(query, previousQuery);
+
+                                page.find('.page-content').scrollTop(0);
+
+                            },
+                            enable: function () {
+
+                                page.find('.navbar').removeClass('subnavbar-show');
+
+                            },
+                            disable: function () {
+
+                                page.find('.navbar').removeClass('navbar-large-collapsed');
+
+                            }
+                        }
+                    });
 
                     component.checkInFavorites();
 
