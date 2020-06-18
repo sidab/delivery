@@ -18,7 +18,13 @@ Framework7.registerComponent('list-item-1', {
                             <div class="badge soon">Скоро</div>
                     
                         {{/js_if}}
+                        
+                        {{#js_if "(this.$props.reviewsCount < app.params.config.min_reviews_count_for_show_rating) && this.$props.soon === '0'"}}
+                        
+                            <div class="badge color-primary">new</div>
                     
+                        {{/js_if}}
+                        
                     </div>
     
                     <div class="item-subtitle text-color-gray">{{$props.adres}}</div>
@@ -33,7 +39,7 @@ Framework7.registerComponent('list-item-1', {
         
                         </div>
                         
-                        {{#js_if "this.$props.reviewsCount > 4"}}
+                        {{#js_if "this.$props.reviewsCount >= app.params.config.min_reviews_count_for_show_rating"}}
                         
                         <div class="item-text">
         

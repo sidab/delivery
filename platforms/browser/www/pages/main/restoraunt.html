@@ -96,9 +96,9 @@
 
                 <div class="padding block-info searchbar-hide-on-enable">
 
-                    {{#js_if "this.restoraunt.reviewsCount > 4"}}
+                    {{#js_if "this.restoraunt.reviews_count >= app.params.config.min_reviews_count_for_show_rating"}}
 
-                    <button class="button button-round button-outline width-auto margin-bottom color-black display-inline-block button-small sheet-open" data-sheet=".sheet-rating">
+                    <button @click="openReviews" class="button button-round button-outline width-auto margin-bottom color-black display-inline-block button-small sheet-open-" data-sheet=".sheet-rating">
 
                         <i class="icon f7-icons text-color-orange">star_fill</i>
 
@@ -519,6 +519,18 @@
 
         },
         methods: {
+            openReviews: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                app.views.current.router.navigate('/main/reviews', {
+                    context: {
+                        restoraunt: component.restoraunt
+                    }
+                });
+
+            },
             openItem: function (categoryId, itemId) {
 
                 let component = this;
@@ -537,8 +549,8 @@
                 });
 
                 let image = item.image ? '<div class="item-image" style="background-image: url(' + item.image_thumb + ')"><div class="overlay"></div></div>' : '';
-console.log(77)
-                if (item.sostav.length > 0) {
+
+                if (item.weight.length > 0 && item.sostav.length > 0 && item.sostav.indexOf(' • ') == -1) {
 
                     item.sostav = ' • ' + item.sostav;
 
@@ -676,7 +688,7 @@ console.log(77)
 
                                 });
 
-                                app.methods.cart.add(item, stepper.value, function () {
+                                app.methods.cart.add(item, stepper.getValue(), function () {
 
                                     sheet.close();
 
@@ -766,9 +778,20 @@ console.log(77)
                         searchItem: '.item',
                         on: {
                             search(sb, query, previousQuery) {
+                                
                                 console.log(query, previousQuery);
 
                                 page.find('.page-content').scrollTop(0);
+                                
+                                page.find('.block-items').each(function (i) {
+                                   
+                                    if ($$(this).find('.items').find('.item:not(.hidden-by-searchbar)').length > 0) {
+
+                                        $$(this).find('.category-title').removeClass('hidden-by-searchbar');
+
+                                    }
+                                    
+                                });
 
                             },
                             enable: function () {
