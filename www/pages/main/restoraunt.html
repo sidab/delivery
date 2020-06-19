@@ -322,7 +322,7 @@
 
                                         {{#if image_thumb_512}}
 
-                                            <div class="item-image" style="background-image: url('{{image_thumb_512}}')"></div>
+                                            <div class="item-image lazy lazy-fade-in" data-background="{{image_thumb_512}}"></div>
 
                                         {{/if}}
 
@@ -768,6 +768,8 @@
                 let page = component.$el;
 
                 component.loadRestoraunt(function () {
+
+                    app.lazy.create(page.find('.page-content'));
 
                     let searchbar = app.searchbar.create({
                         el: '.searchbar-items',

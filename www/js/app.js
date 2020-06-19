@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Delivery',
     theme: 'ios',
-    version: 2.3,
+    version: 2.4,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -583,6 +583,26 @@ $$(document).on('deviceready', function () {
         let time = $$(this).data('vibrateTime');
 
         navigator.vibrate(time);
+
+    });
+
+    $$(window).on('keypress', 'input textarea', function (e) {
+
+        if (e.which == 13) {
+
+            document.activeElement.blur();
+
+            $$(this).blur();
+
+        }
+
+    });
+
+    $$(window).on('scroll', function (e) {
+
+        document.activeElement.blur();
+
+        $$('input').blur();
 
     });
 
