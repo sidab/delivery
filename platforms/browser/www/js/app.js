@@ -586,7 +586,7 @@ $$(document).on('deviceready', function () {
 
     });
 
-    $$(window).on('keypress', 'input textarea', function (e) {
+    $$(window).on('keypress', 'input', function (e) {
 
         if (e.which == 13) {
 
@@ -598,7 +598,7 @@ $$(document).on('deviceready', function () {
 
     });
 
-    $$(window).on('scroll', function (e) {
+    $$(window).on('touchmove', function (e) {
 
         document.activeElement.blur();
 
