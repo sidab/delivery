@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Delivery',
     theme: 'ios',
-    version: 2.4,
+    version: 2.5,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,

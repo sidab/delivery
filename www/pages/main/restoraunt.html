@@ -767,6 +767,16 @@
                 let component = this;
                 let page = component.$el;
 
+                if (app.device.android) {
+
+                    component.loadImages = setInterval(function () {
+
+                        app.lazy.load();
+
+                    }, 100);
+
+                }
+
                 component.loadRestoraunt(function () {
 
                     app.lazy.create(page.find('.page-content'));
@@ -991,7 +1001,13 @@
             },
             pageBeforeOut: function () {
 
-                app.sheet.close()
+                app.sheet.close();
+
+                if (app.device.android) {
+
+                    clearInterval(component.loadImages);
+
+                }
 
             }
 
