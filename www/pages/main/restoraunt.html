@@ -771,7 +771,9 @@
 
                     component.loadImages = setInterval(function () {
 
-                        app.lazy.loadImage('.lazy');
+                        app.lazy.loadImage();
+
+                        page.find('.lazy').trigger('lazy');
 
                     }, 100);
 
