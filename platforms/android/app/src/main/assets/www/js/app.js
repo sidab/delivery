@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Delivery',
     theme: 'ios',
-    version: 2.5,
+    version: 2.6,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -594,6 +594,8 @@ $$(document).on('deviceready', function () {
 
             $$(this).blur();
 
+            Keyboard.hide();
+
         }
 
     });
@@ -603,6 +605,8 @@ $$(document).on('deviceready', function () {
         document.activeElement.blur();
 
         $$('input').blur();
+
+        Keyboard.hide();
 
     });
 
