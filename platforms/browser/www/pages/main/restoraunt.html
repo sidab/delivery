@@ -322,7 +322,7 @@
 
                                         {{#if image_thumb_512}}
 
-                                            <div class="item-image lazy lazy-fade-in" data-background="{{image_thumb_512}}"></div>
+                                            <div class="item-image {{#js_if "app.device.ios"}}lazy lazy-fade-in{{/js_if}}" {{#js_if "app.device.ios"}}data-background="{{image_thumb_512}}"{{else}}style="background-image: url('{{image_thumb_512}}')"{{/js_if}}></div>
 
                                         {{/if}}
 
@@ -767,21 +767,13 @@
                 let component = this;
                 let page = component.$el;
 
-                if (app.device.android) {
-
-                    component.loadImages = setInterval(function () {
-
-                        app.lazy.loadImage();
-
-                        page.find('.lazy').trigger('lazy');
-
-                    }, 100);
-
-                }
-
                 component.loadRestoraunt(function () {
 
-                    app.lazy.create(page.find('.page-content'));
+                    if (app.device.ios) {
+
+                        app.lazy.create(page.find('.page-content'));
+
+                    }
 
                     let searchbar = app.searchbar.create({
                         el: '.searchbar-items',
@@ -1004,12 +996,6 @@
             pageBeforeOut: function () {
 
                 app.sheet.close();
-
-                if (app.device.android) {
-
-                    clearInterval(component.loadImages);
-
-                }
 
             }
 
