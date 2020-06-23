@@ -301,15 +301,53 @@
                 let component = this;
                 let page = component.$el;
 
-                app.views.current.router.navigate('/cart/checkout', {
-                    context: {
-                        restoraunt: component.restoraunt,
-                        stocks: component.stocks,
-                        sum: component.sum,
-                        skidka: component.skidkaSum,
-                        totalSum: component.totalSum ? component.totalSum : component.sum
-                    }
-                });
+                if (app.params.user) {
+
+                    app.views.current.router.navigate('/cart/checkout', {
+                        context: {
+                            restoraunt: component.restoraunt,
+                            stocks: component.stocks,
+                            sum: component.sum,
+                            skidka: component.skidkaSum,
+                            totalSum: component.totalSum ? component.totalSum : component.sum
+                        }
+                    });
+
+                } else {
+
+                    let popup = app.popup.create({
+                        content: '<div class="popup popup-auth"><div class="view view-popup-auth"></div></div>',
+                        on: {
+                            open: function () {
+
+                                let view = app.views.create('.view-popup-auth');
+
+                                view.router.navigate('/profile/auth', {
+                                    context: {
+                                        fromCheckout: true
+                                    }
+                                });
+
+                            },
+                            close: function () {
+
+                                if (app.params.user) {
+
+                                    app.views.get('#view-profile').router.navigate('/profile', {
+                                        clearPreviousHistory: true
+                                    });
+
+                                    component.checkout();
+
+                                }
+
+                            }
+                        }
+                    });
+
+                    popup.open();
+
+                }
 
             },
             removeItem: function (id) {

@@ -2,9 +2,9 @@ var $$ = Dom7;
 
 var app = new Framework7({
     root: '#app',
-    name: 'Delivery',
+    name: 'Zaytoon',
     theme: 'ios',
-    version: 2.7,
+    version: 2.8,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,

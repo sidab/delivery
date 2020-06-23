@@ -2,6 +2,30 @@
 
     <div class="page">
 
+        {{#if fromCheckout}}
+
+            <div class="navbar">
+
+                <div class="navbar-inner">
+
+                    <div class="left">
+
+                        <a href="#" class="popup-close link">
+
+                            <i class="icon icon-back"></i>
+
+                            <span>Назад</span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {{/if}}
+
         <div class="page-content">
 
             <div class="block-title block-title-large text-align-center page-title">Авторизация</div>
@@ -141,7 +165,8 @@
                            app.views.current.router.navigate('/profile/auth/confirm', {
                                context: {
                                    phone: phone,
-                                   code: code
+                                   code: code,
+                                   fromCheckout: component.fromCheckout
                                }
                            });
 
