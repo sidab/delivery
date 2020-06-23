@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Delivery',
     theme: 'ios',
-    version: 2.6,
+    version: 2.7,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -78,7 +78,7 @@ var app = new Framework7({
             var app = this;
 
             app.request({
-                url: 'http://zaytoon.ru/api/config',
+                url: 'https://zaytoon.ru/api/config',
                 dataType: 'json',
                 async: false,
                 success: function (response) {
