@@ -35,6 +35,38 @@
 
             {{#if user}}
 
+            <div class="block block-strong row block-delivery-type display-none">
+
+                <div>
+
+                    <label class="radio row">
+
+                        <input type="radio" name="type" value="delivery" checked>
+
+                        <i class="icon-radio"></i>
+
+                        <span class="margin-left">Доставка</span>
+
+                    </label>
+
+                </div>
+
+                <div>
+
+                    <label class="radio row">
+
+                        <input type="radio" name="type" value="pickup">
+
+                        <i class="icon-radio"></i>
+
+                        <span class="margin-left">Самовывоз</span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
             <div class="list no-accordion-list no-hairlines-between">
 
                 <ul>
@@ -225,7 +257,7 @@
 
                                     <li>
 
-                                        <label class="item-radio item-radio-icon-start item-content">
+                                        <label class="item-radio item-radio-icon-start item-content {{#unless restoraunt.send_to_card_pay}}disabled{{/unless}}">
 
                                             <input type="radio" name="payment-method" value="send_to_card" />
 
@@ -233,7 +265,7 @@
 
                                             <div class="item-inner">
 
-                                                <div class="item-title">Перевод на карту</div>
+                                                <div class="item-title">Перевод на карту {{#unless restoraunt.send_to_card_pay}}(недоступно){{/unless}}</div>
 
                                             </div>
 
@@ -243,7 +275,7 @@
 
                                     <li>
 
-                                        <label class="item-radio item-radio-icon-start item-content disabled">
+                                        <label class="item-radio item-radio-icon-start item-content {{#unless restoraunt.card_pay}}disabled{{/unless}}">
 
                                             <input type="radio" name="payment-method" value="card" />
 
@@ -251,7 +283,7 @@
 
                                             <div class="item-inner">
 
-                                                <div class="item-title">Онлайн картой (недоступно)</div>
+                                                <div class="item-title">Онлайн картой {{#unless restoraunt.card_pay}}(недоступно){{/unless}}</div>
 
                                             </div>
 
@@ -273,7 +305,7 @@
 
                             <div class="item-inner">
 
-                                <div class="item-title">Комментарий к заказу</div>
+                                <div class="item-title">Дополнительно</div>
 
                             </div>
 
@@ -289,11 +321,69 @@
 
                                         <div class="item-inner">
 
+                                            <div class="item-title item-label">Комментарий к заказу</div>
+
                                             <div class="item-input-wrap">
 
                                                 <textarea class="comment" placeholder="Введите текст..."></textarea>
 
                                                 <span class="input-clear-button"></span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </li>
+
+                                    <li class="item-content">
+
+                                        <div class="item-inner">
+
+                                            <div class="item-title">Количество персон</div>
+
+                                            <div class="item-after">
+
+                                                <div class="stepper stepper-init color-gray">
+
+                                                    <div class="stepper-button-minus"></div>
+
+                                                    <div class="stepper-input-wrap">
+
+                                                        <input type="text" class="persons" value="0" min="0" max="100" step="1" readonly>
+
+                                                    </div>
+
+                                                    <div class="stepper-button-plus"></div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </li>
+
+                                    <li class="item-content">
+
+                                        <div class="item-inner">
+
+                                            <div class="item-title">Нужна сдача с</div>
+
+                                            <div class="item-after">
+
+                                                <div class="stepper stepper-init color-gray">
+
+                                                    <div class="stepper-button-minus"></div>
+
+                                                    <div class="stepper-input-wrap">
+
+                                                        <input type="text" class="sdacha" value="0" min="0" max="10000" step="1000" readonly>
+
+                                                    </div>
+
+                                                    <div class="stepper-button-plus"></div>
+
+                                                </div>
 
                                             </div>
 
@@ -365,6 +455,15 @@
     li.accordion-item {
         border-top: 1px solid #eee;
     }
+
+    {{this}} .stepper .stepper-input-wrap input {
+        width: 65px
+             }
+
+    {{this}} .block-delivery-type {
+                 line-height: 22px;
+                 font-size: 18px;
+             }
 
     @media only screen and (max-device-width: 375px) {
     {{this}} {
@@ -567,6 +666,10 @@
 
                 let comment = page.find('.comment').val();
 
+                let sdacha = page.find('.sdacha').val();
+
+                let persons = page.find('.persons').val();
+
                 let paymentMethod = page.find('input[name="payment-method"]:checked').val();
 
                 let phone = component.phone;
@@ -585,8 +688,11 @@
 
                 let adres = page.find('.adres').find('.active').data('id');
 
+                let firstname = page.find('.firstname').val();
+
                 let data = {
                     user: phone,
+                    name: firstname,
                     adres: adres,
                     restoraunt: restoraunt,
                     comment: comment,
@@ -595,7 +701,9 @@
                     stocks: stocks.join(),
                     sum: component.sum,
                     skidka: component.skidka,
-                    totalSum: component.totalSum
+                    totalSum: component.totalSum,
+                    persons: persons,
+                    sdacha: sdacha
                 };
 
                 page.find('.button').find('.preloader').removeClass('display-none');
@@ -668,19 +776,15 @@
                 let component = this;
                 let page = component.$el;
 
-                if (app.params.user) {
+                component.loadUserInfo();
 
-                    component.loadUserInfo();
+                component.loadUserAdres();
 
-                    component.loadUserAdres();
+                app.once('cart:change', function () {
 
-                } else {
+                    app.views.get('#view-cart').router.back();
 
-                    let phoneMask = new IMask(page.find('.phone')[0], {
-                        mask: '+{7}(000)000-00-00'
-                    });
-
-                }
+                });
 
             }
 
