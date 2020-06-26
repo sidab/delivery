@@ -1,6 +1,6 @@
 <template>
 
-    <div class="page bg-color-white" data-name="checkout">
+    <div class="page" data-name="checkout">
 
         <div class="navbar navbar-large">
 
@@ -33,305 +33,275 @@
 
         <div class="page-content">
 
-            <div class="list">
+            {{#if user}}
+
+            <div class="list no-accordion-list no-hairlines-between">
 
                 <ul>
 
-                    {{#js_if "app.params.user"}}
+                    <li class="accordion-item {{#js_if "this.user.firstname === 'Новый Пользователь'"}}accordion-item-opened{{/js_if}}">
 
-                        {{#if user}}
-
-                            <li class="item-content item-input item-input-outline">
-
-                                <div class="item-inner">
-
-                                    <div class="item-title item-label">Имя</div>
-
-                                    <div class="item-input-wrap">
-
-                                        <input type="text" class="firstname" value="{{user.firstname}}">
-                                        <span class="input-clear-button"></span>
-
-                                    </div>
-
-                                </div>
-
-                            </li>
-
-                            <li class="item-content item-input item-input-outline">
-
-                                <div class="item-inner">
-
-                                    <div class="item-title item-label">Номер телефона</div>
-
-                                    <div class="item-input-wrap">
-
-                                        <input type="tel" class="phone disabled" value="{{user.phone}}" readonly>
-                                        <span class="input-clear-button"></span>
-
-                                    </div>
-
-                                </div>
-
-                            </li>
-
-                        {{else}}
-
-                            <div class="padding text-align-center">
-
-                                <div class="preloader"></div>
-
-                            </div>
-
-                        {{/if}}
-
-                    {{else}}
-
-                        <li class="item-content item-input item-input-outline">
+                        <a href="#" class="item-link item-content">
 
                             <div class="item-inner">
 
-                                <div class="item-title item-label">Имя</div>
-
-                                <div class="item-input-wrap">
-
-                                    <input type="text" class="firstname input-focused" placeholder="Ваше имя">
-                                    <span class="input-clear-button"></span>
-
-                                </div>
+                                <div class="item-title">Личная информация</div>
 
                             </div>
 
-                        </li>
+                        </a>
 
-                        <li class="item-content item-input item-input-outline">
+                        <div class="accordion-item-content">
+
+                            <div class="list">
+
+                                <ul>
+
+                                    <li class="item-content item-input item-input-outline">
+
+                                        <div class="item-inner">
+
+                                            <div class="item-title item-label">Имя</div>
+
+                                            <div class="item-input-wrap">
+
+                                                <input type="text" class="firstname" value="{{user.firstname}}">
+                                                <span class="input-clear-button"></span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </li>
+
+                                    <li class="item-content item-input item-input-outline">
+
+                                        <div class="item-inner">
+
+                                            <div class="item-title item-label">Номер телефона</div>
+
+                                            <div class="item-input-wrap">
+
+                                                <input type="tel" class="phone disabled" value="{{user.phone}}" readonly>
+                                                <span class="input-clear-button"></span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </li>
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </li>
+
+                    <li class="accordion-item accordion-item-opened">
+
+                        <a href="#" class="item-link item-content">
 
                             <div class="item-inner">
 
-                                <div class="item-title item-label">Номер телефона</div>
+                                <div class="item-title">Адрес доставки</div>
 
-                                <div class="item-input-wrap">
+                            </div>
 
-                                    <input type="tel" class="phone input-focused" placeholder="+7(999)999-99-99">
-                                    <span class="input-clear-button"></span>
+                        </a>
+
+                        <div class="accordion-item-content">
+
+                            <div class="block-title margin-top row">
+
+                                <div>Мои адреса:</div>
+
+                                <div @click="addAdres">
+
+                                    <i class="icon f7-icons text-color-primary">plus_circle_fill</i>
+
+                                    <span class="text-color-primary">Добавить</span>
 
                                 </div>
 
                             </div>
 
-                        </li>
+                            {{#js_if "this.adres && this.adres.length > 0"}}
 
-                    {{/js_if}}
+                                <div class="adres margin">
 
-                </ul>
+                                    {{#each adres}}
 
-            </div>
+                                        <div @click="chooseAdres('{{id}}')" data-id="{{id}}" class="item padding margin-bottom {{#js_if "this.@index === 0"}}active{{/js_if}}">
 
-            {{#js_if "this.adres && this.adres.length > 0"}}
+                                            г. {{city}}
 
-                <div class="block-title">Мои адреса:</div>
+                                            {{#js_if "this.street && this.street.length > 0"}}
 
-                <div class="adres margin">
+                                                Улица: {{street}}
 
-                    {{#each adres}}
+                                            {{/js_if}}
 
-                        <div @click="chooseAdres('{{id}}')" data-id="{{id}}" class="item padding margin-bottom {{#js_if "this.@index === 0"}}active{{/js_if}}">
+                                            {{#js_if "this.house && this.house.length > 0"}}
 
-                            г. {{city}}
+                                                Дом: {{house}}
 
-                            {{#js_if "this.street && this.street.length > 0"}}
+                                            {{/js_if}}
 
-                                Улица: {{street}}
+                                            {{#js_if "this.podezd && this.podezd.length > 0"}}
 
-                            {{/js_if}}
+                                                Подъезд: {{podezd}}
 
-                            {{#js_if "this.house && this.house.length > 0"}}
+                                            {{/js_if}}
 
-                                Дом: {{house}}
+                                            {{#js_if "this.floor && this.floor.length > 0"}}
 
-                            {{/js_if}}
+                                                Этаж: {{floor}}
 
-                            {{#js_if "this.podezd && this.podezd.length > 0"}}
+                                            {{/js_if}}
 
-                                Подъезд: {{podezd}}
+                                            {{#js_if "this.apartament_number && this.apartament_number.length > 0"}}
 
-                            {{/js_if}}
+                                                Квартира: {{apartament_number}}
 
-                            {{#js_if "this.floor && this.floor.length > 0"}}
+                                            {{/js_if}}
 
-                                Этаж: {{floor}}
+                                        </div>
 
-                            {{/js_if}}
+                                    {{/each}}
 
-                            {{#js_if "this.apartament_number && this.apartament_number.length > 0"}}
+                                </div>
 
-                                Квартира: {{apartament_number}}
+                            {{else}}
+
+                                <div class="margin">
+
+                                    У вас нет сохраненных адресов.
+
+                                </div>
 
                             {{/js_if}}
 
                         </div>
 
-                    {{/each}}
+                    </li>
 
-                </div>
+                    <li class="accordion-item">
 
-                <div class="margin">
-
-                    <button @click="addAdres" class="button button-large bg-color-light-gray color-black button-ok">
-
-                        <i class="icon f7-icons">plus</i>
-
-                        <span>Добавить новый адрес</span>
-
-                    </button>
-
-                </div>
-
-            {{else}}
-
-                <div class="block-title">Адрес</div>
-
-                <div class="list">
-
-                    <ul>
-
-                        <li class="item-content item-input item-input-outline">
+                        <a href="#" class="item-link item-content">
 
                             <div class="item-inner">
 
-                                <div class="item-title item-label">Город</div>
-
-                                <div class="item-input-wrap">
-
-                                    <input type="text" class="city disabled" value="{{restoraunt.city}}" disabled readonly>
-
-                                    <span class="input-clear-button"></span>
-
-                                </div>
+                                <div class="item-title">Способ оплаты</div>
 
                             </div>
 
-                        </li>
+                        </a>
 
-                        <li class="item-content item-input item-input-outline">
+                        <div class="accordion-item-content">
+
+                            <div class="list">
+
+                                <ul>
+
+                                    <li>
+
+                                        <label class="item-radio item-radio-icon-start item-content">
+
+                                            <input type="radio" name="payment-method" value="cash" checked />
+
+                                            <i class="icon icon-radio"></i>
+
+                                            <div class="item-inner">
+
+                                                <div class="item-title">Наличными</div>
+
+                                            </div>
+
+                                        </label>
+
+                                    </li>
+
+                                    <li>
+
+                                        <label class="item-radio item-radio-icon-start item-content">
+
+                                            <input type="radio" name="payment-method" value="send_to_card" />
+
+                                            <i class="icon icon-radio"></i>
+
+                                            <div class="item-inner">
+
+                                                <div class="item-title">Перевод на карту</div>
+
+                                            </div>
+
+                                        </label>
+
+                                    </li>
+
+                                    <li>
+
+                                        <label class="item-radio item-radio-icon-start item-content disabled">
+
+                                            <input type="radio" name="payment-method" value="card" />
+
+                                            <i class="icon icon-radio"></i>
+
+                                            <div class="item-inner">
+
+                                                <div class="item-title">Онлайн картой (недоступно)</div>
+
+                                            </div>
+
+                                        </label>
+
+                                    </li>
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </li>
+
+                    <li class="accordion-item">
+
+                        <a href="#" class="item-link item-content">
 
                             <div class="item-inner">
 
-                                <div class="item-title item-label">Улица</div>
-
-                                <div class="item-input-wrap">
-
-                                    <input type="text" class="street" placeholder="">
-
-                                    <span class="input-clear-button"></span>
-
-                                </div>
+                                <div class="item-title">Комментарий к заказу</div>
 
                             </div>
 
-                        </li>
+                        </a>
 
-                        <div class="row">
+                        <div class="accordion-item-content">
 
-                            <li class="item-content item-input item-input-outline col-50">
+                            <div class="list">
 
-                                <div class="item-inner">
+                                <ul>
 
-                                    <div class="item-title item-label">Дом</div>
+                                    <li class="item-content item-input item-input-outline">
 
-                                    <div class="item-input-wrap">
+                                        <div class="item-inner">
 
-                                        <input type="text" class="house" placeholder="">
+                                            <div class="item-input-wrap">
 
-                                        <span class="input-clear-button"></span>
+                                                <textarea class="comment" placeholder="Введите текст..."></textarea>
 
-                                    </div>
+                                                <span class="input-clear-button"></span>
 
-                                </div>
+                                            </div>
 
-                            </li>
+                                        </div>
 
-                            <li class="item-content item-input item-input-outline col-50">
+                                    </li>
 
-                                <div class="item-inner">
-
-                                    <div class="item-title item-label">Подъезд</div>
-
-                                    <div class="item-input-wrap">
-
-                                        <input type="text" class="podezd" placeholder="">
-
-                                        <span class="input-clear-button"></span>
-
-                                    </div>
-
-                                </div>
-
-                            </li>
-
-                        </div>
-
-                        <div class="row">
-
-                            <li class="item-content item-input item-input-outline col-50">
-
-                                <div class="item-inner">
-
-                                    <div class="item-title item-label">Этаж</div>
-
-                                    <div class="item-input-wrap">
-
-                                        <input type="text" class="floor" placeholder="">
-
-                                        <span class="input-clear-button"></span>
-
-                                    </div>
-
-                                </div>
-
-                            </li>
-
-                            <li class="item-content item-input item-input-outline col-50">
-
-                                <div class="item-inner">
-
-                                    <div class="item-title item-label">Квартира</div>
-
-                                    <div class="item-input-wrap">
-
-                                        <input type="text" class="apartament" placeholder="">
-
-                                        <span class="input-clear-button"></span>
-
-                                    </div>
-
-                                </div>
-
-                            </li>
-
-                        </div>
-
-                    </ul>
-
-                </div>
-
-            {{/js_if}}
-
-            <div class="list">
-
-                <ul>
-
-                    <li class="item-content item-input item-input-outline">
-
-                        <div class="item-inner">
-
-                            <div class="item-title item-label">Комментарий к заказу</div>
-
-                            <div class="item-input-wrap">
-
-                                <textarea class="comment"></textarea>
-
-                                <span class="input-clear-button"></span>
+                                </ul>
 
                             </div>
 
@@ -354,6 +324,16 @@
                 </button>
 
             </div>
+
+            {{else}}
+
+            <div class="margin text-align-center">
+
+                <div class="preloader"></div>
+
+            </div>
+
+            {{/if}}
 
         </div>
 
@@ -378,6 +358,24 @@
                  border-color: var(--f7-theme-color);
              }
 
+    {{this}} .accordion-item-content, .accordion-item-content ul {
+                 background: #FAFAFA;
+             }
+
+    li.accordion-item {
+        border-top: 1px solid #eee;
+    }
+
+    @media only screen and (max-device-width: 375px) {
+    {{this}} {
+        --f7-navbar-large-title-font-size: 30px;
+    }
+    }
+    @media only screen and (max-device-width: 320px) {
+    {{this}} {
+        --f7-navbar-large-title-font-size: 26px;
+    }
+    }
 </style>
 
 <script>
@@ -441,7 +439,6 @@
 
                 let phone = page.find('.phone').val().replace(/\D+/g,"");
                 let name = page.find('.firstname').val();
-                let street = page.find('.street').val();
 
                 if (phone.length === 0) {
 
@@ -459,9 +456,9 @@
 
                 }
 
-                if (page.find('.adres').find('.active').length === 0 && street.length === 0) {
+                if (page.find('.adres').find('.active').length === 0) {
 
-                    app.dialog.alert('', 'Введите название улицы');
+                    app.dialog.alert('', 'Укажите свой адрес!');
 
                     return false;
 
@@ -570,6 +567,8 @@
 
                 let comment = page.find('.comment').val();
 
+                let paymentMethod = page.find('input[name="payment-method"]:checked').val();
+
                 let phone = component.phone;
 
                 let stocks = [];
@@ -584,55 +583,20 @@
 
                 }
 
-                let data;
+                let adres = page.find('.adres').find('.active').data('id');
 
-                if (page.find('.adres').find('.active').length > 0) {
-
-                    let adres = page.find('.adres').find('.active').data('id');
-
-                    data = {
-                        user: phone,
-                        adres: adres,
-                        restoraunt: restoraunt,
-                        comment: comment,
-                        items: items,
-                        stocks: stocks.join(),
-                        sum: component.sum,
-                        skidka: component.skidka,
-                        totalSum: component.totalSum
-                    };
-
-                } else {
-
-                    let name = page.find('.firstname').val();
-                    let city = page.find('.city').val();
-                    let street = page.find('.street').val();
-                    let house = page.find('.house').val();
-                    let podezd = page.find('.podezd').val();
-                    let floor = page.find('.floor').val();
-                    let apartament = page.find('.apartament').val();
-
-                    data = {
-                        user: phone,
-                        name: name,
-                        city: city,
-                        street: street,
-                        house: house,
-                        podezd: podezd,
-                        floor: floor,
-                        apartament: apartament,
-                        restoraunt: restoraunt,
-                        comment: comment,
-                        items: items,
-                        stocks: stocks.join(),
-                        sum: component.sum,
-                        skidka: component.skidka,
-                        totalSum: component.totalSum
-                    };
-
-                    console.log(data);
-
-                }
+                let data = {
+                    user: phone,
+                    adres: adres,
+                    restoraunt: restoraunt,
+                    comment: comment,
+                    paymentMethod: paymentMethod,
+                    items: items,
+                    stocks: stocks.join(),
+                    sum: component.sum,
+                    skidka: component.skidka,
+                    totalSum: component.totalSum
+                };
 
                 page.find('.button').find('.preloader').removeClass('display-none');
 
