@@ -20,11 +20,43 @@
 
                 </div>
 
-                <div class="title">{{#if restoraunt}}{{restoraunt.name}}{{else}}<div class="skeleton-block" style="width: 100px;"></div>{{/if}}</div>
+                <div class="title">
+
+                    {{#if restoraunt}}
+
+                        {{restoraunt.name}}
+
+                    {{else}}
+
+                        {{#if showSkeleton}}
+
+                            <div class="skeleton-block" style="width: 100px;"></div>
+
+                        {{/if}}
+
+                    {{/if}}
+
+                </div>
 
                 <div class="title-large">
 
-                    <div class="title-large-text">{{#if restoraunt}}{{restoraunt.name}}{{else}}<div class="skeleton-block" style="width: 190px;"></div>{{/if}}</div>
+                    <div class="title-large-text">
+
+                        {{#if restoraunt}}
+
+                            {{restoraunt.name}}
+
+                        {{else}}
+
+                            {{#if showSkeleton}}
+
+                                <div class="skeleton-block" style="width: 190px;"></div>
+
+                            {{/if}}
+
+                        {{/if}}
+
+                    </div>
 
                 </div>
 
