@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 3.0,
+    version: 3.1,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
