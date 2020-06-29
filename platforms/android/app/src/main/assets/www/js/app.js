@@ -55,7 +55,7 @@ var app = new Framework7({
         }
     },
     lazy: {
-        placeholder: 'img/no_image.png',
+        placeholder: 'data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==',
         threshold: 1000,
         sequential: false
     },

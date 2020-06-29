@@ -2,95 +2,91 @@
 
     <div class="page">
 
-        {{#if restoraunt}}
+        <div class="navbar navbar-large">
 
-            <div class="navbar navbar-large">
+            <div class="navbar-bg"></div>
 
-                <div class="navbar-bg"></div>
+            <div class="navbar-inner">
 
-                <div class="navbar-inner">
+                <div class="left">
 
-                    <div class="left">
+                    <a href="#" class="back link">
 
-                        <a href="#" class="back link">
+                        <i class="icon icon-back"></i>
 
-                            <i class="icon icon-back"></i>
+                        <span>Назад</span>
 
-                            <span>Назад</span>
-
-                        </a>
-
-                    </div>
-
-                    <div class="title">{{restoraunt.name}}</div>
-
-                    <div class="title-large">
-
-                        <div class="title-large-text">{{restoraunt.name}}</div>
-
-                    </div>
-
-                    <div class="right">
-
-                        <a class="link icon-only searchbar-enable" data-searchbar=".searchbar-items">
-
-                            <i class="icon f7-icons">search</i>
-
-                        </a>
-
-                        <a href="#" class="link favorite-button">
-
-                            <i class="icon f7-icons">bookmark</i>
-
-                        </a>
-
-                    </div>
-
-                    <form class="searchbar searchbar-items searchbar-expandable">
-
-                        <div class="searchbar-inner">
-
-                            <div class="searchbar-input-wrap">
-
-                                <input type="search" placeholder="Введите название блюда..."/>
-
-                                <i class="searchbar-icon"></i>
-
-                                <span class="input-clear-button"></span>
-
-                            </div>
-
-                            <span class="searchbar-disable-button">Отмена</span>
-
-                        </div>
-
-                    </form>
-
-                    {{#js_if "this.restoraunt.categories.length > 1"}}
-
-                    <div class="subnavbar searchbar-hide-on-enable">
-
-                        <div class="subnavbar-inner categories padding-horizontal">
-
-                            {{#each restoraunt.categories}}
-
-                                <button class="button button-round bg-color-light-gray color-black button-large button-outline" data-id="{{id}}">{{name}}</button>
-
-                            {{/each}}
-
-                        </div>
-
-                    </div>
-
-                    {{/js_if}}
+                    </a>
 
                 </div>
 
+                <div class="title">{{#if restoraunt}}{{restoraunt.name}}{{else}}<div class="skeleton-block" style="width: 100px;"></div>{{/if}}</div>
+
+                <div class="title-large">
+
+                    <div class="title-large-text">{{#if restoraunt}}{{restoraunt.name}}{{else}}<div class="skeleton-block" style="width: 190px;"></div>{{/if}}</div>
+
+                </div>
+
+                <div class="right">
+
+                    <a class="link icon-only searchbar-enable" data-searchbar=".searchbar-items">
+
+                        <i class="icon f7-icons">search</i>
+
+                    </a>
+
+                    <a href="#" class="link favorite-button">
+
+                        <i class="icon f7-icons">bookmark</i>
+
+                    </a>
+
+                </div>
+
+                <form class="searchbar searchbar-items searchbar-expandable">
+
+                    <div class="searchbar-inner">
+
+                        <div class="searchbar-input-wrap">
+
+                            <input type="search" placeholder="Введите название блюда..."/>
+
+                            <i class="searchbar-icon"></i>
+
+                            <span class="input-clear-button"></span>
+
+                        </div>
+
+                        <span class="searchbar-disable-button">Отмена</span>
+
+                    </div>
+
+                </form>
+
+                {{#js_if "this.restoraunt && this.restoraunt.categories.length > 1"}}
+
+                <div class="subnavbar searchbar-hide-on-enable">
+
+                    <div class="subnavbar-inner categories padding-horizontal">
+
+                        {{#each restoraunt.categories}}
+
+                            <button class="button button-round bg-color-light-gray color-black button-large button-outline" data-id="{{id}}">{{name}}</button>
+
+                        {{/each}}
+
+                    </div>
+
+                </div>
+
+                {{/js_if}}
+
             </div>
 
-        {{/if}}
+        </div>
 
-        <div class="page-content {{#if restoraunt}}loaded{{/if}}">
+        <div class="page-content">
 
             {{#if restoraunt}}
 
@@ -354,65 +350,53 @@
 
             {{else}}
 
-            <div class="skeleton-effect-blink">
+                {{#if showSkeleton}}
 
-                <div class="row margin">
+                    <div class="skeleton-effect-blink">
 
-                    <div class="skeleton-block col" style="width: 67px; height: 20px;"></div>
+                        <div class="margin display-flex categories">
 
-                    <div class="col">
+                            {{#each '123456789'}}
 
-                        <div class="skeleton-block display-inline-block float-right margin-left" style="width: 40px; height: 20px;"></div>
+                                <div class="skeleton-block button-round button" style="width: 130px; height: 44px;"></div>
 
-                        <div class="skeleton-block display-inline-block float-right" style="width: 40px; height: 20px;"></div>
+                            {{/each}}
 
-                    </div>
+                        </div>
 
-                </div>
+                        <div class="block-title block-title-medium category-title skeleton-text">_____________</div>
 
-                <div class="skeleton-block margin-horizontal" style="width: 190px; height: 52px; margin-bottom: 60px; margin-top: 30px;"></div>
+                        <div class="row items margin">
 
-                <div class="margin display-flex categories">
+                            {{#each '123456789'}}
 
-                    {{#each '123456789'}}
+                                <div class="item large-25 col-50 margin-bottom bg-color-white skeleton-text">
 
-                        <div class="skeleton-block button-round button" style="width: 130px; height: 44px;"></div>
+                                    <div class="skeleton-block" style="width: 100%; height: 100px;"></div>
 
-                    {{/each}}
+                                    <div class="item-info margin">
 
-                </div>
+                                        <div class="item-title margin-bottom">____ _____</div>
 
-                <div class="block-title block-title-medium category-title skeleton-text">_____________</div>
+                                        <div class="row">
 
-                    <div class="row items margin">
+                                            <div class="col-50 item-price">____</div>
 
-                        {{#each '123456789'}}
+                                            <div class="col-50 text-align-right item-weight text-color-gray">____</div>
 
-                            <div class="item large-25 col-50 margin-bottom bg-color-white skeleton-text">
-
-                                <div class="skeleton-block" style="width: 100%; height: 100px;"></div>
-
-                                <div class="item-info margin">
-
-                                    <div class="item-title margin-bottom">____ _____</div>
-
-                                    <div class="row">
-
-                                        <div class="col-50 item-price">____</div>
-
-                                        <div class="col-50 text-align-right item-weight text-color-gray">____</div>
+                                        </div>
 
                                     </div>
 
                                 </div>
 
-                            </div>
+                            {{/each}}
 
-                        {{/each}}
+                        </div>
 
                     </div>
 
-                </div>
+                {{/if}}
 
             {{/if}}
 
@@ -428,7 +412,7 @@
         background: #F5F5F5;
     }
 
-    {{this}} .page-content.loaded {
+    {{this}} .page-content {
         --f7-page-navbar-offset: calc(var(--f7-navbar-height) + var(--f7-navbar-large-title-height) + var(--f7-safe-area-top));
         padding-bottom: 150px;
     }
@@ -482,6 +466,7 @@
                  background-repeat: no-repeat;
                  background-position: center;
                  background-size: cover;
+                 background-color: #E0E0E0;
              }
 
     {{this}} .items .item .item-info {
@@ -763,6 +748,14 @@
                 let page = component.$el;
 
                 let id = component.$router.currentRoute.params.id;
+
+                setTimeout(function () {
+
+                    component.showSkeleton = true;
+
+                    component.$update();
+
+                }, 300);
 
                 app.request({
                    url: app.params.config.backend + '/api/restoraunt',
