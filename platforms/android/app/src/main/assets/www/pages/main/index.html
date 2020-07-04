@@ -141,9 +141,19 @@
 
             {{else}}
 
-                <div class="margin text-align-center">
+                <div class="row padding categories">
 
-                    <div class="preloader"></div>
+                    {{#each '123456879'}}
+
+                    <div class="item large-33 col-50 margin-bottom bg-color-white skeleton-effect-blink">
+
+                        <div class="item-image skeleton-block"></div>
+
+                        <div class="item-title margin skeleton-text">___________</div>
+
+                    </div>
+
+                    {{/each}}
 
                 </div>
 
@@ -514,7 +524,7 @@
 
                 let component = this;
                 let page = component.$el;
-console.log(41)
+
                 component.loadCities();
 
                 component.loadCategories(function () {

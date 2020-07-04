@@ -23,11 +23,13 @@
       "cordova-plugin-wkwebview-file-xhr": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   },
   "dependencies": {
     "cordova-android": "^8.1.0",
+    "cordova-ios": "^5.1.1",
     "cordova-plugin-crosswalk-webview-arm": "^3.1.0",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-vibration": "3.1.1",

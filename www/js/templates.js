@@ -26,7 +26,7 @@ Framework7.registerComponent('list-item-1', {
                         {{/js_if}}
                         
                     </div>
-    
+                            
                     <div class="item-subtitle text-color-gray">{{$props.adres}}</div>
         
                     {{#js_if "this.$props.soon === '0'"}}
