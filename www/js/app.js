@@ -447,6 +447,20 @@ var app = new Framework7({
                 app.emit('cart:change');
 
             }
+        },
+        getMinutes: function (str) {
+
+            let time = str.split(':');
+
+            return time[0] * 60 + time[1] * 1;
+
+        },
+        getMinutesNow: function (str) {
+
+            let timeNow = new Date();
+
+            return timeNow.getHours() * 60 + timeNow.getMinutes();
+
         }
     },
     on: {
