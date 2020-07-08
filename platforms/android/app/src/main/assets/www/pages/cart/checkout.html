@@ -35,13 +35,13 @@
 
             {{#if user}}
 
-            <div class="block block-strong row block-delivery-type display-none">
+            <div class="block block-strong row block-delivery-type">
 
                 <div>
 
                     <label class="radio row">
 
-                        <input type="radio" name="type" value="delivery" checked>
+                        <input type="radio" name="order-type" value="delivery" checked>
 
                         <i class="icon-radio"></i>
 
@@ -55,7 +55,7 @@
 
                     <label class="radio row">
 
-                        <input type="radio" name="type" value="pickup">
+                        <input type="radio" name="order-type" value="pickup">
 
                         <i class="icon-radio"></i>
 
@@ -131,6 +131,7 @@
 
                     </li>
 
+                    {{#unless pickup}}
                     <li class="accordion-item accordion-item-opened">
 
                         <a href="#" class="item-link item-content">
@@ -218,6 +219,31 @@
                         </div>
 
                     </li>
+                    {{/unless}}
+
+                    {{#if pickup}}
+
+                        <li class="accordion-item accordion-item-opened">
+
+                            <a href="#" class="item-link item-content">
+
+                                <div class="item-inner">
+
+                                    <div class="item-title">Адрес для самовывоза</div>
+
+                                </div>
+
+                            </a>
+
+                            <div class="accordion-item-content">
+
+                                <div class="margin"><b>г. {{restoraunt.city}} {{restoraunt.adres}}</b></div>
+
+                            </div>
+
+                        </li>
+
+                    {{/if}}
 
                     <li class="accordion-item">
 
@@ -363,6 +389,7 @@
 
                                     </li>
 
+                                    {{#unless pickup}}
                                     <li class="item-content">
 
                                         <div class="item-inner">
@@ -390,6 +417,7 @@
                                         </div>
 
                                     </li>
+                                    {{/unless}}
 
                                 </ul>
 
@@ -555,7 +583,7 @@
 
                 }
 
-                if (page.find('.adres').find('.active').length === 0) {
+                if (page.find('.adres').find('.active').length === 0 && !component.pickup) {
 
                     app.dialog.alert('', 'Укажите свой адрес!');
 
@@ -726,7 +754,7 @@
                 });
 
             },
-            loadUserInfo: function () {
+            loadUserInfo: function (callback) {
 
                 let component = this;
                 let page = component.$el;
@@ -741,7 +769,15 @@
 
                         component.user = response;
 
-                        component.$update();
+                        component.$update(function () {
+
+                            if (callback) {
+
+                                callback();
+
+                            }
+
+                        });
 
                     }
                 });
@@ -776,7 +812,27 @@
                 let component = this;
                 let page = component.$el;
 
-                component.loadUserInfo();
+                component.loadUserInfo(function () {
+
+                    page.find('input[name="order-type"]').on('change', function () {
+
+                        let order_type = page.find('input[name="order-type"]:checked').val();
+
+                        if (order_type === 'pickup') {
+
+                            component.pickup = true;
+
+                        } else {
+
+                            component.pickup = false;
+
+                        }
+
+                        component.$update();
+
+                    });
+
+                });
 
                 component.loadUserAdres();
 

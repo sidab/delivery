@@ -4,10 +4,11 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 3.1,
+    version: 3.4,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
+    config: localStorage.config ? JSON.parse(localStorage.config) : null,
     dialog: {
         buttonOk: 'Ок',
         buttonCancel: 'Отмена'
@@ -447,6 +448,20 @@ var app = new Framework7({
                 app.emit('cart:change');
 
             }
+        },
+        getMinutes: function (str) {
+
+            let time = str.split(':');
+
+            return time[0] * 60 + time[1] * 1;
+
+        },
+        getMinutesNow: function (str) {
+
+            let timeNow = new Date();
+
+            return timeNow.getHours() * 60 + timeNow.getMinutes();
+
         }
     },
     on: {

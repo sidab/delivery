@@ -4,10 +4,11 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 3.3,
+    version: 3.4,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
+    config: localStorage.config ? JSON.parse(localStorage.config) : null,
     dialog: {
         buttonOk: 'Ок',
         buttonCancel: 'Отмена'

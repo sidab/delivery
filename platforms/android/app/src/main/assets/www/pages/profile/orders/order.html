@@ -93,9 +93,41 @@
 
                     </li>
 
+                    {{#unless order.adres_id}}
+
+                    <li class="item-content">
+
+                        <div class="item-inner">
+
+                            <div class="item-title">Тип доставки</div>
+
+                            <div class="item-after">Самовывоз</div>
+
+                        </div>
+
+                    </li>
+
+                    {{/unless}}
+
                 </ul>
 
             </div>
+
+            {{#if restoraunt}}
+
+                {{#unless order.adres_id}}
+
+                    <div class="block-title">Адрес самовывоза</div>
+
+                    <div class="block block-strong">
+
+                        г. {{restoraunt.city}} {{restoraunt.adres}}
+
+                    </div>
+
+                {{/unless}}
+
+            {{/if}}
 
             {{#if order.adres}}
 
@@ -291,6 +323,27 @@
                     }
                 });
 
+            },
+            loadRestoraunt: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                app.request({
+                    url: app.params.config.backend + '/api/restoraunt-info',
+                    dataType: 'json',
+                    data: {
+                        id: component.order.restoraunt_id
+                    },
+                    success: function (response) {
+
+                        component.restoraunt = response;
+
+                        component.$update();
+
+                    }
+                })
+
             }
         },
         on: {
@@ -299,6 +352,8 @@
 
                 let component = this;
                 let page = component.$el;
+
+                component.loadRestoraunt();
 
             }
 
