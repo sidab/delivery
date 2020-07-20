@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 3.6,
+    version: 3.8,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -37,7 +37,7 @@ var app = new Framework7({
         //mdPageLoadDelay: 100,
         stackPages: true,
         preloadPreviousPage: true,
-        removeElements: false,
+        removeElements: true,
         iosSwipeBack: true,
         mdSwipeBack: true,
         iosSwipeBackAnimateShadow: false,
@@ -503,7 +503,7 @@ $$(document).on('deviceready', function () {
 
         navigator.splashscreen.hide();
 
-    }, 1500);
+    }, 500);
 
     app.init();
 
@@ -617,11 +617,17 @@ $$(document).on('deviceready', function () {
 
     $$(window).on('touchmove', function (e) {
 
-        document.activeElement.blur();
+        let activeElement = $$(document.activeElement)[0];
 
-        $$('input').blur();
+        if (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA') {
 
-        Keyboard.hide();
+            document.activeElement.blur();
+
+            $$('input').blur();
+
+            Keyboard.hide();
+
+        }
 
     });
 

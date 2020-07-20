@@ -1,6 +1,6 @@
 <template>
 
-    <div class="page">
+    <div class="page no-swipeback">
 
         <div class="navbar navbar-large">
 
@@ -272,15 +272,19 @@
 
                     {{#js_if "this.restoraunt.stocks.length > 0"}}
 
-                    <div class="">
+                        <div class="block-title no-margin-top no-margin-horizontal">Акции</div>
 
                         <div class="display-flex stocks">
 
                             {{#each restoraunt.stocks}}
 
-                                <div class="margin-right stock button button-round button-outline width-auto color-primary button-large sheet-open" data-sheet=".sheet-stock-{{id}}">
+                                <div class="margin-right stock width-auto text-color-black sheet-open border-color-primary" data-sheet=".sheet-stock-{{id}}">
 
-                                    {{name}}
+                                    <div class="stock-inner">
+
+                                        <div class="stock-name">{{#js_if "this.name.length > 100"}}{{js "this.name.substring(0, 100)"}}...{{else}}{{js "this.name"}}{{/js_if}}</div>
+
+                                    </div>
 
                                 </div>
 
@@ -307,8 +311,6 @@
                             {{/each}}
 
                         </div>
-
-                    </div>
 
                     {{/js_if}}
 
@@ -403,7 +405,7 @@
                             {{#each '123456789'}}
 
                                 <div class="item large-25 col-50 margin-bottom bg-color-white skeleton-text">
-
+    0
                                     <div class="skeleton-block" style="width: 100%; height: 100px;"></div>
 
                                     <div class="item-info margin">
@@ -444,10 +446,22 @@
         background: #F5F5F5;
     }
 
+    {{this}} .navbar-hidden * {
+        opacity: 0 !important;
+    }
+
     {{this}} .page-content {
         --f7-page-navbar-offset: calc(var(--f7-navbar-height) + var(--f7-navbar-large-title-height) + var(--f7-safe-area-top));
         padding-bottom: 150px;
     }
+
+    {{this}} .block-info::-webkit-scrollbar {
+        display: none;
+    }
+
+    {{this}} .block-info *::-webkit-scrollbar {
+                 display: none;
+             }
 
     {{this}} .block-info .icon {
                  font-size: 16px;
@@ -544,14 +558,26 @@
 
     {{this}} .stocks .stock {
                  flex-shrink: 0;
-                 height: 60px;
-                 line-height: 55px;
+                 height: auto;
+                 line-height: 15px;
                  border-radius: 10px;
                  max-width: 250px;
-                 font-weight: 400;
+                 font-weight: 600;
                  position: relative;
                  font-size: 14px;
                  border-style: dashed;
+                 border-width: 2px;
+                 padding: 10px 10px;
+             }
+
+    {{this}} .stocks .stock .stock-inner {
+                 display: table;
+                 height: 100%;
+             }
+
+    {{this}} .stocks .stock .stock-inner .stock-name {
+                 display: table-cell;
+                 vertical-align: middle;
              }
 
     @media only screen and (max-device-width: 320px) {
@@ -850,6 +876,68 @@
                     }
                 });
 
+            },
+            scroll: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                let scrollTop = page.find('.page-content').scrollTop();
+
+                let categories = [];
+
+                page.find('.category-title').each(function (i) {
+
+                    let id = $$(this).data('id');
+                    let offset = $$(this).offset().top + scrollTop - 170;
+
+                    if (scrollTop >= offset) {
+
+                        categories.push({
+                            id: id,
+                            offset: offset
+                        });
+
+                    }
+
+                });
+
+                if (categories.length > 0) {
+
+                    let activeCategory = categories[categories.length - 1];
+
+                    page.find('.categories').find('.button').removeClass('active');
+
+                    page.find('.categories').find('.button').addClass('bg-color-light-gray text-color-black color-black');
+
+                    page.find('.categories').find('.button[data-id="' + activeCategory.id + '"]').removeClass('bg-color-light-gray text-color-black color-black');
+
+                    page.find('.categories').find('.button[data-id="' + activeCategory.id + '"]').addClass('active');
+
+                    let scrollLeft = page.find('.navbar').find('.categories').scrollLeft();
+
+                    let offsetLeft = page.find('.navbar').find('.button[data-id="' + activeCategory.id + '"]').offset().left + scrollLeft - 15;
+
+                    if (page.find('.navbar').find('.button:first-child').data('id') === activeCategory.id) {
+
+                        console.log(555)
+
+                        offsetLeft = + offsetLeft + 1;
+
+                    }
+
+                    page.find('.navbar').find('.categories').scrollLeft(offsetLeft, 500);
+
+                    page.find('.page-content').find('.categories').scrollLeft(offsetLeft, 500);
+
+                } else {
+
+                    page.find('.categories').find('.button').removeClass('active');
+
+                    page.find('.categories').find('.button').addClass('bg-color-light-gray text-color-black color-black');
+
+                }
+
             }
         },
         on: {
@@ -988,17 +1076,9 @@
 
                         let scrollTop = page.find('.page-content').scrollTop();
 
-                        let offsetTop = page.find('.category-title[data-id="' + id + '"]').offset().top  + scrollTop - 200;
+                        let offsetTop = page.find('.category-title[data-id="' + id + '"]').offset().top  + scrollTop - 130;
 
-                        page.find('.page-content').scrollTop(offsetTop, 500, function () {
-
-                            let scrollLeft = page.find('.navbar').find('.categories').scrollLeft();
-
-                            let offsetLeft = page.find('.navbar').find('.button[data-id="' + id + '"]').offset().left + scrollLeft;
-
-                            page.find('.navbar').find('.categories').scrollLeft(offsetLeft, 500);
-
-                        });
+                        page.find('.page-content').scrollTop(offsetTop, 500);
 
                     });
 
@@ -1006,17 +1086,35 @@
 
                         let scrollLeft = $$(this).scrollLeft();
 
-                        page.find('.page-content').find('.categories').scrollLeft(scrollLeft);
+                        //page.find('.page-content').find('.categories').scrollLeft(scrollLeft);
 
                     });
 
-                    let isScrolling;
+                    page.find('.navbar').find('.categories').on('touchmove scroll', function () {
+
+                        component.scrollAllow = false;
+
+                    });
+
+                    component.scrollAllow = true;
+
+                    component.scrollInterval = setInterval(function () {
+
+                        if (component.scrollAllow) {
+
+                            component.scroll();
+
+                        }
+
+                    }, 1000);
 
                     page.find('.page-content').on('scroll', function () {
 
+                        component.scrollAllow = true;
+
                         let scrollTop = page.find('.page-content').scrollTop();
 
-                        let categoriesOffset = page.find('.page-content').find('.categories').offset().top + page.find('.page-content').find('.categories').height() + 30;
+                        let categoriesOffset = page.find('.page-content').find('.categories').offset().top + page.find('.page-content').find('.categories').height() + 170;
 
                         if (scrollTop >= categoriesOffset) {
 
@@ -1028,58 +1126,6 @@
 
                         }
 
-                        window.clearTimeout( isScrolling );
-
-                        isScrolling = setTimeout(function() {
-
-                            scrollTop = page.find('.page-content').scrollTop();
-
-                            let categories = [];
-
-                            page.find('.category-title').each(function (i) {
-
-                                let id = $$(this).data('id');
-                                let offset = $$(this).offset().top + scrollTop - 200;
-
-                                if (scrollTop >= offset) {
-
-                                    categories.push({
-                                        id: id,
-                                        offset: offset
-                                    });
-
-                                }
-
-                            });
-
-                            if (categories.length > 0) {
-
-                                let activeCategory = categories[categories.length - 1];
-
-                                page.find('.categories').find('.button').removeClass('active');
-
-                                page.find('.categories').find('.button').addClass('bg-color-light-gray text-color-black color-black');
-
-                                page.find('.categories').find('.button[data-id="' + activeCategory.id + '"]').removeClass('bg-color-light-gray text-color-black color-black');
-
-                                page.find('.categories').find('.button[data-id="' + activeCategory.id + '"]').addClass('active');
-
-                                let scrollLeft = page.find('.navbar').find('.categories').scrollLeft();
-
-                                let offsetLeft = page.find('.navbar').find('.button[data-id="' + activeCategory.id + '"]').offset().left + scrollLeft;
-
-                                page.find('.navbar').find('.categories').scrollLeft(offsetLeft, 500);
-
-                            } else {
-
-                                page.find('.categories').find('.button').removeClass('active');
-
-                                page.find('.categories').find('.button').addClass('bg-color-light-gray text-color-black color-black');
-
-                            }
-
-                        }, 100);
-
                     });
 
                 });
@@ -1088,6 +1134,8 @@
             pageBeforeOut: function () {
 
                 app.sheet.close();
+
+                clearInterval(component.scrollInterval);
 
             }
 

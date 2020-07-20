@@ -156,21 +156,17 @@
                     },
                    complete: function (response) {
 
-                       setTimeout(function () {
+                       page.find('.button').find('.preloader').addClass('display-none');
 
-                           page.find('.button').find('.preloader').addClass('display-none');
+                       page.find('.button').find('.button-text').removeClass('display-none');
 
-                           page.find('.button').find('.button-text').removeClass('display-none');
-
-                           app.views.current.router.navigate('/profile/auth/confirm', {
-                               context: {
-                                   phone: phone,
-                                   code: code,
-                                   fromCheckout: component.fromCheckout
-                               }
-                           });
-
-                       }, 2000);
+                       app.views.current.router.navigate('/profile/auth/confirm', {
+                           context: {
+                               phone: phone,
+                               code: code,
+                               fromCheckout: component.fromCheckout
+                           }
+                       });
 
                    }
                 });
