@@ -877,7 +877,7 @@
                 });
 
             },
-            scroll: function () {
+            scroll: async function () {
 
                 let component = this;
                 let page = component.$el;
@@ -889,7 +889,7 @@
                 page.find('.category-title').each(function (i) {
 
                     let id = $$(this).data('id');
-                    let offset = $$(this).offset().top + scrollTop - 170;
+                    let offset = $$(this).offset().top + scrollTop - 200;
 
                     if (scrollTop >= offset) {
 
@@ -920,8 +920,6 @@
 
                     if (page.find('.navbar').find('.button:first-child').data('id') === activeCategory.id) {
 
-                        console.log(555)
-
                         offsetLeft = + offsetLeft + 1;
 
                     }
@@ -935,6 +933,10 @@
                     page.find('.categories').find('.button').removeClass('active');
 
                     page.find('.categories').find('.button').addClass('bg-color-light-gray text-color-black color-black');
+
+                    page.find('.navbar').find('.categories').scrollLeft(0, 500);
+
+                    page.find('.page-content').find('.categories').scrollLeft(0, 500);
 
                 }
 
@@ -1076,9 +1078,9 @@
 
                         let scrollTop = page.find('.page-content').scrollTop();
 
-                        let offsetTop = page.find('.category-title[data-id="' + id + '"]').offset().top  + scrollTop - 130;
+                        let offsetTop = page.find('.category-title[data-id="' + id + '"]').offset().top  + scrollTop - 200;
 
-                        page.find('.page-content').scrollTop(offsetTop, 500);
+                        page.find('.page-content').scrollTop(offsetTop, 300);
 
                     });
 
@@ -1086,35 +1088,15 @@
 
                         let scrollLeft = $$(this).scrollLeft();
 
-                        //page.find('.page-content').find('.categories').scrollLeft(scrollLeft);
+                        page.find('.page-content').find('.categories').scrollLeft(scrollLeft);
 
                     });
-
-                    page.find('.navbar').find('.categories').on('touchmove scroll', function () {
-
-                        component.scrollAllow = false;
-
-                    });
-
-                    component.scrollAllow = true;
-
-                    component.scrollInterval = setInterval(function () {
-
-                        if (component.scrollAllow) {
-
-                            component.scroll();
-
-                        }
-
-                    }, 1000);
 
                     page.find('.page-content').on('scroll', function () {
 
-                        component.scrollAllow = true;
-
                         let scrollTop = page.find('.page-content').scrollTop();
 
-                        let categoriesOffset = page.find('.page-content').find('.categories').offset().top + page.find('.page-content').find('.categories').height() + 170;
+                        let categoriesOffset = page.find('.page-content').find('.categories').offset().top + page.find('.page-content').find('.categories').height() + 70;
 
                         if (scrollTop >= categoriesOffset) {
 
@@ -1125,6 +1107,14 @@
                             page.find('.navbar').removeClass('subnavbar-show');
 
                         }
+
+                        window.clearTimeout(component.allowScrollTimeout);
+
+                        component.allowScrollTimeout = setTimeout(function () {
+
+                            component.scroll();
+
+                        }, 100);
 
                     });
 
@@ -1137,7 +1127,7 @@
 
                 app.sheet.close();
 
-                clearInterval(component.scrollInterval);
+                clearTimeout(component.allowScrollTimeout);
 
             }
 

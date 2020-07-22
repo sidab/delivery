@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 3.9,
+    version: 4.0,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -503,7 +503,7 @@ $$(document).on('deviceready', function () {
 
         navigator.splashscreen.hide();
 
-    }, 500);
+    }, 1000);
 
     app.init();
 
@@ -562,42 +562,6 @@ $$(document).on('deviceready', function () {
     $$(window).on('click', '.input-clear-button', function() {
 
         $$(this).prev().val('').focus();
-
-    });
-
-    let sound_1 = new Audio('audio/sound-1.mp3');
-    let sound_2 = new Audio('audio/sound-2.mp3');
-    let sound_3 = new Audio('audio/sound-3.mp3');
-
-    $$(window).on('click', '.sound-1', function () {
-
-        sound_1.src = sound_1.src;
-
-        //sound_1.play();
-
-    });
-
-    $$(window).on('click', '.sound-2', function () {
-
-        sound_2.src = sound_2.src;
-
-        //sound_2.play();
-
-    });
-
-    $$(window).on('click', '.sound-3', function () {
-
-        sound_3.src = sound_3.src;
-
-        //sound_3.play();
-
-    });
-
-    $$(window).on('click', '.vibrate', function () {
-
-        let time = $$(this).data('vibrateTime');
-
-        navigator.vibrate(time);
 
     });
 
