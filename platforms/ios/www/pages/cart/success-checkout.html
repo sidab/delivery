@@ -1,0 +1,72 @@
+<template>
+
+    <div class="page bg-color-white">
+
+        <div class="page-content">
+
+            <div class="block-title block-title-medium text-align-center page-title">Заказ оформлен</div>
+
+            <div class="block text-align-center">В ближайшее время с вами свяжутся.</div>
+
+            <div class="margin">
+
+                <button @click="openCart" class="button button-large bg-color-light-gray color-black button-ok">Хорошо</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</template>
+
+<style scoped>
+
+</style>
+
+<script>
+
+    return {
+
+        data: function () {
+
+            return {
+
+
+            }
+
+        },
+        methods: {
+            openCart: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                app.views.get('#view-cart').router.navigate('/cart', {
+                    clearPreviousHistory: true
+                });
+
+            }
+        },
+        on: {
+
+            pageInit: function() {
+
+                let component = this;
+                let page = component.$el;
+
+                app.emit('cart:change');
+
+                $$('#view-cart').once('tab:hide', function () {
+
+                    component.openCart();
+
+                });
+
+            }
+
+        }
+
+    }
+
+</script>

@@ -1,0 +1,101 @@
+<template>
+
+    <div class="page bg-color-white">
+
+        <div class="navbar navbar-large">
+
+            <div class="navbar-bg"></div>
+
+            <div class="navbar-inner sliding">
+
+                <div class="left">
+
+                    <a href="#" class="link back">
+
+                        <i class="icon icon-back"></i>
+                        <span class="ios-only">Назад</span>
+
+                    </a>
+
+                </div>
+
+                <div class="title">Оплата</div>
+
+                <div class="title-large">
+
+                    <div class="title-large-text">Оплата</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="page-content">
+
+            {{#unless hidePreloader}}
+
+                <div class="margin text-align-center">
+
+                    <div class="preloader"></div>
+
+                </div>
+
+            {{/unless}}
+
+            <iframe class="display-none {{#unless hidePreloader}}display-none{{/unless}}" src="https://widget.unitpay.money/pay/demo?sum=1&desc=%D0%9F%D1%80%D0%BE%D0%B1%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%BB%D0%B0%D1%82%D0%B5%D0%B6&account=orderId&domainName=d73545dcd33969ca62ce22ff8f41736a19d5d15aead2985fab71ad79a738afe9&signature=ca3877903a11e31671669e3fc2ba7dbccc7fa0c2781213a6ccccfce6c05115ab&publicKey=demo&animate=true&hideMenu=true&hideOtherMethods=true" frameborder="0"></iframe>
+
+            <iframe class="{{#unless hidePreloader}}display-none{{/unless}}" src="https://unitpay.money/pay/298661-5566d?sum=1&account=%D0%97%D0%B0%D0%BA%D0%B0%D0%B7+%E2%84%961&desc=%D0%9E%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5+%D1%82%D1%83%D1%82...&signature=dd7237a98b07a8e1b7cbc5fcff26805fe23cd9180beca8a248e46502513f7e77?sum=1&account=%D0%97%D0%B0%D0%BA%D0%B0%D0%B7+%E2%84%961&desc=%D0%9E%D0%BF%D0%B8%D1%81%D0%B0%D0%BD%D0%B8%D0%B5+%D1%82%D1%83%D1%82...&signature=dd7237a98b07a8e1b7cbc5fcff26805fe23cd9180beca8a248e46502513f7e77&animate=true&hideMenu=true&hideOtherMethods=true" frameborder="0"></iframe>
+
+        </div>
+
+    </div>
+
+</template>
+
+<style scoped>
+
+    {{this}} iframe {
+        width:100%;
+        height: 100%;
+    }
+
+</style>
+
+<script>
+
+    return {
+
+        data: function () {
+
+            return {
+
+
+            }
+
+        },
+        methods: {
+
+        },
+        on: {
+
+            pageInit: function() {
+
+                let component = this;
+                let page = component.$el;
+
+                setTimeout(function () {
+
+                    component.hidePreloader = true;
+
+                    component.$update();
+
+                }, 3000);
+
+            }
+
+        }
+
+    }
+
+</script>
