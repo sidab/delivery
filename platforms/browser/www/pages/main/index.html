@@ -115,7 +115,15 @@
 
         </div>
 
-        <div class="page-content">
+        <div class="page-content ptr-content">
+
+            <div class="ptr-preloader">
+
+                <div class="preloader"></div>
+
+                <div class="ptr-arrow"></div>
+
+            </div>
 
             <div class="searchbar-backdrop"></div>
 
@@ -177,7 +185,7 @@
 
                     {{#each restoraunts}}
 
-                        <list-item-1 id="{{id}}" soon="{{soon}}" category="{{../category}}" rating="{{js "this.rating.toFixed(1)"}}" reviews-count="{{reviews_count}}" name="{{name}}" adres="{{adres}}" delivery-time="{{delivery_time}}" min-order-sum="{{min_order_sum}}" logo="{{#if logo}}{{logo}}{{else}}http://delivery05.ru/storage/app/media/no_image.png{{/if}}"></list-item-1>
+                        <list-item-1 id="{{id}}" soon="{{soon}}" category="{{../category}}" rating="{{js "this.rating.toFixed(1)"}}" reviews-count="{{reviews_count}}" name="{{name}}" adres="{{adres}}" delivery-time="{{delivery_time}}" min-order-sum="{{min_order_sum}}" logo128="{{logo_128}}" logo64="{{logo_64}}" logo="{{#if logo}}{{logo}}{{else}}https://zaytoon.ru/storage/app/media/no_image.png{{/if}}"></list-item-1>
 
                     {{/each}}
 
@@ -533,9 +541,27 @@
 
                 });
 
+                page.find('.page-content').on('ptr:refresh', function (e) {
+
+                    component.loadRestoraunts();
+
+                    e.detail();
+
+                });
+
                 page.find('.searchbar').find('input').on('focus', function () {
 
                     component.loadRestoraunts();
+
+                });
+
+                $$(window).on('click', '.open-restoraunt', function () {
+
+                    let url = $$(this).data('href');
+
+                    app.views.get('#view-restoraunt').router.navigate(url);
+
+                    app.tab.show('#view-restoraunt', false);
 
                 });
 

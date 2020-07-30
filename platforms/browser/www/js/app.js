@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 4.1,
+    version: 4.2,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -37,7 +37,7 @@ var app = new Framework7({
         //mdPageLoadDelay: 100,
         stackPages: true,
         preloadPreviousPage: true,
-        removeElements: true,
+        removeElements: false,
         iosSwipeBack: true,
         mdSwipeBack: true,
         iosSwipeBackAnimateShadow: false,
@@ -539,15 +539,17 @@ $$(document).on('deviceready', function () {
             //animate: app.device.ios ? true : false
         });
 
-        /*app.views.create('#view-favorites', {
-            url: '/favorites',
+        app.views.create('#view-help', {
+            url: '/help',
             //animate: app.device.ios ? true : false
-        });*/
+        });
 
         app.views.create('#view-profile', {
             url: app.params.user ? '/profile' : '/profile/auth',
             //animate: app.device.ios ? true : false
         });
+
+        app.views.create('#view-restoraunt');
 
     });
 

@@ -301,6 +301,50 @@
                 let component = this;
                 let page = component.$el;
 
+                if (component.restoraunt.schedule.length > 0) {
+
+                    let schedule = JSON.parse(component.restoraunt.schedule);
+
+                    let day = new Date().getDay();
+                    let hours = new Date().getHours();
+
+                    if ( schedule.workDays.indexOf( String(day) ) == -1 )  {
+
+                        app.dialog.alert('Извините но сегодня ресторан не работает, попробуйте завтра.');
+
+                        return false;
+
+                    }
+
+                    if (schedule.workStartTime === '00' && schedule.workStopTime === '00') {
+
+                        return false;
+
+                    }
+
+                    schedule.workStartTime = schedule.workStartTime + ':00';
+                    schedule.workStopTime = schedule.workStopTime + ':00';
+
+                    let now = app.methods.getMinutesNow();
+
+                    let start = app.methods.getMinutes(schedule.workStartTime);
+
+                    let end = app.methods.getMinutes(schedule.workStopTime);
+
+                    if (start > end) end += app.methods.getMinutes('24:00');
+
+                    if ( (now > start) && (now < end) ) {
+
+                    } else {
+
+                        app.dialog.alert('Извините но сейчас ресторан не работает, попробуйте в период с ' + schedule.workStartTime + ' до ' + schedule.workStopTime);
+
+                        return false;
+
+                    }
+
+                }
+
                 if (app.params.user) {
 
                     app.views.current.router.navigate('/cart/checkout', {

@@ -78,5 +78,21 @@ routes = [
     {
         path: '/cart/payment',
         componentUrl: 'pages/cart/payment.html'
+    },
+    {
+        path: '/help',
+        componentUrl: 'https://zaytoon.ru/app/help'
+    },
+    {
+        path: '/help/politika',
+        componentUrl: 'https://zaytoon.ru/app/help/politika'
+    },
+    {
+        path: '/help/usloviya',
+        componentUrl: 'https://zaytoon.ru/app/help/usloviya'
+    },
+    {
+        path: '/help/payment',
+        componentUrl: 'https://zaytoon.ru/app/help/payment'
     }
 ]

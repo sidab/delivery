@@ -352,7 +352,7 @@
 
                                         {{#if image_thumb_512}}
 
-                                            <div class="item-image {{#js_if "app.device.ios"}}lazy lazy-fade-in{{/js_if}}" {{#js_if "app.device.ios"}}data-background="{{image_thumb_512}}"{{else}}style="background-image: url('{{image_thumb_512}}')"{{/js_if}}></div>
+                                            <div class="item-image" style="background-image: url('{{image_thumb_512}}'), url('{{image_thumb_64}}')"></div>
 
                                         {{/if}}
 
@@ -645,7 +645,7 @@
 
                 });
 
-                let image = item.image ? '<div class="item-image" style="background-image: url(' + item.image_thumb + ')"><div class="overlay"></div></div>' : '';
+                let image = item.image ? '<div class="item-image" style="background-image: url(' + item.image_thumb + '), url(' + item.image_thumb_512 + '), url(' + item.image_thumb_128 + '), url(' + item.image_thumb_64 + ')"><div class="overlay"></div></div>' : '';
 
                 if (item.weight.length > 0 && item.sostav.length > 0 && item.sostav.indexOf(' • ') == -1) {
 
@@ -877,7 +877,7 @@
                 });
 
             },
-            scroll: async function () {
+            scroll: function () {
 
                 let component = this;
                 let page = component.$el;
@@ -949,13 +949,15 @@
                 let component = this;
                 let page = component.$el;
 
+                page.find('.back').on('click', function () {
+
+                    let activeTab = $$('.toolbar-menu').find('.tab-link-active').attr('href');
+
+                    app.tab.show(activeTab, false);
+
+                });
+
                 component.loadRestoraunt(function () {
-
-                    if (app.device.ios) {
-
-                        app.lazy.create(page.find('.page-content'));
-
-                    }
 
                     let searchbar = app.searchbar.create({
                         el: '.searchbar-items',
