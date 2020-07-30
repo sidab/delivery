@@ -19,6 +19,18 @@
         <param name="ios-package" value="CDVGestureHandler" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="InAppBrowser">
+        <param name="ios-package" value="CDVInAppBrowser" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="UIInAppBrowser">
+        <param name="ios-package" value="CDVUIInAppBrowser" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="WKInAppBrowser">
+        <param name="ios-package" value="CDVWKInAppBrowser" />
+        <param name="onload" value="true" />
+    </feature>
     <feature name="CDVIonicKeyboard">
         <param name="ios-package" onload="true" value="CDVIonicKeyboard" />
     </feature>
@@ -39,18 +51,6 @@
     </feature>
     <feature name="OneSignalPush">
         <param name="ios-package" value="OneSignalPush" />
-    </feature>
-    <feature name="InAppBrowser">
-        <param name="ios-package" value="CDVInAppBrowser" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="UIInAppBrowser">
-        <param name="ios-package" value="CDVUIInAppBrowser" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="WKInAppBrowser">
-        <param name="ios-package" value="CDVWKInAppBrowser" />
-        <param name="onload" value="true" />
     </feature>
     <name>Zaytoon</name>
     <description>
