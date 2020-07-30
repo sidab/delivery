@@ -35,6 +35,12 @@
     },
     "onesignal-cordova-plugin": {
       "PACKAGE_NAME": "ru.zaytoon"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "ru.zaytoon"
+    },
+    "cordova-plugin-open-blank": {
+      "PACKAGE_NAME": "ru.zaytoon"
     }
   },
   "dependent_plugins": {}

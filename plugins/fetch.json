@@ -108,7 +108,7 @@
   "cordova-plugin-open-blank": {
     "source": {
       "type": "registry",
-      "id": "git+https://github.com/slaptoast/cordova-plugin-openblank.git"
+      "id": "https://github.com/slaptoast/cordova-plugin-openblank.git"
     },
     "is_top_level": true,
     "variables": {}

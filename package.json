@@ -20,7 +20,9 @@
       "cordova-plugin-ionic-keyboard": {},
       "onesignal-cordova-plugin": {},
       "cordova-plugin-wkwebview-engine": {},
-      "cordova-plugin-wkwebview-file-xhr": {}
+      "cordova-plugin-wkwebview-file-xhr": {},
+      "cordova-plugin-inappbrowser": {},
+      "cordova-plugin-open-blank": {}
     },
     "platforms": [
       "android",
@@ -31,7 +33,9 @@
     "cordova-android": "^8.1.0",
     "cordova-ios": "^5.1.1",
     "cordova-plugin-crosswalk-webview-arm": "^3.1.0",
+    "cordova-plugin-inappbrowser": "git+https://github.com/slaptoast/cordova-plugin-openblank.git",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
+    "cordova-plugin-open-blank": "git+https://github.com/slaptoast/cordova-plugin-openblank.git",
     "cordova-plugin-vibration": "3.1.1",
     "cordova-plugin-wkwebview-engine": "^1.2.1",
     "cordova-plugin-wkwebview-file-xhr": "^2.1.4"
