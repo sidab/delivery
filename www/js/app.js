@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 4.2,
+    version: 4.3,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -90,6 +90,8 @@ var app = new Framework7({
 
                     localStorage.config = JSON.stringify(config);
 
+                    let InAppBrowserParams = 'toolbarposition=top,closebuttoncolor=#FF8C00,closebuttoncaption=Закрыть,navigationbuttoncolor=#FF8C00,toolbarcolor=#eeeeee,hideurlbar=yes,fullscreen=no';
+
                     var version;
 
                     if (app.device.android) {
@@ -106,23 +108,64 @@ var app = new Framework7({
 
                     }
 
-                    if (version > app.version) {
+                    let sheet = app.sheet.create({
+                        content: `
 
-                        app.dialog.alert('Вышла новая версия приложения, пожалуйста обновите.', function () {
+                            <div class="sheet-modal sheet-update">
+                            
+                                <div class="sheet-modal-inner">
+                                
+                                    <div class="block-title block-title-large">Вышла новая версия</div>
+                                    
+                                    <div class="margin">Мы выпустили новую версию приложения в которой исправили ошибки и повысили производительность. Настоятельно рекомендуем вам обновить приложение.</div>
+                                
+                                    <div class="margin">
+                                    
+                                        <button class="button button-fill button-large">Обновить</button>
+                                    
+                                    </div>
+                                
+                                </div>
+                            
+                            </div>
 
-                            if (app.device.ios) {
+                        `,
+                        backdrop: true,
+                        closeByBackdropClick: true,
+                        closeByOutsideClick: true,
+                        swipeToClose: true,
+                        on: {
+                            opened: function (sheet) {
 
-                                window.open(config.updateLink.ios, '_system');
+                                sheet.$el.find('.button').on('click', function () {
 
-                            } else {
+                                    sheet.close();
 
-                                window.open(config.updateLink.android, '_system');
+                                    if (app.device.ios) {
+
+                                        cordova.InAppBrowser.open(config.updateLink.ios, '_system', InAppBrowserParams);
+
+                                    } else {
+
+                                        cordova.InAppBrowser.open(config.updateLink.ios, '_system', InAppBrowserParams);
+
+                                    }
+
+                                });
 
                             }
+                        }
+                    });
 
-                        });
+                    //if (version > app.version) {
 
-                    }
+                        setTimeout(function () {
+
+                            sheet.open();
+
+                        }, 2000);
+
+                    //}
 
                 },
                 complete: function () {

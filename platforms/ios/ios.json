@@ -35,15 +35,7 @@
         "parents": {
           "/*": [
             {
-              "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"UIInAppBrowser\"><param name=\"ios-package\" value=\"CDVUIInAppBrowser\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"WKInAppBrowser\"><param name=\"ios-package\" value=\"CDVWKInAppBrowser\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVWKInAppBrowser\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
@@ -146,8 +138,7 @@
       "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
       "pluginId": "cordova-plugin-inappbrowser",
       "clobbers": [
-        "cordova.InAppBrowser.open",
-        "window.open"
+        "cordova.InAppBrowser.open"
       ]
     },
     {
@@ -225,7 +216,7 @@
   ],
   "plugin_metadata": {
     "cordova-plugin-crosswalk-webview-arm": "3.1.0",
-    "cordova-plugin-inappbrowser": "3.1.0",
+    "cordova-plugin-inappbrowser": "4.0.0",
     "cordova-plugin-ionic-keyboard": "2.2.0",
     "cordova-plugin-open-blank": "0.0.2",
     "cordova-plugin-splashscreen": "5.0.3",

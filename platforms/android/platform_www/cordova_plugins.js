@@ -37,8 +37,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
       "pluginId": "cordova-plugin-inappbrowser",
       "clobbers": [
-        "cordova.InAppBrowser.open",
-        "window.open"
+        "cordova.InAppBrowser.open"
       ]
     }
   ];
@@ -51,7 +50,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-wkwebview-engine": "1.2.1",
     "cordova-plugin-wkwebview-file-xhr": "2.1.4",
     "onesignal-cordova-plugin": "2.8.2",
-    "cordova-plugin-inappbrowser": "3.1.0",
-    "cordova-plugin-open-blank": "0.0.2"
+    "cordova-plugin-open-blank": "0.0.2",
+    "cordova-plugin-inappbrowser": "4.0.0"
   };
 });

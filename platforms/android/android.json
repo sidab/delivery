@@ -53,11 +53,11 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
+              "xml": "<feature name=\"OpenBlank\"><param name=\"android-package\" value=\"org.apache.cordova.openblank.OpenBlank\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
-              "xml": "<feature name=\"OpenBlank\"><param name=\"android-package\" value=\"org.apache.cordova.openblank.OpenBlank\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
               "count": 1
             }
           ]
@@ -147,10 +147,10 @@
     "onesignal-cordova-plugin": {
       "PACKAGE_NAME": "ru.zaytoon"
     },
-    "cordova-plugin-inappbrowser": {
+    "cordova-plugin-open-blank": {
       "PACKAGE_NAME": "ru.zaytoon"
     },
-    "cordova-plugin-open-blank": {
+    "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "ru.zaytoon"
     }
   },
@@ -193,8 +193,7 @@
       "file": "plugins/cordova-plugin-inappbrowser/www/inappbrowser.js",
       "pluginId": "cordova-plugin-inappbrowser",
       "clobbers": [
-        "cordova.InAppBrowser.open",
-        "window.open"
+        "cordova.InAppBrowser.open"
       ]
     }
   ],
@@ -207,7 +206,7 @@
     "cordova-plugin-wkwebview-engine": "1.2.1",
     "cordova-plugin-wkwebview-file-xhr": "2.1.4",
     "onesignal-cordova-plugin": "2.8.2",
-    "cordova-plugin-inappbrowser": "3.1.0",
-    "cordova-plugin-open-blank": "0.0.2"
+    "cordova-plugin-open-blank": "0.0.2",
+    "cordova-plugin-inappbrowser": "4.0.0"
   }
 }

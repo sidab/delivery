@@ -1,6 +1,6 @@
 <template>
 
-    <div class="page no-swipeback">
+    <div class="page no-swipeback rest-{{#if restoraunt}}{{restoraunt.id}}{{/if}}">
 
         <div class="navbar navbar-large">
 
@@ -62,7 +62,7 @@
 
                 <div class="right">
 
-                    <a class="link icon-only searchbar-enable" data-searchbar=".searchbar-items">
+                    <a class="link icon-only searchbar-enable" data-searchbar=".rest-{{#if restoraunt}}{{restoraunt.id}}{{/if}} .searchbar-items">
 
                         <i class="icon f7-icons">search</i>
 
@@ -272,7 +272,7 @@
 
                     {{#js_if "this.restoraunt.stocks.length > 0"}}
 
-                        <div class="block-title no-margin-top no-margin-horizontal">Акции</div>
+                        <div class="block-title no-margin-top no-margin-horizontal"><i class="icon f7-icons">gift</i>Акции</div>
 
                         <div class="display-flex stocks">
 
@@ -348,7 +348,7 @@
 
                                 {{#each items}}
 
-                                    <div @click="openItem('{{../id}}', '{{id}}')" class="item large-25 col-50 margin-bottom bg-color-white">
+                                    <div @click="openItem('{{../id}}', '{{id}}')" class="item large-25 medium-33 col-50 margin-bottom bg-color-white">
 
                                         {{#if image_thumb_512}}
 
@@ -404,7 +404,7 @@
 
                             {{#each '123456789'}}
 
-                                <div class="item large-25 col-50 margin-bottom bg-color-white skeleton-text">
+                                <div class="item large-25 medium-33 col-50 margin-bottom bg-color-white skeleton-text">
     0
                                     <div class="skeleton-block" style="width: 100%; height: 100px;"></div>
 
@@ -579,6 +579,14 @@
                  display: table-cell;
                  vertical-align: middle;
              }
+
+    @media only screen and (min-device-width: 767px) {
+
+        {{this}} .items .item .item-image {
+             height: 200px;
+        }
+
+    }
 
     @media only screen and (max-device-width: 320px) {
 
@@ -960,7 +968,7 @@
                 component.loadRestoraunt(function () {
 
                     let searchbar = app.searchbar.create({
-                        el: '.searchbar-items',
+                        el: '.rest-' + component.restoraunt.id + ' .searchbar-items',
                         searchContainer: '.block-items-1',
                         searchGroup: '.block-items',
                         searchGroupTitle: '.category-title',

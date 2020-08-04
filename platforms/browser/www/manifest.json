@@ -1,19 +1,24 @@
 {
-  "background_color": "#FFF",
-  "display": "standalone",
   "name": "Zaytoon",
   "short_name": "Zaytoon",
-  "version": "ru.zaytoon",
-  "description": "Zaytoon",
-  "author": "Umakhan Magomedov",
+  "description": "Description of your app from template",
+  "start_url": "index.html",
+  "scope": "index.html",
   "icons": [
     {
-      "src": "www/icon.png",
-      "type": "image/png",
-      "sizes": "undefinedxundefined"
+      "src": "img/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/splash.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ],
-  "orientation": "portrait",
-  "start_url": "index.html",
-  "theme_color": "#FF8C00"
+  "default_locale": "en",
+  "display": "standalone",
+  "background_color": "#FFF",
+  "theme_color": "#000",
+  "orientation": "landscape"
 }
