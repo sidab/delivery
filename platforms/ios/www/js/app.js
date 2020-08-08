@@ -80,6 +80,12 @@ var app = new Framework7({
 
             var app = this;
 
+            if (localStorage.config !== undefined) {
+
+                callback();
+
+            }
+
             app.request({
                 url: 'https://zaytoon.ru/api/config',
                 dataType: 'json',
@@ -172,7 +178,11 @@ var app = new Framework7({
                 },
                 complete: function () {
 
-                    callback();
+                    if (localStorage.config == undefined) {
+
+                        callback();
+
+                    }
 
                 }
             });
@@ -507,6 +517,33 @@ var app = new Framework7({
 
             return timeNow.getHours() * 60 + timeNow.getMinutes();
 
+        },
+        openCachePage: function (url, notOpen) {
+
+            let app = this;
+
+            let viewSelector = '.view-cache-page' + url.replace(/\//g, "-");
+
+            let view = app.views.get(viewSelector);
+
+            if (view !== undefined) {
+
+            } else {
+
+                $$('.views').append('<div class="tab view ' + viewSelector.replace('.', '') + '"></div>');
+
+                app.views.create(viewSelector, {
+                    url: url
+                });
+
+            }
+
+            if (!notOpen) {
+
+                app.tab.show(viewSelector, false);
+
+            }
+
         }
     },
     on: {
@@ -548,7 +585,7 @@ $$(document).on('deviceready', function () {
 
         navigator.splashscreen.hide();
 
-    }, 1000);
+    }, 700);
 
     app.init();
 
@@ -574,24 +611,28 @@ $$(document).on('deviceready', function () {
             main: true
         });
 
-        app.views.create('#view-stocks', {
-            url: '/stocks',
-            //animate: app.device.ios ? true : false
-        });
+        app.on('view-main-loaded', function () {
 
-        app.views.create('#view-cart', {
-            url: '/cart',
-            //animate: app.device.ios ? true : false
-        });
+            app.views.create('#view-stocks', {
+                url: '/stocks',
+                //animate: app.device.ios ? true : false
+            });
 
-        app.views.create('#view-help', {
-            url: '/help',
-            //animate: app.device.ios ? true : false
-        });
+            app.views.create('#view-cart', {
+                url: '/cart',
+                //animate: app.device.ios ? true : false
+            });
 
-        app.views.create('#view-profile', {
-            url: app.params.user ? '/profile' : '/profile/auth',
-            //animate: app.device.ios ? true : false
+            app.views.create('#view-help', {
+                url: '/help',
+                //animate: app.device.ios ? true : false
+            });
+
+            app.views.create('#view-profile', {
+                url: app.params.user ? '/profile' : '/profile/auth',
+                //animate: app.device.ios ? true : false
+            });
+
         });
 
     });
@@ -608,23 +649,7 @@ $$(document).on('deviceready', function () {
 
         let url = $$(this).data('href');
 
-        let viewSelector = '.view-cache-page' + url.replace(/\//g, "-");
-
-        let view = app.views.get(viewSelector);
-
-        if (view !== undefined) {
-
-        } else {
-
-            $$('.views').append('<div class="tab view ' + viewSelector.replace('.', '') + '"></div>');
-
-            app.views.create(viewSelector, {
-                url: url
-            });
-
-        }
-
-        app.tab.show(viewSelector, false);
+        app.methods.openCachePage(url);
 
     });
 
