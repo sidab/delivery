@@ -578,7 +578,7 @@
 
                         setTimeout(function () {
 
-                            page.find('.list-item-1').each(function (i) {
+                            page.find('.list-item-1').find('a:not(.disabled)').each(function (i) {
 
                                 let url = $$(this).data('href');
 
@@ -592,7 +592,7 @@
 
                             });
 
-                        });
+                        }, 100);
                     });
 
                 });

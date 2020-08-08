@@ -530,6 +530,12 @@ var app = new Framework7({
 
             let app = this;
 
+            if (url == undefined ) {
+
+                return false;
+
+            }
+
             let viewSelector = '.view-cache-page' + url.replace(/\//g, "-");
 
             let view = app.views.get(viewSelector);
