@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 4.4,
+    version: 4.5,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -78,11 +78,19 @@ var app = new Framework7({
     methods: {
         checkVersion: function (callback) {
 
-            var app = this;
+            let app = this;
+
+            let config;
 
             if (localStorage.config !== undefined) {
 
+                config = true;
+
                 callback();
+
+            } else {
+
+                config = false;
 
             }
 
@@ -178,7 +186,7 @@ var app = new Framework7({
                 },
                 complete: function () {
 
-                    if (localStorage.config == undefined) {
+                    if (!config) {
 
                         callback();
 
