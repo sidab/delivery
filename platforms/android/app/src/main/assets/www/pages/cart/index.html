@@ -72,7 +72,7 @@
 
                             <div class="item-inner">
 
-                                <div class="item-title-row">
+                                <div @click="openItem({{id}})" class="item-title-row">
 
                                     <div class="item-title">{{name}}</div>
 
@@ -82,7 +82,7 @@
 
                                 <div class="item-subtitle">
 
-                                    <div class="text-color-gray item-desc">
+                                    <div @click="openItem({{id}})" class="text-color-gray item-desc">
 
                                         {{category_name}}
 
@@ -282,6 +282,10 @@
                  margin-top: 5px;
              }
 
+    {{this}} .item-title {
+                 text-decoration: underline;
+             }
+
 </style>
 
 <script>
@@ -296,6 +300,69 @@
 
         },
         methods: {
+            openItem: function (itemId) {
+
+                let component = this;
+                let page = component.$el;
+
+                let item = component.items.find(function (item) {
+
+                    return item.id == itemId;
+
+                });
+
+                let image = item.image ? '<div class="item-image" style="background-image: url(' + item.image_thumb + '), url(' + item.image_thumb_512 + '), url(' + item.image_thumb_128 + '), url(' + item.image_thumb_64 + ')"><div class="overlay"></div></div>' : '';
+
+                if (item.weight.length > 0 && item.sostav.length > 0 && item.sostav.indexOf(' • ') == -1) {
+
+                    item.sostav = ' • ' + item.sostav;
+
+                }
+
+                let sheet = app.sheet.create({
+                    content: `
+
+                        <div class="sheet-modal sheet-item sheet-template-1">
+
+                            <div class="sheet-modal-inner">
+
+                                ` + image + `
+
+                                <div class="margin-horizontal item-info margin-bottom">
+
+                                    <div class="item-title">` + item.name + `</div>
+
+                                    <div class="item-desc margin-top text-color-gray">` + item.weight + item.sostav + `</div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    `,
+                    backdrop: true,
+                    swipeToClose: true,
+                    value: 1,
+                    on: {
+                        open: function () {
+
+                        },
+                        opened: function (sheet) {
+
+                            setTimeout(function () {
+
+                                sheet.$el.find('.item-image').find('.overlay').addClass('show');
+
+                            }, 100);
+
+                        }
+                    }
+                });
+
+                sheet.open();
+
+            },
             checkout: function () {
 
                 let component = this;

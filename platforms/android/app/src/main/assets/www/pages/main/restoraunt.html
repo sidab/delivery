@@ -1,6 +1,6 @@
 <template>
 
-    <div class="page no-swipeback rest-{{#if restoraunt}}{{restoraunt.id}}{{/if}}">
+    <div class="page no-swipeback" data-name="restoraunt">
 
         <div class="navbar navbar-large">
 
@@ -10,7 +10,7 @@
 
                 <div class="left">
 
-                    <a href="#" class="back link">
+                    <a href="#" class="link custom-back">
 
                         <i class="icon icon-back"></i>
 
@@ -358,7 +358,7 @@
 
                                         <div class="item-info margin">
 
-                                            <div class="item-title margin-bottom">{{name}}</div>
+                                            <div class="item-title margin-bottom">{{name}} <span class="display-none">{{../name}}</span>  </div>
 
                                             <div class="row">
 
@@ -836,6 +836,26 @@
 
                 }, 300);
 
+                let cache = sessionStorage.getItem('restoraunt-' + id);
+
+                if (cache !== null) {
+
+                    component.restoraunt = JSON.parse(cache);
+
+                    component.$update(function () {
+
+                        if (callback) {
+
+                            callback();
+
+                        }
+
+                    });
+
+                    return false;
+
+                }
+
                 app.request({
                    url: app.params.config.backend + '/api/restoraunt',
                    dataType: 'json',
@@ -845,6 +865,8 @@
                     success: function (response) {
 
                        component.restoraunt = response;
+
+                       sessionStorage.setItem('restoraunt-' + id, JSON.stringify(response));
 
                        component.$update(function () {
 
@@ -957,15 +979,9 @@
                 let component = this;
                 let page = component.$el;
 
-                page.find('.back').on('click', function () {
-
-                    let activeTab = $$('.toolbar-menu').find('.tab-link-active').attr('href');
-
-                    app.tab.show(activeTab, false);
-
-                });
-
                 component.loadRestoraunt(function () {
+
+                    page.addClass('rest-' + component.restoraunt.id);
 
                     let searchbar = app.searchbar.create({
                         el: '.rest-' + component.restoraunt.id + ' .searchbar-items',
@@ -1127,6 +1143,14 @@
                         }, 100);
 
                     });
+
+                });
+
+                page.find('.custom-back').on('click', function () {
+
+                    let activeTab = $$('.toolbar-menu').find('.tab-link-active').attr('href');
+
+                    app.tab.show(activeTab, false);
 
                 });
 

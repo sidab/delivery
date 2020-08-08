@@ -92,6 +92,7 @@
 .sheet-item {
     --f7-sheet-height: auto;
     padding-bottom: 20px;
+    max-width: 600px;
 }
 
 .sheet-item .add-to-cart {
@@ -196,6 +197,10 @@
 
     .sheet-update {
         left: 25%
+    }
+
+    .sheet-item {
+        left: calc(50% - 300px);
     }
 
 }

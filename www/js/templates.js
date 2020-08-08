@@ -3,7 +3,7 @@ Framework7.registerComponent('list-item-1', {
 
          <li class="list-item-1">
     
-            <a data-href="/main/restoraunt/{{$props.id}}{{#js_if "this.$props.category !== 'false' "}}/{{$props.category}}{{/js_if}}" class="item-content open-restoraunt item-link {{#js_if "this.$props.soon === '1'"}}disabled{{/js_if}}">
+            <a data-href="/main/restoraunt/{{$props.id}}{{#js_if "this.$props.category !== 'false' "}}/{{$props.category}}{{/js_if}}" class="open-cache-page item-content item-link {{#js_if "this.$props.soon === '1'"}}disabled{{/js_if}}">
     
                 <div class="item-media" style="background-image: url('{{$props.logo}}'), url('{{$props.logo128}}'), url('{{$props.logo64}}')"></div>
     

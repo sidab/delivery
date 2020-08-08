@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 4.3,
+    version: 4.4,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -36,8 +36,10 @@ var app = new Framework7({
         iosDynamicNavbar: false,
         //mdPageLoadDelay: 100,
         stackPages: true,
+        keepalive: true,
         preloadPreviousPage: true,
         removeElements: false,
+        unloadTabContent: false,
         iosSwipeBack: true,
         mdSwipeBack: true,
         iosSwipeBackAnimateShadow: false,
@@ -592,8 +594,6 @@ $$(document).on('deviceready', function () {
             //animate: app.device.ios ? true : false
         });
 
-        app.views.create('#view-restoraunt');
-
     });
 
     if (app.device.android) {
@@ -603,6 +603,30 @@ $$(document).on('deviceready', function () {
         attachFastClick(document.body);
 
     }
+
+    $$(window).on('click', '.open-cache-page', function () {
+
+        let url = $$(this).data('href');
+
+        let viewSelector = '.view-cache-page' + url.replace(/\//g, "-");
+
+        let view = app.views.get(viewSelector);
+
+        if (view !== undefined) {
+
+        } else {
+
+            $$('.views').append('<div class="tab view ' + viewSelector.replace('.', '') + '"></div>');
+
+            app.views.create(viewSelector, {
+                url: url
+            });
+
+        }
+
+        app.tab.show(viewSelector, false);
+
+    });
 
     $$(window).on('click', '.input-clear-button', function() {
 
