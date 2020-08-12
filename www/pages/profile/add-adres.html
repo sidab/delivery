@@ -1,6 +1,6 @@
 <template>
 
-    <div class="page bg-color-white">
+    <div class="page bg-color-white" data-name="add-adres">
 
         <div class="navbar navbar-large">
 
@@ -33,7 +33,19 @@
 
         <div class="page-content">
 
-            <div class="list">
+            <div class="margin">
+
+                <button @click="openMap" class="button button-large color-teal button-fill">
+
+                    <i class="icon f7-icons">map</i>
+
+                    <span>Найти на карте</span>
+
+                </button>
+
+            </div>
+
+            <div class="list no-margin-top">
 
                 <ul>
 
@@ -242,6 +254,49 @@
                     }
                 });
 
+            },
+            openMap: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                try {
+
+                    navigator.geolocation.getCurrentPosition(function(position) {
+
+                        console.log(position);
+
+                    }, function(error) {
+
+                    });
+
+                } catch (error) {
+
+                    console.log(error);
+
+                }
+
+                let popup = app.popup.create({
+                    content: `
+
+                            <div class="popup popup-map-adres">
+
+                                <div class="view view-map-adres"></div>
+
+                            </div>`,
+                    on: {
+                        open: function () {
+
+                            app.views.create('.view-map-adres', {
+                                url: '/profile/map-adres'
+                            });
+
+                        }
+                    }
+                });
+
+                popup.open();
+
             }
         },
         on: {
@@ -250,6 +305,7 @@
 
                 let component = this;
                 let page = component.$el;
+
 
             }
 

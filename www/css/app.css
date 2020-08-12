@@ -181,6 +181,14 @@
     max-width: 414px;
 }
 
+body>ymaps {
+    z-index: 100000 !important;
+}
+
+.balloon {
+    max-width: 200px;
+}
+
 @media only screen and (max-device-width: 1920px) {
 
     :root {

@@ -59,6 +59,10 @@
             {
               "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
+              "count": 1
             }
           ]
         }
@@ -72,6 +76,18 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-feature android:name=\"android.hardware.location.gps\" />",
               "count": 1
             }
           ],
@@ -152,6 +168,9 @@
     },
     "cordova-plugin-inappbrowser": {
       "PACKAGE_NAME": "ru.zaytoon"
+    },
+    "cordova-plugin-geolocation": {
+      "PACKAGE_NAME": "ru.zaytoon"
     }
   },
   "dependent_plugins": {},
@@ -195,6 +214,20 @@
       "clobbers": [
         "cordova.InAppBrowser.open"
       ]
+    },
+    {
+      "id": "cordova-plugin-geolocation.geolocation",
+      "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+      "pluginId": "cordova-plugin-geolocation",
+      "clobbers": [
+        "navigator.geolocation"
+      ]
+    },
+    {
+      "id": "cordova-plugin-geolocation.PositionError",
+      "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+      "pluginId": "cordova-plugin-geolocation",
+      "runs": true
     }
   ],
   "plugin_metadata": {
@@ -207,6 +240,7 @@
     "cordova-plugin-wkwebview-file-xhr": "2.1.4",
     "onesignal-cordova-plugin": "2.8.2",
     "cordova-plugin-open-blank": "0.0.2",
-    "cordova-plugin-inappbrowser": "4.0.0"
+    "cordova-plugin-inappbrowser": "4.0.0",
+    "cordova-plugin-geolocation": "4.0.2"
   }
 }

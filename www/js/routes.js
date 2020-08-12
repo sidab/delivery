@@ -94,5 +94,17 @@ routes = [
     {
         path: '/help/payment',
         componentUrl: 'https://zaytoon.ru/app/help/payment'
+    },
+    {
+        path: '/help/vozvrat',
+        componentUrl: 'https://zaytoon.ru/app/help/vozvrat'
+    },
+    {
+        path: '/help/dostavka',
+        componentUrl: 'https://zaytoon.ru/app/help/dostavka'
+    },
+    {
+        path: '/profile/map-adres',
+        componentUrl: 'https://zaytoon.ru/app/profile/map-adres'
     }
 ]

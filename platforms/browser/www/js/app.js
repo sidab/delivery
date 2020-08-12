@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 4.5,
+    version: 4.6,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -584,8 +584,8 @@ $$(document).on('deviceready', function () {
 
         if (app.device.ios) {
 
-            app.statusbar.hide();
-            app.statusbar.show();
+            //app.statusbar.hide();
+            //app.statusbar.show();
 
             setTimeout(function () {
 
@@ -664,6 +664,14 @@ $$(document).on('deviceready', function () {
         let url = $$(this).data('href');
 
         app.methods.openCachePage(url);
+
+    });
+
+    $$(window).on('click', '.custom-back', function () {
+
+        let activeTab = $$('.toolbar-menu').find('.tab-link-active').attr('href');
+
+        app.tab.show(activeTab, false);
 
     });
 

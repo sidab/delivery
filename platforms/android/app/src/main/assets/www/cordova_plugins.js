@@ -39,6 +39,20 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "cordova.InAppBrowser.open"
       ]
+    },
+    {
+      "id": "cordova-plugin-geolocation.geolocation",
+      "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+      "pluginId": "cordova-plugin-geolocation",
+      "clobbers": [
+        "navigator.geolocation"
+      ]
+    },
+    {
+      "id": "cordova-plugin-geolocation.PositionError",
+      "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+      "pluginId": "cordova-plugin-geolocation",
+      "runs": true
     }
   ];
   module.exports.metadata = {
@@ -51,6 +65,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-wkwebview-file-xhr": "2.1.4",
     "onesignal-cordova-plugin": "2.8.2",
     "cordova-plugin-open-blank": "0.0.2",
-    "cordova-plugin-inappbrowser": "4.0.0"
+    "cordova-plugin-inappbrowser": "4.0.0",
+    "cordova-plugin-geolocation": "4.0.2"
   };
 });

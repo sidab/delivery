@@ -70,7 +70,8 @@ module.exports.metadata =
     "cordova-plugin-wkwebview-file-xhr": "2.1.4",
     "es6-promise-plugin": "4.2.2",
     "onesignal-cordova-plugin": "2.8.2",
-    "cordova-plugin-inappbrowser": "4.0.0"
+    "cordova-plugin-inappbrowser": "4.0.0",
+    "cordova-plugin-geolocation": "4.0.2"
 }
 // BOTTOM OF METADATA
 });
