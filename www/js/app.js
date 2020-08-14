@@ -78,8 +78,6 @@ var app = new Framework7({
     methods: {
         checkVersion: function (callback) {
 
-            let app = this;
-
             let config;
 
             if (localStorage.config !== undefined) {
@@ -591,6 +589,8 @@ var app = new Framework7({
 
                 } catch (error) {
 
+                    console.log(error);
+
                     return url;
 
                 }
@@ -659,44 +659,52 @@ var app = new Framework7({
             },
             init: function () {
 
-                let localImages = [];
+                try {
 
-                if (localStorage.queueLocalImages == undefined) {
+                    let localImages = [];
 
-                    localStorage.queueLocalImages = '[]';
+                    if (localStorage.queueLocalImages == undefined) {
 
-                }
-
-                localforage.iterate(function(value, key, iterationNumber) {
-
-                    if (key.indexOf('http') !== -1) {
-
-                        let url = URL.createObjectURL(value)
-
-                        localImages.push({
-                            url: key,
-                            localUrl: url,
-                        });
+                        localStorage.queueLocalImages = '[]';
 
                     }
 
-                }).then(function() {
+                    localforage.iterate(function (value, key, iterationNumber) {
 
-                    localStorage.localImages = JSON.stringify(localImages);
+                        if (key.indexOf('http') !== -1) {
 
-                    app.emit('localImages:ready');
+                            let url = URL.createObjectURL(value)
 
-                }).catch({
+                            localImages.push({
+                                url: key,
+                                localUrl: url,
+                            });
 
-                    app.emit('localImages:ready');
+                        }
 
-                });
+                    }).then(function () {
 
-                setInterval(function () {
+                        localStorage.localImages = JSON.stringify(localImages);
 
-                    app.methods.localImages.saveToLocal();
+                        app.emit('localImages:ready');
 
-                }, 5000);
+                    }).catch(function(){
+
+                        app.emit('localImages:ready');
+
+                    });
+
+                    setInterval(function () {
+
+                        app.methods.localImages.saveToLocal();
+
+                    }, 5000);
+
+                } catch (error) {
+
+                    console.log(error);
+
+                }
 
             }
         }
