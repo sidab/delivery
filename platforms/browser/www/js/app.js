@@ -63,6 +63,7 @@ var app = new Framework7({
         sequential: false
     },
     statusbar: {
+        enabled: false,
         iosOverlaysWebView: false,
         androidOverlaysWebView: false
     },
@@ -698,7 +699,7 @@ var app = new Framework7({
 
                         app.methods.localImages.saveToLocal();
 
-                    }, 5000);
+                    }, 10000);
 
                 } catch (error) {
 
@@ -731,17 +732,9 @@ $$(document).on('deviceready', function () {
 
     setTimeout(function () {
 
-        if (app.device.ios) {
+        //app.statusbar.setBackgroundColor('#FF8C00');
 
-            app.statusbar.hide();
-
-            app.statusbar.show();
-
-        }
-
-        app.statusbar.setBackgroundColor('#FF8C00');
-
-        app.statusbar.setTextColor('white');
+        //app.statusbar.setTextColor('white');
 
     }, 100);
 
@@ -774,6 +767,14 @@ $$(document).on('deviceready', function () {
             });
 
             app.on('view-main-loaded', function () {
+
+                if (app.device.ios) {
+
+                    app.statusbar.hide();
+
+                    app.statusbar.show();
+
+                }
 
                 setTimeout(function () {
 
