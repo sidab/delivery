@@ -713,8 +713,9 @@ $$(document).on('deviceready', function () {
 
         if (app.device.ios) {
 
-            //app.statusbar.hide();
-            //app.statusbar.show();
+            app.statusbar.hide();
+
+            app.statusbar.show();
 
         }
 
