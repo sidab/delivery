@@ -565,28 +565,36 @@ var app = new Framework7({
         localImages: {
             get: function (url) {
 
-                let localImages = JSON.parse(localStorage.localImages);
+                try {
 
-                let index = localImages.findIndex(function (image) {
+                    let localImages = JSON.parse(localStorage.localImages);
 
-                    return image.url === url;
+                    let index = localImages.findIndex(function (image) {
 
-                });
+                        return image.url === url;
 
-                if (index !== -1) {
+                    });
 
-                    let image = localImages[index];
+                    if (index !== -1) {
 
-                    return image.localUrl;
+                        let image = localImages[index];
 
-                } else {
+                        return image.localUrl;
 
-                    app.methods.localImages.addToQueue(url);
+                    } else {
+
+                        app.methods.localImages.addToQueue(url);
+
+                        return url;
+
+                    }
+
+                } catch (error) {
 
                     return url;
 
                 }
-                
+
             },
             addToQueue: function (url) {
 
@@ -678,6 +686,10 @@ var app = new Framework7({
 
                     app.emit('localImages:ready');
 
+                }).catch({
+
+                    app.emit('localImages:ready');
+
                 });
 
                 setInterval(function () {
@@ -741,9 +753,9 @@ $$(document).on('deviceready', function () {
         }
     });
 
-    app.methods.localImages.init();
-
     app.methods.checkVersion(function () {
+
+        app.methods.localImages.init();
 
         app.on('localImages:ready', function () {
 
