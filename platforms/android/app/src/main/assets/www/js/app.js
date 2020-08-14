@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 4.7,
+    version: 4.8,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -603,7 +603,7 @@ var app = new Framework7({
 
                 let index = queueLocalImages.indexOf(url);
 
-                if (queueLocalImages.indexOf(index) === -1) {
+                if (index === -1) {
 
                     queueLocalImages.push(url);
 
@@ -614,7 +614,7 @@ var app = new Framework7({
             },
             saveToLocal: function () {
 
-                let queueLocalImages = JSON.parse(localStorage.queueLocalImages).slice(0, 10);
+                let queueLocalImages = JSON.parse(localStorage.queueLocalImages).slice(0, 100);
 
                 if (queueLocalImages.length > 0) {
 
@@ -622,40 +622,54 @@ var app = new Framework7({
 
                         let url = queueLocalImages[i];
 
-                        app.request({
-                            url: encodeURI(url),
-                            xhrFields: {
-                                responseType: 'blob'
-                            },
-                            success: function (blob) {
-
-                                let localImages = JSON.parse(localStorage.localImages);
-
-                                let localUrl = URL.createObjectURL(blob);
-
-                                let queueLocalImages_new = JSON.parse(localStorage.queueLocalImages);
-
-                                let queueLocalImageIndex = queueLocalImages_new.indexOf(url);
-
-                                queueLocalImages_new.splice(queueLocalImageIndex, 1);
-
-                                localStorage.queueLocalImages = JSON.stringify(queueLocalImages_new);
-
-                                localforage.setItem(url, blob);
-
-                                localImages.push({
-                                    url: url,
-                                    localUrl: localUrl
-                                });
-
-                                localStorage.localImages = JSON.stringify(localImages);
-
-                            }
-                        });
+                        app.methods.localImages.download(url, i);
 
                     }
 
                 }
+
+            },
+            download: function (url, i) {
+
+                let queueLocalImages = JSON.parse(localStorage.queueLocalImages);
+
+                let queueLocalImageIndex = queueLocalImages.indexOf(url);
+
+                queueLocalImages.splice(queueLocalImageIndex, 1);
+
+                localStorage.queueLocalImages = JSON.stringify(queueLocalImages);
+
+                setTimeout(function () {
+
+                    app.request({
+                        url: encodeURI(url),
+                        xhrFields: {
+                            responseType: 'blob'
+                        },
+                        success: function (blob) {
+
+                            app.methods.localImages.saveToStorage(url, blob);
+
+                        }
+                    });
+
+                }, i * 5000);
+
+            },
+            saveToStorage: function (url, blob) {
+
+                let localImages = JSON.parse(localStorage.localImages);
+
+                let localUrl = URL.createObjectURL(blob);
+
+                localforage.setItem(url, blob);
+
+                localImages.push({
+                    url: url,
+                    localUrl: localUrl
+                });
+
+                localStorage.localImages = JSON.stringify(localImages);
 
             },
             init: function () {
@@ -664,11 +678,7 @@ var app = new Framework7({
 
                     let localImages = [];
 
-                    if (localStorage.queueLocalImages == undefined) {
-
-                        localStorage.queueLocalImages = '[]';
-
-                    }
+                    localStorage.queueLocalImages = '[]';
 
                     localforage.iterate(function (value, key, iterationNumber) {
 
