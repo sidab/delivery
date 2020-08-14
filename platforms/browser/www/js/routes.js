@@ -105,6 +105,7 @@ routes = [
     },
     {
         path: '/profile/map-adres',
-        componentUrl: 'https://zaytoon.ru/app/profile/map-adres'
+        componentUrl: 'https://zaytoon.ru/app/profile/map-adres',
+        keepAlive: true
     }
 ]

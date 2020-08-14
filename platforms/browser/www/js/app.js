@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 4.6,
+    version: 4.7,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -306,6 +306,9 @@ var app = new Framework7({
 
             }
 
+
+            $$('.custom-back').click();
+
             app.views.current.router.back();
 
         },
@@ -558,6 +561,132 @@ var app = new Framework7({
 
             }
 
+        },
+        localImages: {
+            get: function (url) {
+
+                let localImages = JSON.parse(localStorage.localImages);
+
+                let index = localImages.findIndex(function (image) {
+
+                    return image.url === url;
+
+                });
+
+                if (index !== -1) {
+
+                    let image = localImages[index];
+
+                    return image.localUrl;
+
+                } else {
+
+                    app.methods.localImages.addToQueue(url);
+
+                    return url;
+
+                }
+                
+            },
+            addToQueue: function (url) {
+
+                let queueLocalImages = JSON.parse(localStorage.queueLocalImages);
+
+                let index = queueLocalImages.indexOf(url);
+
+                if (queueLocalImages.indexOf(index) === -1) {
+
+                    queueLocalImages.push(url);
+
+                    localStorage.queueLocalImages = JSON.stringify(queueLocalImages);
+
+                }
+
+            },
+            saveToLocal: function () {
+
+                let queueLocalImages = JSON.parse(localStorage.queueLocalImages).slice(0, 10);
+
+                if (queueLocalImages.length > 0) {
+
+                    for (let i = 0; i < queueLocalImages.length; i++) {
+
+                        let url = queueLocalImages[i];
+
+                        app.request({
+                            url: encodeURI(url),
+                            xhrFields: {
+                                responseType: 'blob'
+                            },
+                            success: function (blob) {
+
+                                let localImages = JSON.parse(localStorage.localImages);
+
+                                let localUrl = URL.createObjectURL(blob);
+
+                                let queueLocalImages_new = JSON.parse(localStorage.queueLocalImages);
+
+                                let queueLocalImageIndex = queueLocalImages_new.indexOf(url);
+
+                                queueLocalImages_new.splice(queueLocalImageIndex, 1);
+
+                                localStorage.queueLocalImages = JSON.stringify(queueLocalImages_new);
+
+                                localforage.setItem(url, blob);
+
+                                localImages.push({
+                                    url: url,
+                                    localUrl: localUrl
+                                });
+
+                                localStorage.localImages = JSON.stringify(localImages);
+
+                            }
+                        });
+
+                    }
+
+                }
+
+            },
+            init: function () {
+
+                let localImages = [];
+
+                if (localStorage.queueLocalImages == undefined) {
+
+                    localStorage.queueLocalImages = '[]';
+
+                }
+
+                localforage.iterate(function(value, key, iterationNumber) {
+
+                    if (key.indexOf('http') !== -1) {
+
+                        let url = URL.createObjectURL(value)
+
+                        localImages.push({
+                            url: key,
+                            localUrl: url,
+                        });
+
+                    }
+
+                }).then(function() {
+
+                    localStorage.localImages = JSON.stringify(localImages);
+
+                    app.emit('localImages:ready');
+
+                });
+
+                setInterval(function () {
+
+                    app.methods.localImages.saveToLocal();
+
+                }, 5000);
+
+            }
         }
     },
     on: {
@@ -587,19 +716,13 @@ $$(document).on('deviceready', function () {
             //app.statusbar.hide();
             //app.statusbar.show();
 
-            setTimeout(function () {
-
-                app.statusbar.setBackgroundColor('#FF8C00');
-
-                app.statusbar.setTextColor('white');
-
-            }, 100);
-
         }
 
-        navigator.splashscreen.hide();
+        app.statusbar.setBackgroundColor('#FF8C00');
 
-    }, 700);
+        app.statusbar.setTextColor('white');
+
+    }, 100);
 
     app.init();
 
@@ -617,34 +740,46 @@ $$(document).on('deviceready', function () {
         }
     });
 
+    app.methods.localImages.init();
+
     app.methods.checkVersion(function () {
 
-        app.views.create('#view-main', {
-            url: '/main',
-            //animate: app.device.ios ? true : false,
-            main: true
-        });
+        app.on('localImages:ready', function () {
 
-        app.on('view-main-loaded', function () {
-
-            app.views.create('#view-stocks', {
-                url: '/stocks',
-                //animate: app.device.ios ? true : false
+            app.views.create('#view-main', {
+                url: '/main',
+                //animate: app.device.ios ? true : false,
+                main: true
             });
 
-            app.views.create('#view-cart', {
-                url: '/cart',
-                //animate: app.device.ios ? true : false
-            });
+            app.on('view-main-loaded', function () {
 
-            app.views.create('#view-help', {
-                url: '/help',
-                //animate: app.device.ios ? true : false
-            });
+                setTimeout(function () {
 
-            app.views.create('#view-profile', {
-                url: app.params.user ? '/profile' : '/profile/auth',
-                //animate: app.device.ios ? true : false
+                    navigator.splashscreen.hide();
+
+                }, 100);
+
+                app.views.create('#view-stocks', {
+                    url: '/stocks',
+                    //animate: app.device.ios ? true : false
+                });
+
+                app.views.create('#view-cart', {
+                    url: '/cart',
+                    //animate: app.device.ios ? true : false
+                });
+
+                app.views.create('#view-help', {
+                    url: '/help',
+                    //animate: app.device.ios ? true : false
+                });
+
+                app.views.create('#view-profile', {
+                    url: app.params.user ? '/profile' : '/profile/auth',
+                    //animate: app.device.ios ? true : false
+                });
+
             });
 
         });

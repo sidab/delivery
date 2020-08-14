@@ -316,7 +316,7 @@
 
                 });
 
-                let image = item.image ? '<div class="item-image" style="background-image: url(' + item.image_thumb + '), url(' + item.image_thumb_512 + '), url(' + item.image_thumb_128 + '), url(' + item.image_thumb_64 + ')"><div class="overlay"></div></div>' : '';
+                let image = item.image ? '<div class="item-image" style="background-image: url(' + app.methods.localImages.get(item.image_thumb) + ')"><div class="overlay"></div></div>' : '';
 
                 if (item.weight.length > 0 && item.sostav.length > 0 && item.sostav.indexOf(' • ') == -1) {
 
