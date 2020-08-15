@@ -24,7 +24,8 @@
       "cordova-plugin-wkwebview-file-xhr": {},
       "cordova-plugin-geolocation": {
         "GEOLOCATION_USAGE_DESCRIPTION": "Нам необходим доступ к вашему местоположению для того чтобы вы могли указать свой адрес."
-      }
+      },
+      "cordova-plugin-inappbrowser": {}
     },
     "platforms": [
       "android",

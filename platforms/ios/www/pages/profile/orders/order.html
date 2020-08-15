@@ -1,0 +1,364 @@
+<template>
+
+    <div class="page">
+
+        <div class="navbar navbar-large">
+
+            <div class="navbar-bg"></div>
+
+            <div class="navbar-inner sliding">
+
+                <div class="left">
+
+                    <a href="#" class="link back popup-close">
+
+                        <i class="icon icon-back"></i>
+                        <span class="ios-only">Назад</span>
+
+                    </a>
+
+                </div>
+
+                <div class="title">Заказ №{{order.id}}</div>
+
+                <div class="title-large">
+
+                    <div class="title-large-text">Заказ №{{order.id}}</div>
+
+                </div>
+
+                <div class="right">
+
+                    <div class="chip {{#js_if "this.order.status === 'Ожидание отзыва'"}}color-deeporange{{/js_if}}">{{order.status}}</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="page-content">
+
+            {{#js_if "this.order.status === 'Ожидание отзыва'"}}
+
+            <div class="margin">
+
+                <button @click="addReview" class="button button-fill button-large underline">
+
+                    <div class="button-text">Оставить отзыв</div>
+
+                </button>
+
+            </div>
+
+            {{/js_if}}
+
+            <div class="list margin-top">
+
+                <ul>
+
+                    <li class="item-content">
+
+                        <div class="item-inner">
+
+                            <div class="item-title">Номер</div>
+
+                            <div class="item-after">{{order.id}}</div>
+
+                        </div>
+
+                    </li>
+
+                    <li class="item-content">
+
+                        <div class="item-inner">
+
+                            <div class="item-title">Дата</div>
+
+                            <div class="item-after">{{order.created_at}}</div>
+
+                        </div>
+
+                    </li>
+
+                    <li class="item-content">
+
+                        <div class="item-inner">
+
+                            <div class="item-title">Ресторан</div>
+
+                            <div class="item-after">{{order.restoraunt.name}}</div>
+
+                        </div>
+
+                    </li>
+
+                    {{#unless order.adres_id}}
+
+                    <li class="item-content">
+
+                        <div class="item-inner">
+
+                            <div class="item-title">Тип доставки</div>
+
+                            <div class="item-after">Самовывоз</div>
+
+                        </div>
+
+                    </li>
+
+                    {{/unless}}
+
+                </ul>
+
+            </div>
+
+            {{#if restoraunt}}
+
+                {{#unless order.adres_id}}
+
+                    <div class="block-title">Адрес самовывоза</div>
+
+                    <div class="block block-strong">
+
+                        г. {{restoraunt.city}} {{restoraunt.adres}}
+
+                    </div>
+
+                {{/unless}}
+
+            {{/if}}
+
+            {{#if order.adres}}
+
+            <div class="block-title">Адрес доставки</div>
+
+            <div class="block block-strong">
+
+                {{#js_if "this.order.adres.city && this.order.adres.city.length > 0"}}
+
+                г. {{order.adres.city}}
+
+                {{/js_if}}
+
+                {{#js_if "this.order.adres.street && this.order.adres.street.length > 0"}}
+
+                Улица: {{order.adres.street}}
+
+                {{/js_if}}
+
+                {{#js_if "this.order.adres.house && this.order.adres.house.length > 0"}}
+
+                Дом: {{order.adres.house}}
+
+                {{/js_if}}
+
+                {{#js_if "this.order.adres.podezd && this.order.adres.podezd.length > 0"}}
+
+                Подъезд: {{order.adres.podezd}}
+
+                {{/js_if}}
+
+                {{#js_if "this.order.adres.floor && this.order.adres.floor.length > 0"}}
+
+                Этаж: {{order.adres.floor}}
+
+                {{/js_if}}
+
+                {{#js_if "this.order.adres.apartament_number && this.order.adres.apartament_number.length > 0"}}
+
+                Квартира: {{order.adres.apartament_number}}
+
+                {{/js_if}}
+
+            </div>
+
+            {{/if}}
+
+            {{#js_if "this.order.comment && this.order.comment.length > 0"}}
+
+                <div class="block-title">Комментарий</div>
+
+                <div class="block block-strong">{{order.comment}}</div>
+
+            {{/js_if}}
+
+            <div class="block-title block-title-medium text-align-center">Позиции</div>
+
+            <div class="list media-list">
+
+                <ul>
+
+                    {{#each order.items}}
+
+                        <li class="item-content">
+
+                            <div class="item-inner">
+
+                                <div class="item-title-row">
+
+                                    <div class="item-title">{{name}}</div>
+
+                                    <div class="item-after">{{price}} ₽</div>
+
+                                </div>
+
+                                <div class="item-subtitle">
+
+                                    <div>Количество: {{quantity}}</div>
+
+                                    {{#js_if "this.weight && this.weight.length > 0"}}
+
+                                        {{weight}}
+
+                                    {{/js_if}}
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                    {{/each}}
+
+                </ul>
+
+            </div>
+
+            {{#if order.stocks}}
+
+                {{#js_if "this.order.stocks.length > 0"}}
+
+                    <div class="block-title block-title-medium">Акции</div>
+
+                    {{#each order.stocks}}
+
+                        <div class="margin padding block-info bg-color-blue text-color-white">
+
+                            Заказ участвовал в акции "{{name}}"
+
+                        </div>
+
+                    {{/each}}
+
+                {{/js_if}}
+
+            {{/if}}
+
+            {{#js_if "this.order.sum !== this.order.total_sum"}}
+
+                <div class="padding row bg-color-white">
+
+                    <div class="col">Сумма:</div>
+
+                    <div class="col text-align-right">{{order.sum}} ₽</div>
+
+                </div>
+
+                <div class="padding row bg-color-white">
+
+                    <div class="col">Скидка:</div>
+
+                    <div class="col text-align-right">{{order.skidka}} ₽</div>
+
+                </div>
+
+            {{/js_if}}
+
+            <div class="block block-strong row total">
+
+                <div class="col">Итого:</div>
+
+                <div class="col text-align-right">{{order.total_sum}} ₽</div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</template>
+
+<style scoped>
+
+    {{this}} .list .item-title {
+        white-space: normal;
+        word-wrap: break-word;
+    }
+
+    {{this}}.list .item-after {
+        max-width: 50%;
+        white-space: normal;
+        text-align: right;
+        word-break: break-word;
+    }
+
+    {{this}} .total {
+                 font-size: 16px;
+                 font-weight: 600;
+             }
+
+</style>
+
+<script>
+
+    return {
+
+        data: function () {
+
+            return {
+
+            }
+
+        },
+        methods: {
+            addReview: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                app.views.current.router.navigate('/profile/orders/order/review', {
+                    context: {
+                        order: component.order
+                    }
+                });
+
+            },
+            loadRestoraunt: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                app.request({
+                    url: app.params.config.backend + '/api/restoraunt-info',
+                    dataType: 'json',
+                    data: {
+                        id: component.order.restoraunt_id
+                    },
+                    success: function (response) {
+
+                        component.restoraunt = response;
+
+                        component.$update();
+
+                    }
+                })
+
+            }
+        },
+        on: {
+
+            pageInit: function() {
+
+                let component = this;
+                let page = component.$el;
+
+                component.loadRestoraunt();
+
+            }
+
+        }
+
+    }
+
+</script>

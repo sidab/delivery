@@ -1,0 +1,627 @@
+<template>
+
+    <div class="page {{#if items}}page-with-navbar-large {{else}}bg-color-white{{/if}}" data-name="cart">
+
+        <div class="navbar navbar-large {{#if items}}{{else}}display-none{{/if}}">
+
+            <div class="navbar-bg"></div>
+
+            <div class="navbar-inner sliding">
+
+                <div class="title">Корзина</div>
+
+                <div class="title-large">
+
+                    <div class="title-large-text">Корзина</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div @click="cartRender" class="display-none cart-render"></div>
+
+        <div class="page-content">
+
+            {{#if items}}
+
+                {{#if restoraunt}}
+
+                    {{#each stocks}}
+
+                        <div class="margin padding block-info bg-color-blue text-color-white">
+
+                            Вы участвуете в акции "{{name}}"
+
+                        </div>
+
+                    {{/each}}
+
+                    {{#js_if "Number(this.sum) < Number(this.restoraunt.min_order_sum)"}}
+
+                        <div class="margin padding block-info bg-color-orange text-color-white">
+
+                            Минимальная сумма заказа {{restoraunt.min_order_sum}} ₽
+
+                        </div>
+
+                    {{else}}
+
+                        {{#js_if "Number(this.sum) < Number(this.restoraunt.free_delivery_sum)"}}
+
+                            <div class="margin padding block-info bg-color-teal text-color-white">
+
+                                {{js "Number(this.restoraunt.free_delivery_sum) - Number(this.sum)"}} ₽ Не хватает для бесплатной доставки.
+
+                            </div>
+
+                        {{/js_if}}
+
+                    {{/js_if}}
+
+                {{/if}}
+
+                <div class="list media-list inset no-hairlines no-hairlines-between">
+
+                    <ul>
+
+                        {{#each items}}
+
+                        <li class="item-content margin-bottom bg-color-white">
+
+                            <div class="item-inner">
+
+                                <div @click="openItem({{id}})" class="item-title-row">
+
+                                    <div class="item-title">{{name}}</div>
+
+                                    <div class="item-after">{{price}} ₽</div>
+
+                                </div>
+
+                                <div class="item-subtitle">
+
+                                    <div @click="openItem({{id}})" class="text-color-gray item-desc">
+
+                                        {{category_name}}
+
+                                        {{#js_if "this.weight.length > 0"}}| {{weight}}{{/js_if}}
+
+                                        {{#js_if "this.sostav.length > 0"}}| {{sostav}}{{/js_if}}
+
+                                    </div>
+
+                                    <div class="row margin-top">
+
+                                        <div class="stepper color-black stepper-init col-65">
+
+                                            <div class="stepper-button-minus"></div>
+
+                                            <div class="stepper-input-wrap">
+
+                                                <input type="text" value="{{count}}" data-id="{{id}}" min="1" max="100" step="1" readonly>
+
+                                            </div>
+
+                                            <div class="stepper-button-plus"></div>
+
+                                        </div>
+
+                                        <button @click="removeItem('{{id}}')" class="button color-red button-fill col-30 button-delete">
+
+                                            <i class="icon f7-icons">trash</i>
+
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                        {{/each}}
+
+                    </ul>
+
+                </div>
+
+                {{#if restoraunt}}
+
+                    <div class="block block-strong">
+
+                        <div class="row margin-bottom">
+
+                            <div>Сумма:</div>
+
+                            <div>
+
+                                <span class="sum">{{sum}} ₽</span>
+
+                            </div>
+
+                        </div>
+
+                        {{#if totalSum}}
+
+                            <div class="row margin-bottom">
+
+                                <div>Скидка:</div>
+
+                                <div>
+
+                                    <span class="sum">{{skidkaSum}} ₽ ({{skidka}}%)</span>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row margin-bottom">
+
+                                <div>Итого:</div>
+
+                                <div>
+
+                                    <span class="sum">{{totalSum}} ₽</span>
+
+                                </div>
+
+                            </div>
+
+                        {{/if}}
+
+                        <div class="row">
+
+                            <div>Доставка:</div>
+
+                            <div>
+
+                                <span class="sum">
+
+                                    {{#js_if "Number(this.sum) >= Number(this.restoraunt.free_delivery_sum)"}}
+
+                                        Бесплатно
+
+                                    {{else}}
+
+                                        {{#js_if "Number(this.restoraunt.delivery_price) === 0"}}
+
+                                            Бесплатно
+
+                                        {{else}}
+
+                                            ~ {{restoraunt.delivery_price}} ₽
+
+                                        {{/js_if}}
+
+                                    {{/js_if}}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="margin">
+
+                        <button @click="checkout" class="button button-fill button-checkout button-large underline {{#js_if "Number(this.sum) < Number(this.restoraunt.min_order_sum)"}}disabled{{/js_if}}">Оформить заказ</button>
+
+                    </div>
+
+                {{/if}}
+
+            {{else}}
+
+                <div class="cart-empty text-align-center">
+
+                    <i class="icon f7-icons">cart</i>
+
+                    <div class="text-color-gray margin-top text">Ваша корзина пуста</div>
+
+                    <div class="text-color-gray margin-top margin">Добавьте что нибудь в корзину для того чтобы оформить заказ.</div>
+
+                </div>
+
+            {{/if}}
+
+        </div>
+
+    </div>
+
+</template>
+
+<style scoped>
+
+    {{this}} .cart-empty {
+        margin-top: 30px;
+    }
+
+    {{this}} .cart-empty i {
+                 font-size: 150px;
+                 color: #eee !important;
+             }
+
+    {{this}} .cart-empty .text {
+                 font-size: 22px;
+             }
+
+    {{this}} .cart-empty .text {
+
+             }
+
+    {{this}} .button-delete {
+        width: 55px;
+             }
+
+    {{this}} .button-delete i {
+                 font-size: 20px;
+                 line-height: 16px;
+             }
+
+    {{this}} .list ul {
+                 background: transparent;
+             }
+
+    {{this}} .list .item-content {
+        border-radius: 5px;
+             }
+
+    {{this}} .block-info {
+        border-radius: 5px;
+
+             }
+
+    {{this}} .item-desc {
+                 white-space: normal;
+                 font-size: 12px;
+                 width: 70%;
+                 margin-top: 5px;
+             }
+
+    {{this}} .item-title {
+                 text-decoration: underline;
+             }
+
+    {{this}} .button-checkout {
+                 max-width: 414px;
+                 margin: 0 auto;
+             }
+
+</style>
+
+<script>
+
+    return {
+
+        data: function () {
+
+            return {
+
+            }
+
+        },
+        methods: {
+            openItem: function (itemId) {
+
+                let component = this;
+                let page = component.$el;
+
+                let item = component.items.find(function (item) {
+
+                    return item.id == itemId;
+
+                });
+
+                let image = item.image ? '<div class="item-image" style="background-image: url(' + app.methods.localImages.get(item.image_thumb) + ')"><div class="overlay"></div></div>' : '';
+
+                if (item.weight.length > 0 && item.sostav.length > 0 && item.sostav.indexOf(' • ') == -1) {
+
+                    item.sostav = ' • ' + item.sostav;
+
+                }
+
+                let sheet = app.sheet.create({
+                    content: `
+
+                        <div class="sheet-modal sheet-item sheet-template-1">
+
+                            <div class="sheet-modal-inner">
+
+                                ` + image + `
+
+                                <div class="margin-horizontal item-info margin-bottom">
+
+                                    <div class="item-title">` + item.name + `</div>
+
+                                    <div class="item-desc margin-top text-color-gray">` + item.weight + item.sostav + `</div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    `,
+                    backdrop: true,
+                    swipeToClose: true,
+                    value: 1,
+                    on: {
+                        open: function () {
+
+                        },
+                        opened: function (sheet) {
+
+                            setTimeout(function () {
+
+                                sheet.$el.find('.item-image').find('.overlay').addClass('show');
+
+                            }, 100);
+
+                        }
+                    }
+                });
+
+                sheet.open();
+
+            },
+            checkout: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                if (component.restoraunt.schedule.length > 0) {
+
+                    let schedule = JSON.parse(component.restoraunt.schedule);
+
+                    let day = new Date().getDay();
+                    let hours = new Date().getHours();
+
+                    if ( schedule.workDays.indexOf( String(day) ) == -1 )  {
+
+                        app.dialog.alert('Извините но сегодня ресторан не работает, попробуйте завтра.');
+
+                        return false;
+
+                    }
+
+                    if (schedule.workStartTime === '00' && schedule.workStopTime === '00') {
+
+                        return false;
+
+                    }
+
+                    schedule.workStartTime = schedule.workStartTime + ':00';
+                    schedule.workStopTime = schedule.workStopTime + ':00';
+
+                    let now = app.methods.getMinutesNow();
+
+                    let start = app.methods.getMinutes(schedule.workStartTime);
+
+                    let end = app.methods.getMinutes(schedule.workStopTime);
+
+                    if (start > end) end += app.methods.getMinutes('24:00');
+
+                    if ( (now > start) && (now < end) ) {
+
+                    } else {
+
+                        app.dialog.alert('Извините но сейчас ресторан не работает, попробуйте в период с ' + schedule.workStartTime + ' до ' + schedule.workStopTime);
+
+                        return false;
+
+                    }
+
+                }
+
+                if (app.params.user) {
+
+                    app.views.current.router.navigate('/cart/checkout', {
+                        context: {
+                            restoraunt: component.restoraunt,
+                            stocks: component.stocks,
+                            sum: component.sum,
+                            skidka: component.skidkaSum,
+                            totalSum: component.totalSum ? component.totalSum : component.sum
+                        }
+                    });
+
+                } else {
+
+                    let popup = app.popup.create({
+                        content: '<div class="popup popup-auth"><div class="view view-popup-auth"></div></div>',
+                        on: {
+                            open: function () {
+
+                                let view = app.views.create('.view-popup-auth');
+
+                                view.router.navigate('/profile/auth', {
+                                    context: {
+                                        fromCheckout: true
+                                    }
+                                });
+
+                            },
+                            close: function () {
+
+                                if (app.params.user) {
+
+                                    app.views.get('#view-profile').router.navigate('/profile', {
+                                        clearPreviousHistory: true
+                                    });
+
+                                    component.checkout();
+
+                                }
+
+                            }
+                        }
+                    });
+
+                    popup.open();
+
+                }
+
+            },
+            removeItem: function (id) {
+
+                app.methods.cart.remove(id);
+
+            },
+            cartRender: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                if (localStorage.cart !== undefined && localStorage.cart !== '[]') {
+
+                    let items = JSON.parse(localStorage.cart);
+
+                    component.items = items;
+
+                    let sum = 0;
+
+                    for (let i = 0; i < items.length; i++) {
+
+                        sum += items[i].price * items[i].count;
+
+                    }
+
+                    component.sum = sum;
+
+                    $$('.toolbar-menu').find('a[href="#view-cart"]').find('.badge').removeClass('display-none').html(items.length);
+
+                    component.loadRestoraunt();
+
+                } else {
+
+                    $$('.toolbar-menu').find('a[href="#view-cart"]').find('.badge').addClass('display-none')
+
+                    component.items = false;
+
+                }
+
+                component.$update();
+
+            },
+            loadRestoraunt: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                let id = component.items[0].restoraunt_id;
+
+                app.request({
+                    url: app.params.config.backend + '/api/restoraunt-info',
+                    dataType: 'json',
+                    data: {
+                        id: id
+                    },
+                    success: function (response) {
+
+                        component.restoraunt = response;
+
+                        component.$update(function () {
+
+                            component.checkStocks();
+
+                        });
+
+                    }
+                })
+
+            },
+            checkStocks: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                let allStocks = component.restoraunt.stocks;
+
+                if (allStocks.length > 0) {
+
+                    let stocks = [];
+
+                    for (let i = 0; i < allStocks.length; i++) {
+
+                        let stock = allStocks[i];
+                        
+                        if ( (stock.order_sum > 0) && (component.sum >= stock.order_sum) ) {
+
+                            stocks.push(stock);
+
+                        }
+                        
+                    }
+
+                    component.stocks = stocks;
+
+                    skidkaStocks = stocks.filter(function (stock) {
+
+                        return stock.type === 'skidka';
+
+                    });
+
+                    if (skidkaStocks.length > 0) {
+
+                        let skidkaStock = skidkaStocks.sort((a, b) => a.skidka > b.skidka ? -1 : 1)[0];
+
+                        component.skidka = skidkaStock.skidka;
+
+                        component.skidkaSum = (component.sum / 100) * component.skidka;
+
+                        component.totalSum = component.sum - component.skidkaSum;
+
+                    } else {
+
+                        component.totalSum = false;
+
+                    }
+
+                    component.$update();
+
+                }
+
+            }
+
+        },
+        on: {
+
+            pageInit: function() {
+
+                let component = this;
+                let page = component.$el;
+
+                component.cartRender();
+
+                app.on('cart:change', function () {
+
+                    $$('.page[data-name="cart"]').find('.cart-render').click();
+
+                });
+
+                $$(window).on('change', '.page[data-name="cart"] .stepper input', function () {
+
+                    let id = $$(this).data('id');
+                    let count = $$(this).val();
+
+                    app.methods.cart.setCount(id, count);
+
+                });
+
+            },
+            pageReinit: function () {
+
+                let component = this;
+                let page = component.$el;
+
+            }
+
+        }
+
+    }
+
+</script>

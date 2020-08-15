@@ -1,0 +1,315 @@
+<template>
+
+    <div class="page bg-color-white" data-name="add-adres">
+
+        <div class="navbar navbar-large">
+
+            <div class="navbar-bg"></div>
+
+            <div class="navbar-inner sliding">
+
+                <div class="left">
+
+                    <a href="#" class="link back popup-close">
+
+                        <i class="icon icon-back"></i>
+                        <span class="ios-only">Назад</span>
+
+                    </a>
+
+                </div>
+
+                <div class="title">Новый адрес</div>
+
+                <div class="title-large">
+
+                    <div class="title-large-text">Новый адрес</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="page-content">
+
+            <div class="margin">
+
+                <button @click="openMap" class="button button-large color-teal button-fill">
+
+                    <i class="icon f7-icons">map</i>
+
+                    <span>Найти на карте</span>
+
+                </button>
+
+            </div>
+
+            <div class="list no-margin-top">
+
+                <ul>
+
+                    <li class="item-content item-input item-input-outline">
+
+                        <div class="item-inner">
+
+                            <div class="item-title item-label">Город</div>
+
+                            <div class="item-input-wrap">
+
+                                <input type="text" class="city" value="{{city}}">
+
+                                <span class="input-clear-button"></span>
+
+                            </div>
+
+                        </div>
+
+                    </li>
+
+                    <li class="item-content item-input item-input-outline">
+
+                        <div class="item-inner">
+
+                            <div class="item-title item-label">Улица</div>
+
+                            <div class="item-input-wrap">
+
+                                <input type="text" class="street" placeholder="">
+
+                                <span class="input-clear-button"></span>
+
+                            </div>
+
+                        </div>
+
+                    </li>
+
+                    <div class="row">
+
+                        <li class="item-content item-input item-input-outline col-50">
+
+                            <div class="item-inner">
+
+                                <div class="item-title item-label">Дом</div>
+
+                                <div class="item-input-wrap">
+
+                                    <input type="text" class="house" placeholder="">
+
+                                    <span class="input-clear-button"></span>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                        <li class="item-content item-input item-input-outline col-50">
+
+                            <div class="item-inner">
+
+                                <div class="item-title item-label">Подъезд</div>
+
+                                <div class="item-input-wrap">
+
+                                    <input type="text" class="podezd" placeholder="">
+
+                                    <span class="input-clear-button"></span>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                    </div>
+
+                    <div class="row">
+
+                        <li class="item-content item-input item-input-outline col-50">
+
+                            <div class="item-inner">
+
+                                <div class="item-title item-label">Этаж</div>
+
+                                <div class="item-input-wrap">
+
+                                    <input type="text" class="floor" placeholder="">
+
+                                    <span class="input-clear-button"></span>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                        <li class="item-content item-input item-input-outline col-50">
+
+                            <div class="item-inner">
+
+                                <div class="item-title item-label">Квартира</div>
+
+                                <div class="item-input-wrap">
+
+                                    <input type="text" class="apartament" placeholder="">
+
+                                    <span class="input-clear-button"></span>
+
+                                </div>
+
+                            </div>
+
+                        </li>
+
+                    </div>
+
+                </ul>
+
+            </div>
+
+            <div class="margin">
+
+                <button @click="save" class="button button-fill button-checkout button-large underline">
+
+                    <div class="preloader color-white display-none"></div>
+
+                    <div class="button-text">Добавить</div>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</template>
+
+<style scoped>
+
+</style>
+
+<script>
+
+    return {
+
+        data: function () {
+
+            return {
+
+            }
+
+        },
+        methods: {
+            save: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                let city = page.find('.city').val();
+                let street = page.find('.street').val();
+                let house = page.find('.house').val();
+                let podezd = page.find('.podezd').val();
+                let floor = page.find('.floor').val();
+                let apartament = page.find('.apartament').val();
+
+                if (city.length === 0) {
+
+                    app.dialog.alert('', 'Введите название города');
+
+                    return false;
+
+                }
+
+                if (street.length === 0) {
+
+                    app.dialog.alert('', 'Введите название улицы');
+
+                    return false;
+
+                }
+
+                page.find('.button').find('.preloader').removeClass('display-none');
+
+                page.find('.button').find('.button-text').addClass('display-none');
+
+                app.request({
+                    url: app.params.config.backend + '/api/add-adres',
+                    method: 'POST',
+                    data: {
+                        user: localStorage.user,
+                        city: city,
+                        street: street,
+                        house: house,
+                        podezd: podezd,
+                        floor: floor,
+                        apartament: apartament
+                    },
+                    success: function (response) {
+
+                        app.popup.close();
+
+                    }
+                });
+
+            },
+            openMap: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                try {
+
+                    navigator.geolocation.getCurrentPosition(function(position) {
+
+                        console.log(position);
+
+                    }, function(error) {
+
+                    });
+
+                } catch (error) {
+
+                    console.log(error);
+
+                }
+
+                let popup = app.popup.create({
+                    content: `
+
+                            <div class="popup popup-map-adres">
+
+                                <div class="view view-map-adres"></div>
+
+                            </div>`,
+                    on: {
+                        open: function () {
+
+                            app.views.create('.view-map-adres', {
+                                url: '/profile/map-adres'
+                            });
+
+                        }
+                    }
+                });
+
+                popup.open();
+
+            }
+        },
+        on: {
+
+            pageInit: function() {
+
+                let component = this;
+                let page = component.$el;
+
+            }
+
+        }
+
+    }
+
+</script>
