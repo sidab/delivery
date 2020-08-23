@@ -103,18 +103,6 @@
 
         </div>
 
-        <div class="reset-filter fab fab-extended fab-center-bottom color-gray {{#if resetButton}}{{else}}display-none{{/if}}">
-
-            <a @click="loadRestoraunts(null)" href="#">
-
-                <i class="icon f7-icons">multiply</i>
-
-                <div class="fab-text">Показать все</div>
-
-            </a>
-
-        </div>
-
         <div class="page-content ptr-content">
 
             <div class="ptr-preloader">
@@ -126,48 +114,6 @@
             </div>
 
             <div class="searchbar-backdrop"></div>
-
-            {{#js_if "app.params.config.showCategories"}}
-
-            {{#if categories}}
-
-                <div class="row padding categories searchbar-hide-on-search searchbar-hide-on-enable">
-
-                    {{#each categories}}
-
-                        <div @click="loadRestoraunts('{{id}}')" class="item large-33 col-50 margin-bottom bg-color-white">
-
-                            <div class="item-image" style="background-image: url('{{#if image}}{{image}}{{else}}http://delivery05.ru/storage/app/media/no_image.png{{/if}}')"></div>
-
-                            <div class="item-title margin">{{name}}</div>
-
-                        </div>
-
-                    {{/each}}
-
-                </div>
-
-            {{else}}
-
-                <div class="row padding categories">
-
-                    {{#each '123456879'}}
-
-                    <div class="item large-33 col-50 margin-bottom bg-color-white skeleton-effect-blink">
-
-                        <div class="item-image skeleton-block"></div>
-
-                        <div class="item-title margin skeleton-text">___________</div>
-
-                    </div>
-
-                    {{/each}}
-
-                </div>
-
-            {{/if}}
-
-            {{/js_if}}
 
             <div class="block-title block-title-large margin-top searchbar-hide-on-search restoraunts-title">
 
@@ -205,17 +151,17 @@
 
             {{else}}
 
-            <div class="list media-list">
+            <div class="list media-list no-hairlines">
 
                 <ul>
 
                     {{#each '123456789'}}
 
-                        <li class="item-content skeleton-text skeleton-effect-blink">
+                        <li class="item-content skeleton-text skeleton-effect-blink list-item-1">
 
                             <div class="item-media">
 
-                                <div class="skeleton-block" style="width: 100px; height: 100px;"></div>
+                                <div class="skeleton-block" style="width: 100px; height: 100px; border-radius: 4px"></div>
 
                             </div>
 
@@ -288,38 +234,6 @@
                  font-size: 25px;
              }
 
-    {{this}} .categories {
-                 background: #F5F5F5;
-                       }
-
-    {{this}} .categories .item {
-                 border-radius: 20px;
-                 overflow: hidden;
-             }
-
-    {{this}} .categories .item .item-image {
-                 height: 150px;
-                 background-size: cover;
-                 background-repeat: no-repeat;
-                 background-position: center;
-             }
-
-    {{this}} .categories .item .item-title {
-                 font-size: 18px;
-                 font-weight: 600;
-             }
-
-    {{this}} .reset-filter {
-                 width: 200px;
-             }
-
-    @media only screen and (max-device-width: 350px) {
-
-    {{this}} .categories .item .item-title {
-                 font-size: 14px;
-             }
-
-    }
 
 </style>
 
@@ -335,134 +249,35 @@
 
         },
         methods: {
-            loadCategories: function (callback) {
+            loadCities: function () {
 
                 let component = this;
                 let page = component.$el;
-
-                if (app.params.config.showCategories) {
-
-                    app.request({
-                        url: app.params.config.backend + '/api/categories',
-                        dataType: 'json',
-                        data: {
-                            only_main: 'true',
-                            only_with_items: 'true',
-                            city: localStorage.city
-                        },
-                        success: function (response) {
-
-                            component.categories = response;
-
-                            component.$update(function () {
-
-                                if (callback) {
-
-                                    callback();
-
-                                }
-
-                            });
-
-                        }
-                    });
-
-                } else {
-
-                    if (callback) {
-
-                        callback();
-
-                    }
-
-                }
-
-            },
-            loadRestoraunts: function (id, callback) {
-
-                let component = this;
-                let page = component.$el;
-
-                component.restoraunts = false;
-
-                component.$update(function () {
-
-                    if (id) {
-
-                        component.category = id;
-
-                        let scrollTop = page.find('.page-content').scrollTop();
-
-                        let offset = page.find('.restoraunts-title').offset().top + scrollTop - 150;
-
-                        page.find('.page-content').scrollTop(offset, 0);
-
-                        component.resetButton = true;
-
-                    } else {
-
-                        component.category = false;
-
-                        component.resetButton = false;
-
-                    }
-
-                });
 
                 app.request({
-                    url: app.params.config.backend + '/api/restoraunts',
+                    url: app.params.config.backend + '/api/cities',
                     dataType: 'json',
-                    data: {
-                        category: id ? id : null,
-                        city: localStorage.city
-                    },
                     success: function (response) {
 
-                        component.restoraunts = response;
+                        component.cities = response;
+
+                        if (component.cities.length === 1) {
+
+                            localStorage.city = component.cities[0];
+
+                            component.initRestoraunts();
+
+                        }
 
                         component.$update(function () {
 
-                            setTimeout(function () {
+                            if (localStorage.city == undefined) {
 
-                                if (id) {
-
-                                    let scrollTop = page.find('.page-content').scrollTop();
-
-                                    let offset = page.find('.restoraunts-title').offset().top + scrollTop - 150;
-
-                                    page.find('.page-content').scrollTop(offset, app.device.ios ? 300 : 0);
-
-                                }
-
-                            }, 100);
-
-                            let searchbar = app.searchbar.get('.searchbar');
-
-                            if (!searchbar) {
-
-                                searchbar = app.searchbar.create({
-                                    el: '.searchbar',
-                                    searchContainer: '.list',
-                                    searchIn: '.item-title',
-                                    on: {
-                                        search(sb, query, previousQuery) {
-                                            console.log(query, previousQuery);
-                                        }
-                                    }
-                                });
+                                component.chooseCity();
 
                             }
 
                         });
-
-                    },
-                    complete: function () {
-
-                        if (callback) {
-
-                            callback();
-
-                        }
 
                     }
                 });
@@ -485,11 +300,6 @@
 
                                 localStorage.city = $$('input[name="city"]:checked').val();
 
-                                component.loadCategories(function () {
-
-                                    component.loadRestoraunts();
-
-                                });
 
                             }
                         }
@@ -514,35 +324,115 @@
                 dialog.open();
 
             },
-            loadCities: function () {
+            initRestoraunts: function () {
 
                 let component = this;
                 let page = component.$el;
 
+                component.restoraunts = false;
+
+                component.$update();
+
+                let city = localStorage.city;
+
+                let url = app.params.config.backend + '/api/restoraunts';
+
+                let data = {
+                    city: city
+                };
+
+                let urlToSave = url + '?' + app.utils.serializeObject(data);
+
+                localforage.getItem(urlToSave).then(function(localVersion) {
+
+                    if (localVersion !== undefined && localVersion !== null) {
+
+                        let restoraunts = JSON.parse(localVersion);
+
+                        component.restoraunts = restoraunts;
+
+                        component.renderRestoraunts();
+
+                    }
+
+                });
+
+                component.loadRestoraunts(url, data);
+
+            },
+            loadRestoraunts: function (url, data) {
+
+                let component = this;
+                let page = component.$el;
+
+                let urlToSave = url + '?' + app.utils.serializeObject(data);
+
                 app.request({
-                    url: app.params.config.backend + '/api/cities',
+                    url: url,
                     dataType: 'json',
+                    data: data,
                     success: function (response) {
 
-                        component.cities = response;
+                        component.restoraunts = response;
 
-                        if (component.cities.length === 1) {
+                        localforage.setItem(urlToSave, JSON.stringify(response));
 
-                            localStorage.city = component.cities[0];
+                        component.renderRestoraunts();
 
-                        }
+                    }
+                });
 
-                        component.$update(function () {
+            },
+            renderRestoraunts: function () {
 
-                            if (localStorage.city == undefined) {
+                let component = this;
+                let page = component.$el;
 
-                                component.chooseCity();
+                component.$update(function () {
+
+                    if (component.restorauntsLoaded == undefined) {
+
+                        app.emit('view-main-loaded');
+
+                        component.restorauntsLoaded = true;
+
+                    }
+
+                    setTimeout(function () {
+
+                        page.find('.list-item-1').find('a:not(.disabled)').each(function (i) {
+
+                            let url = $$(this).data('href');
+
+                            app.methods.openCachePage(url, true);
+
+                            if (i === 4) {
+
+                                return false;
 
                             }
 
                         });
 
+                    }, 100);
+
+                    let searchbar = app.searchbar.get('.searchbar');
+
+                    if (!searchbar) {
+
+                        searchbar = app.searchbar.create({
+                            el: '.searchbar',
+                            searchContainer: '.list',
+                            searchIn: '.item-title',
+                            on: {
+                                search(sb, query, previousQuery) {
+                                    console.log(query, previousQuery);
+                                }
+                            }
+                        });
+
                     }
+
                 });
 
             }
@@ -554,60 +444,13 @@
                 let component = this;
                 let page = component.$el;
 
-                component.restorauntsLoadedTimeout = setTimeout(function () {
-
-                    if (component.restorauntsLoaded === undefined) {
-
-                        app.emit('view-main-loaded');
-
-                    }
-
-                }, 300);
-
                 component.loadCities();
-
-                component.loadCategories(function () {
-
-                    component.loadRestoraunts(null, function () {
-
-                        app.emit('view-main-loaded');
-
-                        component.restorauntsLoaded = true;
-
-                        clearTimeout(component.restorauntsLoadedTimeout);
-
-                        setTimeout(function () {
-
-                            page.find('.list-item-1').find('a:not(.disabled)').each(function (i) {
-
-                                let url = $$(this).data('href');
-
-                                app.methods.openCachePage(url, true);
-
-                                if (i === 4) {
-
-                                    return false;
-
-                                }
-
-                            });
-
-                        }, 100);
-                    });
-
-                });
 
                 page.find('.page-content').on('ptr:refresh', function (e) {
 
-                    component.loadRestoraunts();
+                    component.initRestoraunts();
 
                     e.detail();
-
-                });
-
-                page.find('.searchbar').find('input').on('focus', function () {
-
-                    component.loadRestoraunts();
 
                 });
 

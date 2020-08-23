@@ -49,7 +49,7 @@
 
                                         <div class="item-media">
 
-                                            <img src="{{restoraunt.logo_image.path}}" width="80"/>
+                                            <img src="{{restoraunt.logo_image.path}}" width="100"/>
 
                                         </div>
 
@@ -91,9 +91,49 @@
 
             {{else}}
 
-                <div class="margin text-align-center">
+                <div class="list media-list">
 
-                    <div class="preloader"></div>
+                    <ul>
+
+                        {{#each '123546'}}
+
+                        <li>
+
+                            <a href="#" class="item-link item-content skeleton-effect-blink">
+
+                                <div class="item-media">
+
+                                    <div class="skeleton-block" style="width: 100px; height: 100px; border-radius: 4px"></div>
+
+                                </div>
+
+                                <div class="item-inner">
+
+                                    <div class="item-title-row">
+
+                                        <div class="item-title skeleton-text">___________</div>
+
+                                        <div class="item-after skeleton-text">________</div>
+
+                                    </div>
+
+                                    <div class="item-subtitle">
+
+                                        <span class="chip skeleton-text">___________</span>
+
+                                    </div>
+
+                                    <div class="item-text skeleton-text">___________</div>
+
+                                </div>
+
+                            </a>
+
+                        </li>
+
+                        {{/each}}
+
+                    </ul>
 
                 </div>
 
@@ -126,11 +166,17 @@
                 let component = this;
                 let page = component.$el;
 
+                let url = app.params.config.backend + '/api/user-orders';
+
+                let data = {
+                    user: localStorage.user
+                };
+
+                let urlToSave = url + '?' + app.utils.serializeObject(data);
+
                 app.request({
-                    url: app.params.config.backend + '/api/user-orders',
-                    data: {
-                        user: localStorage.user
-                    },
+                    url: url,
+                    data: data,
                     dataType: 'json',
                     success: function (response) {
 
@@ -138,8 +184,40 @@
 
                         component.$update();
 
+                        localforage.setItem(urlToSave, JSON.stringify(response));
+
                     }
                 });
+
+            },
+            initOrders: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                let url = app.params.config.backend + '/api/user-orders';
+
+                let data = {
+                    user: localStorage.user
+                };
+
+                let urlToSave = url + '?' + app.utils.serializeObject(data);
+
+                localforage.getItem(urlToSave).then(function(localVersion) {
+
+                    if (localVersion !== undefined && localVersion !== null) {
+
+                        let stocks = JSON.parse(localVersion);
+
+                        component.orders = stocks;
+
+                        component.$update();
+
+                    }
+
+                });
+
+                component.loadOrders();
 
             },
             openOrder: function (id) {
@@ -168,7 +246,7 @@
                 let component = this;
                 let page = component.$el;
 
-                component.loadOrders();
+                component.initOrders();
 
             }
 

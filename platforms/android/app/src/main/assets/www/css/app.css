@@ -6,6 +6,10 @@
     --f7-input-outline-border-radius: 30px
 }
 
+.ios {
+    --f7-font-family: 'SF Pro Display', -apple-system, SF Pro Text, SF UI Text, system-ui, Helvetica Neue, Helvetica, Arial, sans-serif;
+}
+
 *:not(input, textarea) {
     user-select: none;
     /* supported by Chrome and Opera */
@@ -20,6 +24,10 @@
     -webkit-touch-callout: none;
 }
 
+.skeleton-text {
+    color:var(--f7-skeleton-color) !important
+}
+
 .underline {
     text-decoration: underline;
 }
@@ -29,7 +37,8 @@
 }
 
 .bg-color-light-gray {
-    background: #eee !important;
+    /*background: #eee !important;*/
+    background: #F7F7F7 !important;
 }
 
 .text-color-light-gray {
@@ -43,7 +52,7 @@
     height: calc(100% - 5px);
     left: 0;
     top: 2.5px;
-    border-radius: 5px;
+    border-radius: 4px;
     background-color: rgba(255, 140, 0, 0);
 }
 
@@ -143,11 +152,26 @@
 
 .sheet-item .item-desc {}
 
+.sheet-item .stepper {
+    --f7-stepper-button-bg-color: #F7F7F7;
+    --f7-stepper-button-text-color: #616161;
+    --f7-stepper-border-width: 1px;
+    --f7-stepper-button-pressed-bg-color: #E0E0E0;
+}
+
+.sheet-item .stepper-input-wrap, .sheet-item .stepper-button {
+    border-color: #616161;
+}
+
+.sheet-item .stepper input {
+    color: #616161;
+}
+
 .restoraunts {
              --f7-list-item-title-font-size: 20px;
          }
 .restoraunts .item-media img {
-             border-radius: 10px
+             border-radius: 4px
          }
 
 .restoraunts .item-text .rating {
@@ -169,8 +193,9 @@
              background-position: center;
              background-repeat: no-repeat;
              background-size: contain;
-             width: 100px;
-             height: 120px;
+        width: 100px;
+                height: 100px;
+                border-radius: 4px;
          }
 
 .sheet-rating i {

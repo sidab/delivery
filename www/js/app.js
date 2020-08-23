@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 4.9,
+    version: 5.0,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -74,7 +74,9 @@ var app = new Framework7({
         backdrop: true
     },
     navbar: {
-        collapseLargeTitleOnScroll: false
+        collapseLargeTitleOnScroll: true,
+        snapPageScrollToLargeTitle: false,
+        snapPageScrollToTransparentNavbar: false
     },
     methods: {
         checkVersion: function (callback) {
@@ -682,7 +684,7 @@ var app = new Framework7({
 
                     localforage.iterate(function (value, key, iterationNumber) {
 
-                        if (key.indexOf('http') !== -1) {
+                        if (key.indexOf('http') !== -1 && key.indexOf('api') == -1) {
 
                             let url = URL.createObjectURL(value)
 
@@ -790,7 +792,7 @@ $$(document).on('deviceready', function () {
 
                     navigator.splashscreen.hide();
 
-                }, 100);
+                }, 300);
 
                 app.views.create('#view-stocks', {
                     url: '/stocks',

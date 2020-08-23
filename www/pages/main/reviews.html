@@ -37,37 +37,64 @@
 
                 {{#js_if "this.reviews.length > 0"}}
 
-                    {{#each reviews}}
+                    <div class="row margin-horizontal">
 
-                        <div class="card card-outline review-item">
+                        {{#each reviews}}
 
-                            <div></div>
+                            <div class="card card-outline review-item xlarge-50 col-100 no-margin-horizontal">
 
-                            <div class="card-header row">
+                                <div></div>
 
-                                <div class="col author-name text-color-gray"><i class="icon f7-icons text-color-primary star-icon">star_fill</i> {{rating}} из 5</div>
+                                <div class="card-header row">
 
-                                <div class="col author-name text-color-gray text-align-right">{{user.firstname}}</div>
+                                    <div class="col author-name text-color-gray">
+
+                                        <i class="icon f7-icons text-color-primary star-icon">star_fill</i> {{rating}} из 5
+
+                                    </div>
+
+                                    <div class="col author-name text-color-gray text-align-right">{{user.firstname}}</div>
+
+                                </div>
+
+                                <div class="card-content card-content-padding">{{text}}</div>
+
+                                <div class="card-footer">
+
+                                    <div class="text-color-gray">{{created_at}}</div>
+
+                                </div>
 
                             </div>
 
-                            <div class="card-content card-content-padding">{{text}}</div>
+                        {{/each}}
 
-                            <div class="card-footer">
-
-                                <div class="text-color-gray">{{created_at}}</div>
-
-                            </div>
-
-                        </div>
-
-                    {{/each}}
+                    </div>
 
                     {{#if loadMore}}
 
                         <div class="block text-align-center width-100">
 
-                            <div class="preloader"></div>
+                            <div class="preloader">
+
+                              <span class="preloader-inner">
+
+                                <span class="preloader-inner-line"></span>
+                                <span class="preloader-inner-line"></span>
+                                <span class="preloader-inner-line"></span>
+                                <span class="preloader-inner-line"></span>
+                                <span class="preloader-inner-line"></span>
+                                <span class="preloader-inner-line"></span>
+                                <span class="preloader-inner-line"></span>
+                                <span class="preloader-inner-line"></span>
+                                <span class="preloader-inner-line"></span>
+                                <span class="preloader-inner-line"></span>
+                                <span class="preloader-inner-line"></span>
+                                <span class="preloader-inner-line"></span>
+
+                              </span>
+
+                            </div>
 
                         </div>
 
@@ -81,9 +108,31 @@
 
             {{else}}
 
-                <div class="block text-align-center">
+                <div class="row margin-horizontal">
 
-                    <div class="preloader"></div>
+                    {{#each '123546'}}
+
+                        <div class="card card-outline review-item skeleton-effect-blink xlarge-50 col-100 no-margin-horizontal">
+
+                            <div class="card-header row">
+
+                                <div class="col author-name text-color-gray skeleton-text">__________</div>
+
+                                <div class="col author-name text-color-gray text-align-right skeleton-text">__________</div>
+
+                            </div>
+
+                            <div class="card-content card-content-padding skeleton-text">__________ ___ _________ _________ _______ ____ _______ _______ _______ __________ ___ _________ _________ _______ ____ _______ _______ _______</div>
+
+                            <div class="card-footer">
+
+                                <div class="text-color-gray skeleton-text">__________</div>
+
+                            </div>
+
+                        </div>
+
+                    {{/each}}
 
                 </div>
 
@@ -126,55 +175,117 @@
 
         },
         methods: {
-            loadReviews: function (pageNum, callback) {
+            initReviews: function (pageNum) {
 
                 let component = this;
                 let page = component.$el;
 
-                pageNum = Number(pageNum);
+                let id = component.restoraunt.id;
+
+                let url = app.params.config.backend + '/api/reviews';
+
+                let data = {
+                    restoraunt_id: id,
+                    page: pageNum
+                };
+
+                let urlToSave = url + '?' + app.utils.serializeObject(data);
 
                 component.loadMore = false;
 
                 page.attr('data-page', pageNum);
 
+                localforage.getItem(urlToSave).then(function(localVersion) {
+
+                    if (localVersion !== undefined && localVersion !== null) {
+
+                        let reviews = JSON.parse(localVersion);
+
+                        component.loadMore = true;
+
+                        component.renderReviews(reviews, pageNum);
+
+                    }
+
+                });
+
+                component.loadReviews(url, data);
+
+            },
+            loadReviews: function (url, data) {
+
+                let component = this;
+                let page = component.$el;
+
+                let urlToSave = url + '?' + app.utils.serializeObject(data);
+
                 app.request({
-                    url: app.params.config.backend + '/api/reviews',
-                    data: {
-                        restoraunt_id: component.restoraunt.id,
-                        page: pageNum
-                    },
+                    url: url,
+                    data: data,
                     dataType: 'json',
                     success: function (response) {
 
-                        if (pageNum > 1) {
-
-                            component.reviews = component.reviews.concat(response.data);
-
-                        } else {
-
-                            component.reviews = response.data;
-
-                        }
+                        let reviews = response.data;
 
                         component.loadMore = response.next_page_url;
 
-                        component.$update(function () {
+                        component.renderReviews(reviews, data.page);
 
-                            if (callback !== undefined) {
-
-                                callback();
-
-                            }
-
-                        });
-
-                    },
-                    complete: function () {
-
-                        component.loading = false;
+                        localforage.setItem(urlToSave, JSON.stringify(reviews));
 
                     }
                 });
+
+            },
+            renderReviews: function (reviews, pageNum) {
+
+                let component = this;
+                let page = component.$el;
+
+                if (pageNum > 1) {
+
+                    component.reviews = component.reviews.concat(reviews);
+
+                } else {
+
+                    component.reviews = reviews;
+
+                }
+
+                console.log(component.reviews);
+
+                component.$update(function () {
+
+                    component.loading = false;
+
+                    if (!component.infiniteScroll) {
+
+                        component.infiniteScrollInit();
+
+                    }
+                    
+                });
+
+            },
+            infiniteScrollInit: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                page.find('.infinite-scroll-content').on('infinite', function () {
+
+                    if (!component.loading && component.loadMore) {
+
+                        component.loading = true;
+
+                        let pageNum = Number(page.data('page')) + 1;
+
+                        component.initReviews(pageNum);
+
+                    }
+                });
+
+                component.infiniteScroll = true;
 
             }
         },
@@ -185,22 +296,7 @@
                 let component = this;
                 let page = component.$el;
 
-                component.loadReviews(1, function () {
-
-                    page.find('.infinite-scroll-content').on('infinite', function () {
-
-                        if (!component.loading && component.loadMore) {
-
-                            component.loading = true;
-
-                            let pageNum = Number(page.data('page')) + 1;
-
-                            component.loadReviews(pageNum);
-
-                        }
-                    });
-
-                });
+                component.initReviews(1);
 
             }
 

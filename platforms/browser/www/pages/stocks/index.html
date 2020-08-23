@@ -2,7 +2,7 @@
 
     <div class="page bg-color-white" data-name="stocks">
 
-        <div class="navbar navbar-large">
+        <div class="navbar navbar-large navbar-transparent">
 
             <div class="navbar-bg"></div>
 
@@ -22,6 +22,8 @@
 
         <div class="page-content">
 
+            <div @click="loadStocks" class="load-stocks"></div>
+
             {{#if stocks}}
 
                 {{#js_if "this.stocks.length > 0"}}
@@ -30,7 +32,7 @@
 
                         {{#each stocks}}
 
-                            <a data-href="/main/restoraunt/{{restoraunt_info.id}}" class="open-cache-page display-block list media-list no-hairlines no-hairlines-between margin-vertical medium-50 col-100">
+                            <a data-href="/main/restoraunt/{{restoraunt_info.id}}" class="open-cache-page display-block list media-list no-hairlines no-hairlines-between medium-50 col-100 no-margin margin-bottom">
 
                                 <ul>
 
@@ -46,7 +48,11 @@
 
                                                     <div class="item-title text-color-black">{{restoraunt_info.name}}</div>
 
-                                                    <div class="item-after display-none">Заказ от {{restoraunt_info.min_order_sum}} ₽</div>
+                                                    <div class="item-after">
+
+                                                        <i class="icon f7-icons gift-icon">gift</i>
+
+                                                    </div>
 
                                                 </div>
 
@@ -56,7 +62,7 @@
 
                                         </div>
 
-                                        <div class="item-text padding text-color-white bg-color-primary">{{name}}</div>
+                                        <div class="item-text padding">{{name}}</div>
 
                                     </li>
 
@@ -76,9 +82,49 @@
 
             {{else}}
 
-                <div class="block text-align-center">
+                <div class="stocks row margin">
 
-                    <div class="preloader"></div>
+                    {{#each '123546'}}
+
+                        <a class="open-cache-page display-block list media-list no-hairlines no-hairlines-between medium-50 col-100 no-margin margin-bottom skeleton-effect-blink">
+
+                            <ul>
+
+                                <li>
+
+                                    <div class="item-content padding-vertical">
+
+                                        <div class="item-media skeleton-block" style="width: 60px;height: 60px;border-radius: 4px"></div>
+
+                                        <div class="item-inner">
+
+                                            <div class="item-title-row">
+
+                                                <div class="item-title text-color-black skeleton-text">_______________</div>
+
+                                                <div class="item-after">
+
+                                                    <i class="icon f7-icons gift-icon">gift</i>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="item-subtitle text-color-black skeleton-text">______________________</div>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="item-text padding">___________ ______ ______ __________ ____ ___________ ______ ______</div>
+
+                                </li>
+
+                            </ul>
+
+                        </a>
+
+                    {{/each}}
 
                 </div>
 
@@ -100,6 +146,10 @@
 
              }
 
+    {{this}} .gift-icon {
+                 font-size: 23px;
+                 color: #9E9E9E;
+             }
     {{this}} .stocks .list .item-media {
                  width: 60px;
                  height: 60px;
@@ -109,18 +159,23 @@
                  border-radius: 10px;
              }
 
-    {{this}} .stocks .list .item-text {
-                 font-weight: 900;
-                 border-radius: 0px 0px 10px 10px;
-                 display: block;
-                 max-height: none;
+    {{this}} .stocks .list .item-content {
+                 border-radius: 4px 4px 0px 0px;
+                 background: #F7F7F7;
+                 font-size: 16px;
+                 border: 2px solid #e0e0e0;
+                 border-bottom: none;
              }
 
-    {{this}} .stocks .list .item-content {
-                 border: 2px solid var(--f7-theme-color);
-    border-radius: 10px 10px 0px 0px;
-                 background: rgba(238, 238, 238, 0.5);
+    {{this}} .stocks .list .item-text {
+                 font-weight: 600;
+                 border-radius: 0px 0px 4px 4px;
+                 display: block;
+                 max-height: none;
+                 border: 2px dashed var(--f7-theme-color);
+                 color: #424242;
                  font-size: 16px;
+                 background: #ff98000f;
              }
 
 </style>
@@ -137,22 +192,60 @@
 
         },
         methods: {
+            initStocks: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                let url = app.params.config.backend + '/api/stocks';
+
+                let data = {
+                    city: localStorage.city
+                };
+
+                let urlToSave = url + '?' + app.utils.serializeObject(data);
+
+                localforage.getItem(urlToSave).then(function(localVersion) {
+
+                    if (localVersion !== undefined && localVersion !== null) {
+
+                        let stocks = JSON.parse(localVersion);
+
+                        component.stocks = stocks;
+
+                        component.$update();
+
+                    }
+
+                });
+
+                component.loadStocks();
+
+            },
             loadStocks: function () {
 
                 let component = this;
                 let page = component.$el;
 
+                let url = app.params.config.backend + '/api/stocks';
+
+                let data = {
+                    city: localStorage.city
+                };
+
+                let urlToSave = url + '?' + app.utils.serializeObject(data);
+
                 app.request({
-                    url: app.params.config.backend + '/api/stocks',
+                    url: url,
                     dataType: 'json',
-                    data: {
-                      city: localStorage.city
-                    },
+                    data: data,
                     success: function (response) {
 
                         component.stocks = response;
 
                         component.$update();
+
+                        localforage.setItem(urlToSave, JSON.stringify(response));
 
                     }
                 });
@@ -166,11 +259,11 @@
                 let component = this;
                 let page = component.$el;
 
-                component.loadStocks();
+                component.initStocks();
 
                 $$('#view-stocks').on('tab:show', function () {
 
-                    component.loadStocks();
+                    $$('.page[data-name="stocks"] .load-stocks').click();
 
                 });
 

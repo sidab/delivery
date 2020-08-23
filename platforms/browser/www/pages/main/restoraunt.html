@@ -1,12 +1,12 @@
 <template>
 
-    <div class="page no-swipeback" data-name="restoraunt">
+    <div class="page no-swipeback bg-color-white" data-name="restoraunt">
 
-        <div class="navbar navbar-large">
+        <div class="navbar navbar-large no-hairline ttt">
 
             <div class="navbar-bg"></div>
 
-            <div class="navbar-inner">
+            <div class="navbar-inner sliding">
 
                 <div class="left">
 
@@ -28,11 +28,7 @@
 
                     {{else}}
 
-                        {{#if showSkeleton}}
-
-                            <div class="skeleton-block" style="width: 100px;"></div>
-
-                        {{/if}}
+                        <div class="skeleton-text">____________</div>
 
                     {{/if}}
 
@@ -48,11 +44,7 @@
 
                         {{else}}
 
-                            {{#if showSkeleton}}
-
-                                <div class="skeleton-block" style="width: 190px;"></div>
-
-                            {{/if}}
+                            <div class="skeleton-text">____________</div>
 
                         {{/if}}
 
@@ -68,9 +60,21 @@
 
                     </a>
 
-                    <a href="#" class="link favorite-button">
+                    <a @click="favoriteToggle" href="#" class="link">
 
-                        <i class="icon f7-icons">bookmark</i>
+                        <i class="icon f7-icons">
+
+                            {{#if favorite}}
+
+                                bookmark_fill
+
+                            {{else}}
+
+                                bookmark
+
+                            {{/if}}
+
+                        </i>
 
                     </a>
 
@@ -98,19 +102,19 @@
 
                 {{#js_if "this.restoraunt && this.restoraunt.categories.length > 1"}}
 
-                <div class="subnavbar searchbar-hide-on-enable">
+                    <div class="subnavbar searchbar-hide-on-enable">
 
-                    <div class="subnavbar-inner categories padding-horizontal">
+                        <div class="subnavbar-inner categories padding-horizontal">
 
-                        {{#each restoraunt.categories}}
+                            {{#each restoraunt.categories}}
 
-                            <button class="button button-round bg-color-light-gray color-black button-large button-outline" data-id="{{id}}">{{name}}</button>
+                                <button class="button button-round" data-id="{{id}}">{{name}}</button>
 
-                        {{/each}}
+                            {{/each}}
+
+                        </div>
 
                     </div>
-
-                </div>
 
                 {{/js_if}}
 
@@ -120,47 +124,99 @@
 
         <div class="page-content">
 
+            <div @click="initRestoraunt" class="init-restoraunt"></div>
+
             {{#if restoraunt}}
 
                 <div class="padding block-info searchbar-hide-on-enable">
 
                     {{#js_if "this.restoraunt.reviews_count >= app.params.config.min_reviews_count_for_show_rating"}}
 
-                    <button @click="openReviews" class="button button-round button-outline width-auto margin-bottom color-black display-inline-block button-small sheet-open-" data-sheet=".sheet-rating">
+                        <button @click="openReviews" class="button button-round width-auto margin-bottom display-inline-block">
 
-                        <i class="icon f7-icons text-color-orange">star_fill</i>
+                            <i class="icon f7-icons text-color-orange">star_fill</i>
 
-                        <span>{{js "this.restoraunt.rating.toFixed(1)"}} ({{restoraunt.reviews_count}})</span>
+                            <span>{{js "this.restoraunt.rating.toFixed(1)"}} ({{restoraunt.reviews_count}})</span>
 
-                    </button>
+                        </button>
 
                     {{/js_if}}
 
-                    <div class="sheet-modal sheet-rating sheet-template-1" data-swipe-to-close="true" data-backdrop="true">
-
-                        <div class="sheet-modal-inner">
-
-                            <div class="swipe-handler"></div>
-
-                            <div class="block">
-
-                                <div class="block-title block-title-large">Рейтинг {{js "this.restoraunt.rating.toFixed(1)"}} <i class="icon f7-icons text-color-orange">star_fill</i></div>
-
-                            </div>
-
-                            <button class="button button-large bg-color-light-gray color-black button-ok sheet-close">Хорошо</button>
-
-                        </div>
-
-                    </div>
-
-                    <button class="button button-round button-outline width-auto margin-bottom color-black display-inline-block button-small sheet-open" data-sheet=".sheet-delivery-time">
+                    <button class="button button-round width-auto margin-bottom display-inline-block sheet-open" data-sheet=".sheet-delivery-time">
 
                         <i class="icon f7-icons">alarm</i>
 
                         <span>{{restoraunt.delivery_time}} мин</span>
 
                     </button>
+
+                    <button class="button button-round width-auto margin-bottom display-inline-block sheet-open" data-sheet=".sheet-min-order-sum">
+
+                        <i class="icon f7-icons">money_rubl_circle</i>
+
+                        <span>Заказ от {{restoraunt.min_order_sum}} ₽</span>
+
+                    </button>
+
+                    {{#js_if "Number(this.restoraunt.free_delivery_sum) > 0"}}
+
+                        <button class="button button-round width-auto margin-bottom display-inline-block sheet-open" data-sheet=".sheet-delivery">
+
+                            <span>Доставка 0-{{restoraunt.delivery_price}} ₽</span>
+
+                        </button>
+
+                        <div class="sheet-modal sheet-delivery sheet-template-1" data-swipe-to-close="true" data-backdrop="true">
+
+                            <div class="sheet-modal-inner">
+
+                                <div class="swipe-handler"></div>
+
+                                <div class="block">
+
+                                    <div class="block-title block-title-medium text-align-center">Доставка</div>
+
+                                    <div class="list">
+
+                                        <ul>
+
+                                            <li class="item-content">
+
+                                                <div class="item-inner">
+
+                                                    <div class="item-title">Заказ до {{restoraunt.free_delivery_sum}} ₽</div>
+
+                                                    <div class="item-after">{{restoraunt.delivery_price}} ₽</div>
+
+                                                </div>
+
+                                            </li>
+
+                                            <li class="item-content">
+
+                                                <div class="item-inner">
+
+                                                    <div class="item-title">Заказ от {{restoraunt.free_delivery_sum}} ₽</div>
+
+                                                    <div class="item-after">Бесплатно</div>
+
+                                                </div>
+
+                                            </li>
+
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+
+                                <button class="button button-large bg-color-light-gray color-black button-ok sheet-close">Хорошо</button>
+
+                            </div>
+
+                        </div>
+
+                    {{/js_if}}
 
                     <div class="sheet-modal sheet-delivery-time sheet-template-1" data-swipe-to-close="true" data-backdrop="true">
 
@@ -182,14 +238,6 @@
 
                     </div>
 
-                    <button class="button button-round button-outline width-auto margin-bottom color-black display-inline-block button-small sheet-open" data-sheet=".sheet-min-order-sum">
-
-                        <i class="icon f7-icons">money_rubl_circle</i>
-
-                        <span>Заказ от {{restoraunt.min_order_sum}} ₽</span>
-
-                    </button>
-
                     <div class="sheet-modal sheet-min-order-sum sheet-template-1" data-swipe-to-close="true" data-backdrop="true">
 
                         <div class="sheet-modal-inner">
@@ -210,75 +258,15 @@
 
                     </div>
 
-                    {{#js_if "Number(this.restoraunt.free_delivery_sum) > 0"}}
-
-                    <button class="button button-round button-outline width-auto margin-bottom color-black display-inline-block button-small sheet-open" data-sheet=".sheet-delivery">
-
-                        <span>Доставка 0-{{restoraunt.delivery_price}} ₽</span>
-
-                    </button>
-
-                    <div class="sheet-modal sheet-delivery sheet-template-1" data-swipe-to-close="true" data-backdrop="true">
-
-                        <div class="sheet-modal-inner">
-
-                            <div class="swipe-handler"></div>
-
-                            <div class="block">
-
-                                <div class="block-title block-title-medium text-align-center">Доставка</div>
-
-                                <div class="list">
-
-                                    <ul>
-
-                                        <li class="item-content">
-
-                                            <div class="item-inner">
-
-                                                <div class="item-title">Заказ до {{restoraunt.free_delivery_sum}} ₽</div>
-
-                                                <div class="item-after">{{restoraunt.delivery_price}} ₽</div>
-
-                                            </div>
-
-                                        </li>
-
-                                        <li class="item-content">
-
-                                            <div class="item-inner">
-
-                                                <div class="item-title">Заказ от {{restoraunt.free_delivery_sum}} ₽</div>
-
-                                                <div class="item-after">Бесплатно</div>
-
-                                            </div>
-
-                                        </li>
-
-                                    </ul>
-
-                                </div>
-
-                            </div>
-
-                            <button class="button button-large bg-color-light-gray color-black button-ok sheet-close">Хорошо</button>
-
-                        </div>
-
-                    </div>
-
-                    {{/js_if}}
-
                     {{#js_if "this.restoraunt.stocks.length > 0"}}
 
-                        <div class="block-title no-margin-top no-margin-horizontal"><i class="icon f7-icons">gift</i>Акции</div>
+                        <div class="block-title no-margin-top no-margin-horizontal">Акции</div>
 
                         <div class="display-flex stocks">
 
                             {{#each restoraunt.stocks}}
 
-                                <div class="margin-right stock width-auto text-color-black sheet-open border-color-primary" data-sheet=".sheet-stock-{{id}}">
+                                <div class="margin-right stock width-auto sheet-open border-color-primary" data-sheet=".sheet-stock-{{id}}">
 
                                     <div class="stock-inner">
 
@@ -318,13 +306,13 @@
 
                 {{#js_if "this.restoraunt.categories.length > 1"}}
 
-                <div class="searchbar-hide-on-enable">
+                <div class="searchbar-hide-on-enable margin-horizontal">
 
-                    <div class="margin display-flex categories">
+                    <div class="margin-vertical display-flex categories">
 
                         {{#each restoraunt.categories}}
 
-                            <button class="button button-round bg-color-light-gray color-black button-large button-outline" data-id="{{id}}">{{name}}</button>
+                        <button class="button button-round button" data-id="{{id}}">{{name}}</button>
 
                         {{/each}}
 
@@ -334,103 +322,151 @@
 
                 {{/js_if}}
 
-                <div class="searchbar-not-found margin">По вашему запросу ничего не найдено.</div>
+                <div class="margin-horizontal">
 
-                <div class="block-items-1">
+                    <div class="searchbar-not-found">По вашему запросу ничего не найдено.</div>
 
-                    {{#each restoraunt.categories}}
+                    <div class="block-items-1">
 
-                        <div class="block-items">
+                        {{#each restoraunt.categories}}
 
-                            <div class="block-title block-title-medium category-title" data-id="{{id}}">{{name}}</div>
+                            <div class="block-items">
 
-                            <div class="row items margin" data-id="{{id}}">
+                                <div class="block-title block-title-medium category-title no-margin-left margin-top" data-id="{{id}}">{{name}}</div>
 
-                                {{#each items}}
+                                <div class="row items margin-vertical" data-id="{{id}}">
 
-                                    <div @click="openItem('{{../id}}', '{{id}}')" class="item large-25 medium-33 col-50 margin-bottom bg-color-white">
+                                    {{#each items}}
 
-                                        {{#if image_thumb_512}}
+                                        <div @click="openItem('{{../id}}', '{{id}}')" class="item large-25 medium-33 col-50 margin-bottom bg-color-white">
 
-                                            <div class="item-image" style="background-image: url('{{js "app.methods.localImages.get(this.image_thumb_512)"}}')"></div>
+                                            {{#if image_thumb_512}}
 
-                                        {{/if}}
+                                                <div class="item-image" style="background-image: url('{{js "app.methods.localImages.get(this.image_thumb_512)"}}')"></div>
 
-                                        <div class="item-info margin">
+                                            {{/if}}
 
-                                            <div class="item-title margin-bottom">{{name}} <span class="display-none">{{../name}}</span>  </div>
+                                            <div class="item-info margin">
 
-                                            <div class="row">
+                                                <div class="item-title margin-bottom">{{name}} <span class="display-none">{{../name}}</span>  </div>
 
-                                                <div class="col-50 item-price">{{price}} ₽</div>
+                                                <div class="row">
 
-                                                <div class="col-50 text-align-right item-weight text-color-gray">{{weight}}</div>
+                                                    <div class="col-50 item-price">{{price}} ₽</div>
+
+                                                    <div class="col-50 text-align-right item-weight text-color-gray">{{weight}}</div>
+
+                                                </div>
 
                                             </div>
 
                                         </div>
 
-                                    </div>
+                                    {{/each}}
 
-                                {{/each}}
+                                </div>
 
                             </div>
 
-                        </div>
+                        {{/each}}
 
-                    {{/each}}
+                    </div>
 
                 </div>
 
             {{else}}
 
-                {{#if showSkeleton}}
+                <div class="padding block-info">
 
-                    <div class="skeleton-effect-blink">
+                    <button class="button button-round width-auto margin-bottom display-inline-block skeleton-text">________</button>
 
-                        <div class="margin display-flex categories">
+                    <button class="button button-round width-auto margin-bottom display-inline-block skeleton-text">________</button>
 
-                            {{#each '123456789'}}
+                    <button class="button button-round width-auto margin-bottom display-inline-block skeleton-text">________</button>
 
-                                <div class="skeleton-block button-round button" style="width: 130px; height: 44px;"></div>
+                    <button class="button button-round width-auto margin-bottom display-inline-block skeleton-text">___________</button>
 
-                            {{/each}}
+                    <div class="block-title no-margin-top no-margin-horizontal skeleton-text">________</div>
 
-                        </div>
+                    <div class="display-flex stocks">
 
-                        <div class="block-title block-title-medium category-title skeleton-text">_____________</div>
+                        {{#each '123456'}}
 
-                        <div class="row items margin">
+                            <div class="margin-right stock width-auto border-color-gray">
 
-                            {{#each '123456789'}}
+                                <div class="stock-inner">
 
-                                <div class="item large-25 medium-33 col-50 margin-bottom bg-color-white skeleton-text">
-    0
-                                    <div class="skeleton-block" style="width: 100%; height: 100px;"></div>
-
-                                    <div class="item-info margin">
-
-                                        <div class="item-title margin-bottom">____ _____</div>
-
-                                        <div class="row">
-
-                                            <div class="col-50 item-price">____</div>
-
-                                            <div class="col-50 text-align-right item-weight text-color-gray">____</div>
-
-                                        </div>
-
-                                    </div>
+                                    <div class="stock-name">___________ ____ _______ ___________ __________ ______ ____________ ________ ________ _______ ____</div>
 
                                 </div>
 
-                            {{/each}}
+                            </div>
 
-                        </div>
+                        {{/each}}
 
                     </div>
 
-                {{/if}}
+                </div>
+
+                <div class="margin-horizontal">
+
+                    <div class="margin-vertical display-flex categories">
+
+                        {{#each '123456879'}}
+
+                            <button class="button button-round button-active skeleton-text">________</button>
+
+                        {{/each}}
+
+                    </div>
+
+                </div>
+
+                <div class="margin-horizontal">
+
+                    <div class="block-items-1">
+
+                        {{#each '1'}}
+
+                            <div class="block-items">
+
+                                <div class="block-title block-title-medium category-title no-margin-left margin-top skeleton-text skeleton-effect-blink">________</div>
+
+                                <div class="row items margin-vertical">
+
+                                    {{#each '123546789'}}
+
+                                        <div class="item large-25 medium-33 col-50 margin-bottom bg-color-white skeleton-effect-blink">
+
+                                            <div class="item-image skeleton-block"></div>
+
+                                            <div class="item-info margin">
+
+                                                <div class="item-title margin-bottom skeleton-text">________________</div>
+
+                                                <div class="row">
+
+                                                    <div class="col-50 item-price skeleton-text">________</div>
+
+                                                    <div class="col-50 text-align-right item-weight text-color-gray skeleton-text">________</div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    {{/each}}
+
+                                </div>
+
+                            </div>
+
+                        {{/each}}
+
+                    </div>
+
+                </div>
 
             {{/if}}
 
@@ -443,49 +479,33 @@
 <style scoped>
 
     {{this}} {
-        background: #F5F5F5;
+        --f7-subnavbar-height: 60px;
     }
 
-    {{this}} .navbar-hidden * {
-        opacity: 0 !important;
+    {{this}} .navbar-bg {
+        background: #f7f7f7;
     }
-
-    {{this}} .page-content {
-        --f7-page-navbar-offset: calc(var(--f7-navbar-height) + var(--f7-navbar-large-title-height) + var(--f7-safe-area-top));
-        padding-bottom: 150px;
-    }
-
-    {{this}} .block-info::-webkit-scrollbar {
-        display: none;
-    }
-
-    {{this}} .block-info *::-webkit-scrollbar {
-                 display: none;
-             }
-
-    {{this}} .block-info .icon {
-                 font-size: 16px;
-                 line-height: 12px;
-             }
 
     {{this}} .block-info {
-                 background: #f9f9f9;
-                 border-radius: 0px 0px 30px 30px
+                 background: #f7f7f7;
              }
 
+    {{this}} .subnavbar {
+        display: none;
+        background: #f7f7f7;
+    }
 
-    {{this}} .block-info .button:not(.stock) {
-                 margin-right: 5px;
-                 font-size: 12px;
-                 text-transform: none
-             }
-
-    {{this}} .navbar .navbar-bg::after {
-                 display: none;
+    {{this}} .navbar.subnavbar-show .subnavbar {
+                 display: block;
              }
 
     {{this}} .categories {
-                 overflow: auto;
+        overflow: auto;
+    }
+
+    {{this}} .page-content {
+                 --f7-page-navbar-offset: calc(var(--f7-navbar-height) + var(--f7-navbar-large-title-height) + var(--f7-safe-area-top));
+                 padding-bottom: 150px;
              }
 
     {{this}} .categories .button {
@@ -493,64 +513,33 @@
                  flex-shrink: 0;
                  margin-right: 10px;
                  text-transform: none;
-                 font-weight: 600;
-        --f7-button-padding-horizontal: 30px;
-             }
-
-    {{this}} .items {
-
-             }
-
-    {{this}} .items .item {
-                 border-radius: 10px;
-                 overflow: hidden;
-                 border: 2px solid #EEEEEE;
-             }
-
-    {{this}} .items .item .item-image {
-                 height: 140px;
-                 background-repeat: no-repeat;
-                 background-position: center;
-                 background-size: cover;
-                 background-color: #E0E0E0;
-             }
-
-    {{this}} .items .item .item-info {
+                 --f7-button-padding-horizontal: 20px;
+                 --f7-button-height: 40px;
+                 --f7-button-font-size: 16px;
+                 --f7-button-font-weight: 400;
+                 --f7-button-border-color: #E0E0E0;
+                 color: #000;
 
              }
+    {{this}} .categories .button-active {
+                 --f7-button-bg-color: #eeeeee;
+             }
 
-    {{this}} .items .item .item-title {
+    {{this}} .block-info .icon {
                  font-size: 16px;
-                 font-weight: 300;
+                 line-height: 12px;
              }
 
-    {{this}} .items .item .item-price {
-                 font-size: 16px;
-                 font-weight: bold;
+    {{this}} .block-info .button {
+                 --f7-button-bg-color: #eeeeee;
+                 color: rgba(0, 0, 0, 0.64);
+                 --f7-button-padding-horizontal: 15px;
+                 --f7-button-height: 30px;
+                 --f7-button-font-size: 14px;
+                 --f7-button-font-weight: 400;
+                 text-transform: none;
              }
 
-    {{this}} .items .item .item-weight {
-
-             }
-
-    {{this}} {
-        --f7-subnavbar-height: 60px;
-    }
-
-    {{this}} .subnavbar {
-                 background: none !important;
-                 backdrop-filter: none;
-                 display: none;
-        transition: .3s;
-             }
-
-    {{this}} .navbar.subnavbar-show .navbar-bg {
-                 height: calc(100% + var(--f7-navbar-large-title-height) + var(--f7-subnavbar-height));
-             }
-
-    {{this}} .navbar.subnavbar-show .subnavbar {
-                 display: block;
-             }
 
     {{this}} .stocks {
                  overflow: auto;
@@ -560,7 +549,7 @@
                  flex-shrink: 0;
                  height: auto;
                  line-height: 15px;
-                 border-radius: 10px;
+                 border-radius: 4px;
                  max-width: 250px;
                  font-weight: 600;
                  position: relative;
@@ -568,6 +557,7 @@
                  border-style: dashed;
                  border-width: 2px;
                  padding: 10px 10px;
+                 color: rgba(0, 0, 0, 0.64);
              }
 
     {{this}} .stocks .stock .stock-inner {
@@ -580,34 +570,50 @@
                  vertical-align: middle;
              }
 
+    {{this}} .items .item {
+                 border-radius: 10px;
+                 overflow: hidden;
+                 border: 1px solid #F7F7F7;
+             }
+
+    {{this}} .items .item .item-image {
+                 height: 140px;
+                 background-repeat: no-repeat;
+                 background-position: center;
+                 background-size: cover;
+                 background-color: #F7F7F7;
+             }
+
+    {{this}} .items .item .item-title {
+                 font-size: 16px;
+                 font-weight: 400;
+             }
+
+    {{this}} .items .item .item-price {
+                 font-size: 16px;
+                 font-weight: bold;
+             }
+
+
     @media only screen and (min-device-width: 767px) {
 
-        {{this}} .items .item .item-image {
-             height: 200px;
-        }
+    {{this}} .items .item .item-image {
+                 height: 200px;
+             }
 
     }
 
     @media only screen and (max-device-width: 320px) {
 
-        {{this}} .categories .button {
-                 font-weight: 600;
-                 --f7-button-padding-horizontal: 15px;
-                 font-size: 12px;
-                 --f7-button-height: 30px;
-                 margin-right: 5px;
-        }
-
-        {{this}} .items .item .item-title {
+    {{this}} .items .item .item-title {
                  font-size: 14px;
-        }
+             }
 
-        {{this}} .items .item .item-price {
+    {{this}} .items .item .item-price {
                  font-size: 14px;
-        }
+             }
 
     }
-
 
 </style>
 
@@ -624,22 +630,20 @@
 
         },
         methods: {
-            openReviews: function () {
-
-                let component = this;
-                let page = component.$el;
-
-                app.views.current.router.navigate('/main/reviews', {
-                    context: {
-                        restoraunt: component.restoraunt
-                    }
-                });
-
-            },
             openItem: function (categoryId, itemId) {
 
                 let component = this;
                 let page = component.$el;
+
+                let sheet = 'sheet-' + itemId;
+
+                if (component[sheet]) {
+
+                    component[sheet].open();
+
+                    return false;
+
+                }
 
                 let category = component.restoraunt.categories.find(function (category) {
 
@@ -661,7 +665,7 @@
 
                 }
 
-                let sheet = app.sheet.create({
+                component[sheet] = app.sheet.create({
                     content: `
 
                         <div class="sheet-modal sheet-item sheet-template-1">
@@ -680,13 +684,13 @@
 
                                         <div class="col-50">
 
-                                          <div class="stepper stepper-fill width-100 stepper-large color-black stepper-round">
+                                          <div class="stepper stepper-fill width-100 stepper-large">
 
-                                            <div class="stepper-button stepper-button-minus disabled sound-2 vibrate" data-vibrateTime="30"></div>
+                                            <div class="stepper-button stepper-button-minus sound-2 vibrate" data-vibrateTime="30"></div>
 
                                             <div class="stepper-input-wrap">
 
-                                              <input type="text" class="text-color-black" value="1" min="1" max="100" step="1" readonly>
+                                              <input type="text" value="1" min="1" max="100" step="1" readonly>
 
                                             </div>
 
@@ -776,16 +780,6 @@
                                 on: {
                                     change: function (stepper, value) {
 
-                                        if (value === 1) {
-
-                                            sheet.$el.find('.stepper').find('.stepper-button-minus').addClass('disabled');
-
-                                        } else {
-
-                                            sheet.$el.find('.stepper').find('.stepper-button-minus').removeClass('disabled');
-
-                                        }
-
                                     }
                                 }
                             });
@@ -818,67 +812,81 @@
                     }
                 });
 
-                sheet.open();
+                component[sheet].open();
 
             },
-            loadRestoraunt: function (callback) {
+            initRestoraunt: function () {
 
                 let component = this;
                 let page = component.$el;
 
                 let id = component.$router.currentRoute.params.id;
 
-                setTimeout(function () {
+                let url = app.params.config.backend + '/api/restoraunt';
 
-                    component.showSkeleton = true;
+                let data = {
+                    id: id
+                };
 
-                    component.$update();
+                let urlToSave = url + '?' + app.utils.serializeObject(data);
 
-                }, 300);
+                localforage.getItem(urlToSave).then(function(localVersion) {
 
-                let cache = sessionStorage.getItem('restoraunt-' + id);
+                    if (localVersion !== undefined && localVersion !== null) {
 
-                if (cache !== null) {
+                        component.restoraunt = JSON.parse(localVersion);
 
-                    component.restoraunt = JSON.parse(cache);
-
-                    component.$update(function () {
-
-                        if (callback) {
-
-                            callback();
-
-                        }
-
-                    });
-
-                    return false;
-
-                }
-
-                app.request({
-                   url: app.params.config.backend + '/api/restoraunt',
-                   dataType: 'json',
-                   data: {
-                       id: id
-                   },
-                    success: function (response) {
-
-                       component.restoraunt = response;
-
-                       sessionStorage.setItem('restoraunt-' + id, JSON.stringify(response));
-
-                       component.$update(function () {
-
-                           if (callback) {
-
-                               callback();
-
-                           }
-
-                       });
+                        component.renderRestoraunt();
 
                     }
+
+                });
+
+                component.loadRestoraunt(url, data);
+
+            },
+            loadRestoraunt: function (url, data) {
+
+                let component = this;
+                let page = component.$el;
+
+                let urlToSave = url + '?' + app.utils.serializeObject(data);
+
+                app.request({
+                    url: url,
+                    dataType: 'json',
+                    data: data,
+                    success: function (response) {
+
+                        component.restoraunt = response;
+
+                        component.renderRestoraunt();
+
+                        localforage.setItem(urlToSave, JSON.stringify(response));
+
+                    }
+                });
+
+            },
+            renderRestoraunt: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                component.checkInFavorites();
+
+                page.addClass('rest-' + component.restoraunt.id);
+
+                component.$update(function () {
+
+                    component.initSearchbar();
+
+                    if (component.restoraunt.categories.length > 1) {
+
+                        component.initCategories();
+
+                    }
+
                 });
 
             },
@@ -897,158 +905,47 @@
 
                         if (response === 'true') {
 
-                            page.find('.favorite-button').addClass('active');
+                            component.favorite = true;
 
-                            page.find('.favorite-button').find('.icon').html('bookmark_fill');
+                        } else {
+
+                            component.favorite = false;
 
                         }
+
+                        component.$update();
 
                     }
                 });
 
             },
-            scroll: function () {
+            favoriteToggle: function () {
 
                 let component = this;
                 let page = component.$el;
 
-                let scrollTop = page.find('.page-content').scrollTop();
+                if (app.params.user) {
 
-                let categories = [];
+                    if (component.favorite) {
 
-                page.find('.category-title').each(function (i) {
+                        app.methods.favorites.removeRestoraunt(component.restoraunt.id);
 
-                    let id = $$(this).data('id');
-                    let offset = $$(this).offset().top + scrollTop - 200;
+                        component.favorite = false;
 
-                    if (scrollTop >= offset) {
+                    } else {
 
-                        categories.push({
-                            id: id,
-                            offset: offset
-                        });
+                        app.methods.favorites.addRestoraunt(component.restoraunt.id);
+
+                        component.favorite = true;
 
                     }
 
-                });
-
-                if (categories.length > 0) {
-
-                    let activeCategory = categories[categories.length - 1];
-
-                    page.find('.categories').find('.button').removeClass('active');
-
-                    page.find('.categories').find('.button').addClass('bg-color-light-gray text-color-black color-black');
-
-                    page.find('.categories').find('.button[data-id="' + activeCategory.id + '"]').removeClass('bg-color-light-gray text-color-black color-black');
-
-                    page.find('.categories').find('.button[data-id="' + activeCategory.id + '"]').addClass('active');
-
-                    let scrollLeft = page.find('.navbar').find('.categories').scrollLeft();
-
-                    let offsetLeft = page.find('.navbar').find('.button[data-id="' + activeCategory.id + '"]').offset().left + scrollLeft - 15;
-
-                    if (page.find('.navbar').find('.button:first-child').data('id') === activeCategory.id) {
-
-                        offsetLeft = + offsetLeft + 1;
-
-                    }
-
-                    page.find('.navbar').find('.categories').scrollLeft(offsetLeft, 500);
-
-                    page.find('.page-content').find('.categories').scrollLeft(offsetLeft, 500);
+                    component.$update();
 
                 } else {
 
-                    page.find('.categories').find('.button').removeClass('active');
-
-                    page.find('.categories').find('.button').addClass('bg-color-light-gray text-color-black color-black');
-
-                    page.find('.navbar').find('.categories').scrollLeft(0, 500);
-
-                    page.find('.page-content').find('.categories').scrollLeft(0, 500);
-
-                }
-
-            }
-        },
-        on: {
-
-            pageInit: function() {
-
-                let component = this;
-                let page = component.$el;
-
-                component.loadRestoraunt(function () {
-
-                    page.addClass('rest-' + component.restoraunt.id);
-
-                    let searchbar = app.searchbar.create({
-                        el: '.rest-' + component.restoraunt.id + ' .searchbar-items',
-                        searchContainer: '.block-items-1',
-                        searchGroup: '.block-items',
-                        searchGroupTitle: '.category-title',
-                        searchIn: '.item-title',
-                        searchItem: '.item',
-                        on: {
-                            search(sb, query, previousQuery) {
-                                
-                                console.log(query, previousQuery);
-
-                                page.find('.page-content').scrollTop(0);
-                                
-                                page.find('.block-items').each(function (i) {
-                                   
-                                    if ($$(this).find('.items').find('.item:not(.hidden-by-searchbar)').length > 0) {
-
-                                        $$(this).find('.category-title').removeClass('hidden-by-searchbar');
-
-                                    }
-                                    
-                                });
-
-                            },
-                            enable: function () {
-
-                                page.find('.navbar').removeClass('subnavbar-show');
-
-                            },
-                            disable: function () {
-
-                                page.find('.navbar').removeClass('navbar-large-collapsed');
-
-                            }
-                        }
-                    });
-
-                    component.checkInFavorites();
-
-                    page.find('.favorite-button').on('click', function () {
-
-                        if (app.params.user) {
-
-                            if ($$(this).hasClass('active')) {
-
-                                app.methods.favorites.removeRestoraunt(component.restoraunt.id);
-
-                                $$(this).find('.icon').html('bookmark');
-
-                                $$(this).removeClass('active');
-
-                            } else {
-
-                                app.methods.favorites.addRestoraunt(component.restoraunt.id);
-
-                                $$(this).find('.icon').html('bookmark_fill');
-
-                                $$(this).addClass('active');
-
-                            }
-
-                        } else {
-
-                            let sheet = app.sheet.create({
-                                content: `
+                    let sheet = app.sheet.create({
+                        content: `
 
                                     <div class="sheet-modal sheet-template-1">
 
@@ -1071,78 +968,215 @@
                                     </div>
 
                                 `,
-                                backdrop: true,
-                                swipeToClose: true,
-                                on: {
-                                    opened: function () {
-                                        console.log('Sheet opened')
-                                    }
-                                }
-                            });
-
-                            sheet.open();
-
+                        backdrop: true,
+                        swipeToClose: true,
+                        on: {
+                            opened: function () {
+                                console.log('Sheet opened')
+                            }
                         }
-
                     });
 
-                    let category_id = component.$router.currentRoute.params.category_id;
+                    sheet.open();
 
-                    if (category_id) {
+                }
 
-                        setTimeout(function () {
+            },
+            openReviews: function () {
 
-                            page.find('.navbar').find('.button[data-id="' + category_id + '"]').click();
+                let component = this;
+                let page = component.$el;
 
-                        }, 100);
+                app.views.current.router.navigate('/main/reviews', {
+                    context: {
+                        restoraunt: component.restoraunt
+                    }
+                });
+
+            },
+            initSearchbar: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                if (component.searchbar == undefined) {
+
+                    component.searchbar = app.searchbar.create({
+                        el: '.rest-' + component.restoraunt.id + ' .searchbar-items',
+                        searchContainer: '.block-items-1',
+                        searchGroup: '.block-items',
+                        searchGroupTitle: '.category-title',
+                        searchIn: '.item-title',
+                        searchItem: '.item',
+                        on: {
+                            search(sb, query, previousQuery) {
+
+                                console.log(query, previousQuery);
+
+                                page.find('.page-content').scrollTop(0);
+
+                                page.find('.block-items').each(function (i) {
+
+                                    if ($$(this).find('.items').find('.item:not(.hidden-by-searchbar)').length > 0) {
+
+                                        $$(this).find('.category-title').removeClass('hidden-by-searchbar');
+
+                                    }
+
+                                });
+
+                            },
+                            enable: function () {
+
+                                page.find('.navbar').removeClass('subnavbar-show');
+
+                            },
+                            disable: function () {
+
+                                page.find('.navbar').removeClass('navbar-large-collapsed');
+
+                            }
+                        }
+                    });
+
+                }
+
+            },
+            initCategories: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                page.find('.categories').find('.button:first-child').addClass('button-active');
+
+                page.find('.categories').find('.button').off('click').on('click', function () {
+
+                    let id = $$(this).data('id');
+
+                    let scrollTop = page.find('.page-content').scrollTop();
+
+                    let offsetTop = page.find('.category-title[data-id="' + id + '"]').offset().top  + scrollTop - 140;
+
+                    page.find('.page-content').scrollTop(offsetTop, 300);
+
+                });
+
+                page.find('.navbar').find('.categories').on('scroll', function () {
+
+                    let scrollLeft = $$(this).scrollLeft();
+
+                    page.find('.page-content').find('.categories').scrollLeft(scrollLeft);
+
+                });
+
+                page.find('.page-content').off('scroll').on('scroll', function () {
+
+                    let scrollTop = page.find('.page-content').scrollTop();
+
+                    let categoriesOffset = page.find('.page-content').find('.categories').offset().top + page.find('.page-content').find('.categories').height() + 180;
+
+                    if (scrollTop >= categoriesOffset) {
+
+                        page.find('.navbar').addClass('subnavbar-show');
+
+                    } else {
+
+                        page.find('.navbar').removeClass('subnavbar-show');
 
                     }
 
-                    page.find('.categories').find('.button').on('click', function () {
-
-                        let id = $$(this).data('id');
-
-                        let scrollTop = page.find('.page-content').scrollTop();
-
-                        let offsetTop = page.find('.category-title[data-id="' + id + '"]').offset().top  + scrollTop - 200;
-
-                        page.find('.page-content').scrollTop(offsetTop, 300);
-
-                    });
-
-                    page.find('.navbar').find('.categories').on('scroll', function () {
-
-                        let scrollLeft = $$(this).scrollLeft();
-
-                        page.find('.page-content').find('.categories').scrollLeft(scrollLeft);
-
-                    });
-
-                    page.find('.page-content').on('scroll', function () {
-
-                        let scrollTop = page.find('.page-content').scrollTop();
-
-                        let categoriesOffset = page.find('.page-content').find('.categories').offset().top + page.find('.page-content').find('.categories').height() + 70;
-
-                        if (scrollTop >= categoriesOffset) {
-
-                            page.find('.navbar').addClass('subnavbar-show');
-
-                        } else {
-
-                            page.find('.navbar').removeClass('subnavbar-show');
-
-                        }
+                    if (component.allowScrollTimeout !== null) {
 
                         clearTimeout(component.allowScrollTimeout);
 
-                        component.allowScrollTimeout = setTimeout(function () {
+                    }
 
-                            component.scroll();
+                    component.allowScrollTimeout = setTimeout(function () {
 
-                        }, 100);
+                        component.scroll();
 
-                    });
+                    }, 300);
+
+                });
+
+            },
+            scroll: function () {
+
+                let component = this;
+                let page = component.$el;
+
+                let scrollTop = page.find('.page-content').scrollTop();
+
+                let categories = [];
+
+                page.find('.category-title').each(function (i) {
+
+                    let id = $$(this).data('id');
+                    let offset = $$(this).offset().top + scrollTop - 140;
+
+                    if (scrollTop >= offset) {
+
+                        categories.push({
+                            id: id,
+                            offset: offset
+                        });
+
+                    }
+
+                });
+
+                let activeCategory = categories[categories.length - 1];
+
+                try {
+
+                    page.find('.categories').find('.button').removeClass('button-active');
+
+                    page.find('.categories').find('.button[data-id="' + activeCategory.id + '"]').addClass('button-active');
+
+                    let scrollLeft = page.find('.navbar').find('.categories').scrollLeft();
+
+                    let offsetLeft = page.find('.navbar').find('.button[data-id="' + activeCategory.id + '"]').offset().left + scrollLeft - 15;
+
+                    if (page.find('.navbar').find('.button:first-child').data('id') === activeCategory.id) {
+
+                        offsetLeft = + offsetLeft + 1;
+
+                    }
+
+                    page.find('.navbar').find('.categories').scrollLeft(offsetLeft, 300);
+
+                    page.find('.page-content').find('.categories').scrollLeft(offsetLeft, 300);
+
+                } catch (error) {
+
+                    page.find('.categories').find('.button').removeClass('button-active');
+
+                    page.find('.categories').find('.button:first-child').addClass('button-active');
+
+                    page.find('.navbar').find('.categories').scrollLeft(0, 300);
+
+                    page.find('.page-content').find('.categories').scrollLeft(0, 300);
+
+                }
+
+            }
+        },
+        on: {
+
+            pageInit: function() {
+
+                let component = this;
+                let page = component.$el;
+
+                component.initRestoraunt();
+
+                component.$router.$el.on('tab:show', function () {
+
+                    setTimeout(function () {
+
+                        $$('.rest-' + component.restoraunt.id).find('.init-restoraunt').click();
+
+                    }, 3000);
 
                 });
 
@@ -1150,10 +1184,7 @@
             pageBeforeOut: function () {
 
                 let component = this;
-
-                app.sheet.close();
-
-                clearTimeout(component.allowScrollTimeout);
+                let page = component.$el;
 
             }
 

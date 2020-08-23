@@ -5,32 +5,6 @@
   },
   "config_munge": {
     "files": {
-      "*-Info.plist": {
-        "parents": {
-          "NSLocationAlwaysUsageDescription": [
-            {
-              "xml": "<string>Нам необходим доступ к вашему местоположению для того чтобы вы могли указать свой адрес.</string>",
-              "count": 1,
-              "mode": "merge",
-              "id": "config.xml"
-            }
-          ],
-          "NSLocationWhenInUseUsageDescription": [
-            {
-              "xml": "<string>Нам необходим доступ к вашему местоположению для того чтобы вы могли указать свой адрес.</string>",
-              "count": 2,
-              "mode": "merge",
-              "id": "config.xml"
-            }
-          ],
-          "UIBackgroundModes": [
-            {
-              "xml": "<array><string>remote-notification</string></array>",
-              "count": 1
-            }
-          ]
-        }
-      },
       "config.xml": {
         "parents": {
           "/*": [
@@ -76,6 +50,16 @@
             },
             {
               "xml": "<feature name=\"OneSignalPush\"><param name=\"ios-package\" value=\"OneSignalPush\" /></feature>",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "*-Info.plist": {
+        "parents": {
+          "UIBackgroundModes": [
+            {
+              "xml": "<array><string>remote-notification</string></array>",
               "count": 1
             }
           ]
