@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 5.0,
+    version: 5.1,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -164,7 +164,7 @@ var app = new Framework7({
 
                                     } else {
 
-                                        cordova.InAppBrowser.open(config.updateLink.ios, '_system', InAppBrowserParams);
+                                        cordova.InAppBrowser.open(config.updateLink.android, '_system', InAppBrowserParams);
 
                                     }
 

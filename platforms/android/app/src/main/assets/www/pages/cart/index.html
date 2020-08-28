@@ -1,10 +1,10 @@
 <template>
 
-    <div class="page {{#if items}}page-with-navbar-large {{else}}bg-color-white{{/if}}" data-name="cart">
+    <div class="page {{#if items}}page-with-navbar-large{{/if}} bg-color-white" data-name="cart">
 
         <div class="navbar navbar-large {{#if items}}{{else}}display-none{{/if}}">
 
-            <div class="navbar-bg"></div>
+            <div class="navbar-bg bg-color-white"></div>
 
             <div class="navbar-inner sliding">
 
@@ -62,13 +62,15 @@
 
                 {{/if}}
 
-                <div class="list media-list inset no-hairlines no-hairlines-between">
+                <div class="list media-list margin-vertical no-hairlines no-hairlines-between">
 
                     <ul>
 
                         {{#each items}}
 
-                        <li class="item-content margin-bottom bg-color-white">
+                        <li class="item-content margin bg-color-white">
+
+                            <div class="item-media margin-vertical" style="background-image: url('{{js "app.methods.localImages.get(this.image_thumb_512)"}}')"></div>
 
                             <div class="item-inner">
 
@@ -94,7 +96,7 @@
 
                                     <div class="row margin-top">
 
-                                        <div class="stepper color-black stepper-init col-65">
+                                        <div class="stepper stepper-fill color-black stepper-init col-65">
 
                                             <div class="stepper-button-minus"></div>
 
@@ -108,7 +110,7 @@
 
                                         </div>
 
-                                        <button @click="removeItem('{{id}}')" class="button color-red button-fill col-30 button-delete">
+                                        <button @click="removeItem('{{id}}')" class="button color-gray button-outline col-30 button-delete">
 
                                             <i class="icon f7-icons">trash</i>
 
@@ -130,13 +132,13 @@
 
                 {{#if restoraunt}}
 
-                    <div class="block block-strong">
+                    <div class="padding bg-l-gray margin-top">
 
-                        <div class="row margin-bottom">
+                        <div class="row margin-bottom dashed-line">
 
-                            <div>Сумма:</div>
+                            <div class="item-title">Сумма:</div>
 
-                            <div>
+                            <div class="item-after">
 
                                 <span class="sum">{{sum}} ₽</span>
 
@@ -146,11 +148,11 @@
 
                         {{#if totalSum}}
 
-                            <div class="row margin-bottom">
+                            <div class="row margin-bottom dashed-line">
 
-                                <div>Скидка:</div>
+                                <div class="item-title">Скидка:</div>
 
-                                <div>
+                                <div class="item-after">
 
                                     <span class="sum">{{skidkaSum}} ₽ ({{skidka}}%)</span>
 
@@ -158,11 +160,11 @@
 
                             </div>
 
-                            <div class="row margin-bottom">
+                            <div class="row margin-bottom dashed-line">
 
-                                <div>Итого:</div>
+                                <div class="item-title">Итого:</div>
 
-                                <div>
+                                <div class="item-after">
 
                                     <span class="sum">{{totalSum}} ₽</span>
 
@@ -172,11 +174,11 @@
 
                         {{/if}}
 
-                        <div class="row">
+                        <div class="row dashed-line">
 
-                            <div>Доставка:</div>
+                            <div class="item-title">Доставка:</div>
 
-                            <div>
+                            <div class="item-after">
 
                                 <span class="sum">
 
@@ -206,7 +208,7 @@
 
                     </div>
 
-                    <div class="margin">
+                    <div class="padding bg-l-gray">
 
                         <button @click="checkout" class="button button-fill button-checkout button-large underline {{#js_if "Number(this.sum) < Number(this.restoraunt.min_order_sum)"}}disabled{{/js_if}}">Оформить заказ</button>
 
@@ -254,11 +256,11 @@
              }
 
     {{this}} .button-delete {
-        width: 55px;
+        width: 45px;
              }
 
     {{this}} .button-delete i {
-                 font-size: 20px;
+                 font-size: 18px;
                  line-height: 16px;
              }
 
@@ -268,6 +270,7 @@
 
     {{this}} .list .item-content {
         border-radius: 4px;
+                 border: 1px solid #F7F7F7;
              }
 
     {{this}} .block-info {
@@ -275,14 +278,23 @@
 
              }
 
-    {{this}} .item-desc {
+    {{this}} .item-media {
+        width: 100px;
+                 height: 100px;
+                 background-repeat: no-repeat;
+                 background-position: center;
+                 background-size: cover;
+                 background-color: #F7F7F7;
+        border-radius: 4px;
+             }
+    {{this}} .list .item-desc {
                  white-space: normal;
                  font-size: 12px;
                  width: 70%;
                  margin-top: 5px;
              }
 
-    {{this}} .item-title {
+    {{this}} .list .item-title {
                  text-decoration: underline;
              }
 
@@ -291,6 +303,38 @@
                  margin: 0 auto;
              }
 
+    {{this}} .bg-l-gray {
+        background: #F7F7F7;
+             }
+    {{this}} .dashed-line {
+                 background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAACCAMAAABIdo1RAAAABlBMVEX///+SkpL2I6UQAAAAAnRSTlMAzORBQ6MAAAAOSURBVHgBY2BkZGAAEwAAIgAFQxmd2gAAAABJRU5ErkJggg==);
+                 background-position: 0 70%;
+                 background-repeat: repeat-x;
+                 font-size: 16px;
+             }
+
+    {{this}} .dashed-line .item-title {
+                 position: relative;
+                 z-index: 9;
+                 background: #F7F7F7;
+                 padding-right: 5px;
+             }
+    {{this}} .dashed-line .item-after {
+                 position: relative;
+                 z-index: 9;
+                 background: #F7F7F7;
+                 padding-left: 5px;
+             }
+    {{this}} .dashed-line .item-after .sum {
+                 font-size: 18px;
+                 font-weight: bold;
+             }
+    @media only screen and (max-device-width: 320px) {
+    {{this}} .item-media {
+                 width: 60px;
+                 height: 60px;
+             }
+    }
 </style>
 
 <script>
