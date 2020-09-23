@@ -1,27 +1,32 @@
 {
-  "_from": "onesignal-cordova-plugin@2.8.2",
-  "_id": "onesignal-cordova-plugin@2.8.2",
+  "_args": [
+    [
+      "onesignal-cordova-plugin@2.11.1",
+      "/Users/umahan/Documents/GitHub/delivery"
+    ]
+  ],
+  "_development": true,
+  "_from": "onesignal-cordova-plugin@2.11.1",
+  "_id": "onesignal-cordova-plugin@2.11.1",
   "_inBundle": false,
-  "_integrity": "sha512-T9SuN9YhCQtEm3rFsg7UFIHA9E4dOQxEpkKQq4ww07lXtRV1zLWFxBfwmrG23hOLlnzgJwGMdIMWIUYp9YExtw==",
+  "_integrity": "sha512-GstcpGhTmTG2xrG59NrK8iuXwxU/Wro7dK+z/FtoaXRZn/DbWVYjAn2kM5uwJIEpdo0qrSvpfTmbIqM2e6wgnA==",
   "_location": "/onesignal-cordova-plugin",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "onesignal-cordova-plugin@2.8.2",
+    "raw": "onesignal-cordova-plugin@2.11.1",
     "name": "onesignal-cordova-plugin",
     "escapedName": "onesignal-cordova-plugin",
-    "rawSpec": "2.8.2",
+    "rawSpec": "2.11.1",
     "saveSpec": null,
-    "fetchSpec": "2.8.2"
+    "fetchSpec": "2.11.1"
   },
   "_requiredBy": [
-    "#USER",
-    "/"
+    "#DEV:/"
   ],
-  "_resolved": "https://registry.npmjs.org/onesignal-cordova-plugin/-/onesignal-cordova-plugin-2.8.2.tgz",
-  "_shasum": "11e394fb55dd23afcc6d48977e0a7830c4113fde",
-  "_spec": "onesignal-cordova-plugin@2.8.2",
+  "_resolved": "https://registry.npmjs.org/onesignal-cordova-plugin/-/onesignal-cordova-plugin-2.11.1.tgz",
+  "_spec": "2.11.1",
   "_where": "/Users/umahan/Documents/GitHub/delivery",
   "author": {
     "name": "Josh Kasten, Brad Hesse, Rodrigo Gomez-Palacio"
@@ -29,7 +34,6 @@
   "bugs": {
     "url": "https://github.com/onesignal/OneSignal-Cordova-SDK/issues"
   },
-  "bundleDependencies": false,
   "cordova": {
     "id": "onesignal-cordova-plugin",
     "platforms": [
@@ -40,7 +44,6 @@
     ]
   },
   "cordova_name": "OneSignal Push Notifications",
-  "deprecated": false,
   "description": "OneSignal is a high volume Push Notification service for mobile apps. In addition to basic notification delivery, OneSignal also provides tools to localize, target, schedule, and automate notifications that you send.",
   "engines": [
     {
@@ -92,5 +95,5 @@
     "type": "git",
     "url": "git+https://github.com/onesignal/OneSignal-Cordova-SDK.git"
   },
-  "version": "2.8.2"
+  "version": "2.11.1"
 }

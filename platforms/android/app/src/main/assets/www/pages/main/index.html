@@ -254,6 +254,16 @@
                 let component = this;
                 let page = component.$el;
 
+                let clbc = false;
+
+                if (localStorage.city !== undefined) {
+
+                    component.initRestoraunts();
+
+                    clbc = true;
+
+                }
+
                 app.request({
                     url: app.params.config.backend + '/api/cities',
                     dataType: 'json',
@@ -265,7 +275,11 @@
 
                             localStorage.city = component.cities[0];
 
-                            component.initRestoraunts();
+                            if (!clbc) {
+
+                                component.initRestoraunts();
+
+                            }
 
                         }
 

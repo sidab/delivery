@@ -4,7 +4,7 @@ var app = new Framework7({
     root: '#app',
     name: 'Zaytoon',
     theme: 'ios',
-    version: 5.1,
+    version: 5.2,
     routes: routes,
     init: false,
     user: localStorage.user ? localStorage.user : false,
@@ -98,7 +98,7 @@ var app = new Framework7({
             app.request({
                 url: 'https://zaytoon.ru/api/config',
                 dataType: 'json',
-                async: false,
+                //async: false,
                 success: function (response) {
 
                     var config = response;
@@ -132,7 +132,7 @@ var app = new Framework7({
                             
                                 <div class="sheet-modal-inner">
                                 
-                                    <div class="block-title block-title-large">Вышла новая версия</div>
+                                    <div class="block-title block-title-medium">Вышла новая версия</div>
                                     
                                     <div class="margin">Мы выпустили новую версию приложения в которой исправили ошибки и повысили производительность. Настоятельно рекомендуем вам обновить приложение.</div>
                                 
@@ -742,14 +742,6 @@ $$(document).on('deviceready', function () {
 
     }
 
-    setTimeout(function () {
-
-        //app.statusbar.setBackgroundColor('#FF8C00');
-
-        //app.statusbar.setTextColor('white');
-
-    }, 100);
-
     app.init();
 
     app.request.setup({
@@ -792,7 +784,7 @@ $$(document).on('deviceready', function () {
 
                     navigator.splashscreen.hide();
 
-                }, 300);
+                }, app.params.config ? 300 : 500);
 
                 app.views.create('#view-stocks', {
                     url: '/stocks',

@@ -15,10 +15,13 @@
       "XWALK_MULTIPLEAPK": "true",
       "PACKAGE_NAME": "ru.zaytoon"
     },
-    "cordova-plugin-ionic-keyboard": {
+    "cordova-plugin-geolocation": {
       "PACKAGE_NAME": "ru.zaytoon"
     },
-    "cordova-plugin-splashscreen": {
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "ru.zaytoon"
+    },
+    "cordova-plugin-ionic-keyboard": {
       "PACKAGE_NAME": "ru.zaytoon"
     },
     "cordova-plugin-statusbar": {
@@ -36,13 +39,7 @@
     "onesignal-cordova-plugin": {
       "PACKAGE_NAME": "ru.zaytoon"
     },
-    "cordova-plugin-open-blank": {
-      "PACKAGE_NAME": "ru.zaytoon"
-    },
-    "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "ru.zaytoon"
-    },
-    "cordova-plugin-geolocation": {
+    "cordova-plugin-splashscreen": {
       "PACKAGE_NAME": "ru.zaytoon"
     }
   },
